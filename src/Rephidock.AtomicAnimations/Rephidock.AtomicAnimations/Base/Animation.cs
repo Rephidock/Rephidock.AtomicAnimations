@@ -64,14 +64,14 @@ public abstract class Animation {
 	/// Invoked before the initial update.
 	/// Argument: Initial time of the animation
 	/// </summary>
-	public event Action<TimeSpan> OnStart = (_) => { };
+	public event Action<TimeSpan>? OnStart;
 
 	/// <summary>
 	/// The event that is fired when the animation is finished or halted.
 	/// Argument: Excess time since animation is finished. Can be negative if
 	/// animation was halted.
 	/// </summary>
-	public event Action<TimeSpan> OnEnd = (_) => { };
+	public event Action<TimeSpan>? OnEnd;
 
 	#endregion
 
@@ -102,7 +102,7 @@ public abstract class Animation {
 
 		// Call implementations and events
 		StartImpl(initialTime);
-		OnStart.Invoke(initialTime);
+		OnStart?.Invoke(initialTime);
 		Update(initialTime);
 	}
 
@@ -137,7 +137,7 @@ public abstract class Animation {
 
 			// End
 			HasEnded = true;
-			OnEnd.Invoke(excessTime);
+			OnEnd?.Invoke(excessTime);
 			return;
 		}
 
@@ -159,7 +159,7 @@ public abstract class Animation {
 
 		// End
 		HasEnded = true;
-		OnEnd.Invoke(excessTime);
+		OnEnd?.Invoke(excessTime);
 		return;
 
 	}
@@ -180,7 +180,7 @@ public abstract class Animation {
 		WasHalted = true;
 
 		// Invoke event
-		OnEnd.Invoke(ElapsedTime - Duration);
+		OnEnd?.Invoke(ElapsedTime - Duration);
 	}
 
 	#endregion
