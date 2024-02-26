@@ -12,28 +12,28 @@ namespace Rephidock.AtomicAnimations;
 /// </summary>
 public class Shift1D : Ease {
 
-	readonly float shift;
-	float accumulator;
+	readonly float shiftX;
+	float accumulatorX;
 	readonly Action<float> adder;
 
 	/// <inheritdoc cref="Shift1D"/>
 	public Shift1D(
-		float shift,
+		float shiftX,
 		TimeSpan duration,
 		EasingCurve easingCurve,
 		Action<float> adder
 	)
 	: base(duration, easingCurve) {
-		this.shift = shift;
-		this.accumulator = 0;
+		this.shiftX = shiftX;
+		this.accumulatorX = 0;
 		this.adder = adder;
 	}
 
 	/// <inheritdoc/>
 	protected override void EaseUpdateImpl(float valueProgressNew) {
-		float newValue = MoreMath.Lerp(0, shift, valueProgressNew);
-		adder(newValue - accumulator);
-		accumulator = newValue;
+		float newValueX = MoreMath.Lerp(0, shiftX, valueProgressNew);
+		adder(newValueX - accumulatorX);
+		accumulatorX = newValueX;
 	}
 
 }
