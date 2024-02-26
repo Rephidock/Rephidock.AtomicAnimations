@@ -88,7 +88,7 @@ public abstract class Animation {
 	/// without undoing the result of the previous animation, partial or not.
 	/// </para>
 	/// </summary>
-	/// <param name="initialTime">The first time </param>
+	/// <param name="initialTime">The time of the initial update.</param>
 	/// <remarks>
 	/// Negative <paramref name="initialTime"/> has undefined behavior.
 	/// </remarks>
@@ -101,7 +101,7 @@ public abstract class Animation {
 		ElapsedTime = TimeSpan.Zero;
 
 		// Call implementations and events
-		StartImpl(initialTime);
+		StartImpl();
 		OnStart?.Invoke(initialTime);
 		Update(initialTime);
 	}
@@ -180,6 +180,7 @@ public abstract class Animation {
 		WasHalted = true;
 
 		// Invoke event
+		HaltImpl();
 		OnEnd?.Invoke(ElapsedTime - Duration);
 	}
 
@@ -191,8 +192,7 @@ public abstract class Animation {
 	/// <para>Implementation that is called before the first update.</para>
 	/// <para>Called after flags are set but before corresponding event is invoked.</para>
 	/// </summary>
-	/// <param name="deltaTime">Time since last update.</param>
-	protected virtual void StartImpl(TimeSpan deltaTime) { }
+	protected virtual void StartImpl() { }
 
 	/// <summary>
 	/// <para>Implementation that is called every update.</para>
@@ -215,6 +215,13 @@ public abstract class Animation {
 	/// <param name="exessTime">Excess time of the update that would go over duration.</param>
 	protected virtual void LastUpdateImpl(TimeSpan deltaTimeNoExcess, TimeSpan exessTime) {
 		UpdateImpl(deltaTimeNoExcess);
+	}
+
+	/// <summary>
+	/// <para>Implementation of the halt.</para>
+	/// <para>Called after flags are set but before the event is invoked.</para>
+	/// </summary>
+	protected virtual void HaltImpl() {
 	}
 
 	#endregion
