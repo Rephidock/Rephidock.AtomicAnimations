@@ -6,8 +6,9 @@ namespace Rephidock.AtomicAnimations;
 
 
 /// <summary>
-/// An empty animation that just waits
-/// until given delegate returns <see langword="true"/>
+/// An empty animation that just waits,
+/// until given delegate returns <see langword="true"/>.
+/// The predicate given is called every update.
 /// </summary>
 public class WaitUntil : Animation {
 
