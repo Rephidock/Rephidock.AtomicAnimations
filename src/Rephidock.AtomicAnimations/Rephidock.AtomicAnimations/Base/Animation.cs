@@ -6,37 +6,15 @@ namespace Rephidock.AtomicAnimations.Base;
 
 /// <summary>
 /// Base interface for all animations.
+/// Has no set duration.
 /// </summary>
 public abstract class Animation {
-
-	#region //// Time and duration
 
 	/// <summary>
 	/// The elapsed time for this animation,
 	/// starting at <see cref="TimeSpan.Zero"/>.
 	/// </summary>
-	public TimeSpan ElapsedTime { get; private set; } = TimeSpan.Zero;
-
-	/// <summary>
-	/// <para>The duration of the animation.</para>
-	/// <para>Timeout duration if <see cref="IsDurationDynamic"/> is <see langword="true"/></para>
-	/// </summary>
-	public TimeSpan Duration { get; protected init; }
-
-	/// <summary>
-	/// <para>
-	/// Is <see langword="false"/> if this animation has a
-	/// set <see cref="Duration"/> that does not change.
-	/// </para>
-	/// <para>
-	/// Is <see langword="true"/> if 
-	/// actual duration can be shorter (e.g. if it depends on outside factors).
-	/// In this case <see cref="Duration"/> is a timeout duration.
-	/// </para>
-	/// </summary>
-	public bool IsDurationDynamic { get; protected init; } = false;
-
-	#endregion
+	public TimeSpan ElapsedTime { get; protected set; } = TimeSpan.Zero;
 
 	#region //// Flags
 
@@ -60,18 +38,35 @@ public abstract class Animation {
 	#region //// Events
 
 	/// <summary>
+	/// <para>
 	/// The event that is fired when the animation starts.
-	/// Invoked before the initial update.
+	/// Invoked before the initial update but after the animation was initialized.
+	/// </para>
+	/// <para>
 	/// Argument: Initial time of the animation
+	/// </para>
 	/// </summary>
 	public event Action<TimeSpan>? OnStart;
 
 	/// <summary>
-	/// The event that is fired when the animation is finished or halted.
-	/// Argument: Excess time since animation is finished. Can be negative if
-	/// animation was halted.
+	/// <para>
+	/// The event that is fired when the animation ended without being halted.
+	/// Invoked after the last update and after flags are set but
+	/// before invocation of <see cref="OnCompletion"/>.
+	/// Is not invoked when animation is halted.
+	/// </para>
+	/// <para>
+	/// Argument: Excess time since animation is finished.
+	/// </para>
 	/// </summary>
 	public event Action<TimeSpan>? OnEnd;
+
+	/// <summary>
+	/// The event that is fired when the animation ends or halted.
+	/// Invoked right after halting or right after <see cref="OnEnd"/>,
+	/// if animation wasnt halted.
+	/// </summary>
+	public event Action? OnCompletion;
 
 	#endregion
 
@@ -117,57 +112,31 @@ public abstract class Animation {
 	/// </remarks>
 	public void Update(TimeSpan deltaTime) {
 
-		// Do nothing if not animating
-		if (!HasStarted || HasEnded) return;
-
 		// Progress
 		TimeSpan elapsedTimePrevious = ElapsedTime;
 		ElapsedTime += deltaTime;
 
-		// Check end
-		if (ElapsedTime >= Duration) {
-
-			// Calculate time
-			TimeSpan timeTillDuration = Duration - elapsedTimePrevious;
-			TimeSpan excessTime = ElapsedTime - Duration;
-			ElapsedTime = Duration;
-
-			// Invoke implementation
-			LastUpdateImpl(timeTillDuration, excessTime);
-
-			// End
-			HasEnded = true;
-			OnEnd?.Invoke(excessTime);
-			return;
-		}
-
 		// Call implementation
-		UpdateImpl(deltaTime);
+		UpdateImpl(elapsedTimePrevious, deltaTime);
 	}
 
-	/// <summary>
-	/// Marks animation with dynamic animation as finished.
-	/// </summary>
+	/// <summary>Successfully ends the animation.</summary>
 	/// <param name="excessTime">Excess time to pass to <see cref="OnEnd"/></param>
-	protected void DynamicEnd(TimeSpan excessTime) {
+	protected void End(TimeSpan excessTime) {
 
 		// Do nothing if not animating
 		if (!HasStarted || HasEnded) return;
 
-		// Do nothing if not dynamic
-		if (!IsDurationDynamic) return;
-
 		// End
 		HasEnded = true;
 		OnEnd?.Invoke(excessTime);
+		OnCompletion?.Invoke();
 		return;
 
 	}
 	
-	/// <inheritdoc cref="DynamicEnd(TimeSpan)"/>
-	protected void DynamicEnd() {
-		DynamicEnd(TimeSpan.Zero);
-	}
+	/// <inheritdoc cref="End(TimeSpan)"/>
+	protected void End() => End(TimeSpan.Zero);
 
 	/// <summary>Halts the animation. (Ends it prematurely).</summary>
 	public void Halt() {
@@ -181,7 +150,7 @@ public abstract class Animation {
 
 		// Invoke event
 		HaltImpl();
-		OnEnd?.Invoke(ElapsedTime - Duration);
+		OnCompletion?.Invoke();
 	}
 
 	#endregion
@@ -199,30 +168,14 @@ public abstract class Animation {
 	/// <para>Called after <see cref="ElapsedTime"/> is set.</para>
 	/// </summary>
 	/// <param name="deltaTime">Time since last update.</param>
-	protected abstract void UpdateImpl(TimeSpan deltaTime);
+	/// <param name="elapsedTimePrevious"><see cref="ElapsedTime"/> before current update.</param>
+	protected abstract void UpdateImpl(TimeSpan deltaTime, TimeSpan elapsedTimePrevious);
 
 	/// <summary>
-	/// <para>
-	/// Implementation that is called as the last update.
-	/// Variation of <see cref="UpdateImpl(TimeSpan)"/>.
-	/// </para>
-	/// <para>
-	/// Called after <see cref="ElapsedTime"/> is set but before 
-	/// <see cref="HasEnded"/> is set and <see cref="OnEnd"/> is invoked.
-	/// </para>
+	/// <para>Implementation of the halting.</para>
+	/// <para>Called after flags are set but before corresponding event is invoked.</para>
 	/// </summary>
-	/// <param name="deltaTimeNoExcess">Time since last update clamped to go to duration.</param>
-	/// <param name="exessTime">Excess time of the update that would go over duration.</param>
-	protected virtual void LastUpdateImpl(TimeSpan deltaTimeNoExcess, TimeSpan exessTime) {
-		UpdateImpl(deltaTimeNoExcess);
-	}
-
-	/// <summary>
-	/// <para>Implementation of the halt.</para>
-	/// <para>Called after flags are set but before the event is invoked.</para>
-	/// </summary>
-	protected virtual void HaltImpl() {
-	}
+	protected virtual void HaltImpl() { }
 
 	#endregion
 

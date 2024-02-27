@@ -8,7 +8,7 @@ namespace Rephidock.AtomicAnimations.Base;
 /// Base animation for easing a value,
 /// additive or exclusive.
 /// </summary>
-public abstract class Ease : Animation {
+public abstract class Ease : TimeSpanedAnimation {
 
 	readonly EasingCurve easingCurve;
 
@@ -30,7 +30,7 @@ public abstract class Ease : Animation {
 	protected abstract void EaseUpdateImpl(float valueProgressNew);
 
 	/// <inheritdoc/>
-	protected sealed override void UpdateImpl(TimeSpan deltaTime) {
+	protected sealed override void UpdateTimeSpannedImpl(TimeSpan deltaTime) {
 		
 		// Calculate new time progress
 		float timeProgressNew = (float)(ElapsedTime / Duration);
@@ -40,7 +40,7 @@ public abstract class Ease : Animation {
 	}
 
 	/// <inheritdoc/>
-	protected sealed override void LastUpdateImpl(TimeSpan deltaTimeNoExcess, TimeSpan exessTime) {
+	protected sealed override void UpdateLastTimeSpannedImpl(TimeSpan deltaTimeNoExcess, TimeSpan exessTime) {
 
 		// Update till end
 		EaseUpdateImpl(1);

@@ -9,7 +9,7 @@ namespace Rephidock.AtomicAnimations;
 /// An empty animation that has no operation,
 /// but still has events.
 /// </summary>
-public class AnimationNoOp : Animation {
+public class AnimationNoOp : TimeSpanedAnimation {
 
 	/// <summary>Creates an empty animation with given duration</summary>
 	public AnimationNoOp(TimeSpan duration) {
@@ -20,7 +20,7 @@ public class AnimationNoOp : Animation {
 	public AnimationNoOp() : this(TimeSpan.Zero) { }
 
 	/// <inheritdoc/>
-	protected override void UpdateImpl(TimeSpan deltaTime) {
+	protected override void UpdateTimeSpannedImpl(TimeSpan deltaTime) {
 	}
 
 }
