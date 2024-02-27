@@ -13,7 +13,6 @@ public abstract class TimeSpanedAnimation : Animation {
 	/// <summary>The duration of the animation.</summary>
 	public TimeSpan Duration { get; protected init; }
 
-
 	/// <inheritdoc/>
 	protected sealed override void UpdateImpl(TimeSpan deltaTime, TimeSpan elapsedTimePrevious) {
 

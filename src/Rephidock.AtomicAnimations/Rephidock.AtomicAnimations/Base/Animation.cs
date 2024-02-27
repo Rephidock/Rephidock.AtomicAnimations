@@ -117,7 +117,7 @@ public abstract class Animation {
 		ElapsedTime += deltaTime;
 
 		// Call implementation
-		UpdateImpl(elapsedTimePrevious, deltaTime);
+		UpdateImpl(deltaTime, elapsedTimePrevious);
 	}
 
 	/// <summary>Successfully ends the animation.</summary>
