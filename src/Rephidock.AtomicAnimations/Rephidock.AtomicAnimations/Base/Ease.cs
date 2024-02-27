@@ -13,14 +13,13 @@ public abstract class Ease : TimeSpanedAnimation {
 	readonly EasingCurve easingCurve;
 
 	/// <inheritdoc cref="Ease"/>
-	public Ease(TimeSpan duration, EasingCurve easingCurve) {
+	public Ease(TimeSpan duration, EasingCurve easingCurve) : base(duration) {
 
 		// Guards
 		ArgumentNullException.ThrowIfNull(easingCurve, nameof(easingCurve));
 
 		// Set values
 		this.easingCurve = easingCurve;
-		Duration = duration;
 	}
 
 	/// <summary>

@@ -10,8 +10,13 @@ namespace Rephidock.AtomicAnimations.Base;
 /// </summary>
 public abstract class TimeSpanedAnimation : Animation {
 
+	/// <inheritdoc cref="TimeSpanedAnimation"/>
+	protected TimeSpanedAnimation(TimeSpan duration) {
+		Duration = duration;
+	}
+
 	/// <summary>The duration of the animation.</summary>
-	public TimeSpan Duration { get; protected init; }
+	public TimeSpan Duration { get; private init; }
 
 	/// <inheritdoc/>
 	protected sealed override void UpdateImpl(TimeSpan deltaTime, TimeSpan elapsedTimePrevious) {
