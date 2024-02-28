@@ -24,13 +24,19 @@ public readonly struct WaveTransformed {
 	/// The start and end of the wave on the x-axis.
 	/// [0..1] if <see langword="null"/>
 	/// </summary>
-	public (float start, float end)? TimeRange { get; init; }
+	public float? TimeRangeStart { get; set; }
+
+	/// <inheritdoc cref="TimeRangeStart"/>
+	public float? TimeRangeEnd { get; set; }
 
 	/// <summary>
 	/// The low and high bounds of the wave on the y-axis.
 	/// [0..1] if <see langword="null"/>
 	/// </summary>
-	public (float start, float end)? ValueRange { get; init; }
+	public float? ValueRangeStart { get; set; }
+
+	/// <inheritdoc cref="ValueRangeStart"/>
+	public float? ValueRangeEnd { get; set; }
 
 	/// <summary>
 	/// Returns wave value (0..1) at specified position in the wave.
@@ -41,8 +47,8 @@ public readonly struct WaveTransformed {
 
 		// Un-transform time
 		float normalizedTime;
-		if (TimeRange.HasValue) {
-			normalizedTime = MoreMath.ReverseLerp(TimeRange.Value.start, TimeRange.Value.end, time);
+		if (TimeRangeStart.HasValue || TimeRangeEnd.HasValue) {
+			normalizedTime = MoreMath.ReverseLerp(TimeRangeStart ?? 0, TimeRangeEnd ?? 1, time);
 		} else {
 			normalizedTime = time;
 		}
@@ -51,8 +57,8 @@ public readonly struct WaveTransformed {
 		float normalizedValue = Wave.GetValueAt(normalizedTime);
 
 		// Transform the value
-		if (!ValueRange.HasValue) return normalizedValue;
-		return MoreMath.Lerp(ValueRange.Value.start, ValueRange.Value.end, normalizedValue);
+		if (!ValueRangeStart.HasValue && !ValueRangeEnd.HasValue) return normalizedValue;
+		return MoreMath.Lerp(ValueRangeStart ?? 0, ValueRangeEnd ?? 1, normalizedValue);
 
 	}
 

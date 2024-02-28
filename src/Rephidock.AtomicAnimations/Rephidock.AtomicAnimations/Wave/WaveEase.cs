@@ -35,12 +35,15 @@ public class WaveEase : Ease {
 
 		// Create a new wave
 		float currentShift = MoreMath.Lerp(0, horizontalShift, valueProgressNew);
-		(float, float) baseTimeRange = baseWave.TimeRange ?? (0f, 1f);
-		
+		float baseTimeRangeStart = baseWave.TimeRangeStart ?? 0f;
+		float baseTimeRangeEnd = baseWave.TimeRangeEnd ?? 1f;
+
 		var waveProbe = new WaveTransformed() {
 			Wave = baseWave.Wave,
-			TimeRange = (baseTimeRange.Item1 + currentShift, baseTimeRange.Item2 + currentShift),
-			ValueRange = baseWave.ValueRange
+			TimeRangeStart = baseTimeRangeStart + currentShift,
+			TimeRangeEnd = baseTimeRangeEnd + currentShift,
+			ValueRangeStart = baseWave.ValueRangeStart,
+			ValueRangeEnd = baseWave.ValueRangeEnd,
 		};
 
 		// Update
