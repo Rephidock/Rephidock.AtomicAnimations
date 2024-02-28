@@ -9,9 +9,7 @@ namespace Rephidock.AtomicAnimations;
 public class Delay : TimeSpanedAnimation {
 
 	/// <summary>Creates an empty animation with given duration</summary>
-	public Delay(TimeSpan duration) {
-		Duration = duration;
-	}
+	public Delay(TimeSpan duration) : base(duration) { }
 
 	/// <inheritdoc/>
 	protected override void UpdateTimeSpannedImpl(TimeSpan deltaTime) {
