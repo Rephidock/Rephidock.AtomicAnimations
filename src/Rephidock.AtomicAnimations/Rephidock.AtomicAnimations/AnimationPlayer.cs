@@ -19,7 +19,7 @@ namespace Rephidock.AtomicAnimations {
 /// </remarks>
 public class AnimationPlayer {
 
-	readonly LinkedList<Animation> animations = new();
+	readonly LinkedList<Animation> animations = new LinkedList<Animation>();
 
 	/// <inheritdoc cref="Run(Animation, TimeSpan)"/>
 	public void Run(Animation animation) => Run(animation, TimeSpan.Zero);
