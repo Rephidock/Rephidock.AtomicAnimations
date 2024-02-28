@@ -9,16 +9,11 @@ namespace Rephidock.AtomicAnimations.Wave {
 /// A wave that is moved and stretched to the
 /// specified ranges along each axis.
 /// </summary>
-public readonly struct WaveTransformed {
+public struct WaveTransformed {
 
-#if NET8_0_OR_GREATER
-	/// <summary>The wave that is to be moved and stretched.</summary>
-	public required Wave Wave { get; init; }
-#else
 	/// <summary>The wave that is to be moved and stretched.</summary>
 	/// <remarks>Required.</remarks>
-	public /* required */ Wave Wave { get; init; }
-#endif
+	public /* required */ Wave Wave { get; set; }
 
 	/// <summary>
 	/// The start and end of the wave on the x-axis.

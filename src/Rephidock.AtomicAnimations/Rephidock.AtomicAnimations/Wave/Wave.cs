@@ -15,7 +15,7 @@ namespace Rephidock.AtomicAnimations.Wave {
 /// the sides can be substituted with 1 or 0 completely.
 /// </para>
 /// </summary>
-public record Wave {
+public class Wave {
 
 	/// <summary>
 	/// The rising (enterance) curve of the wave (from 0 to 1),
@@ -34,7 +34,7 @@ public record Wave {
 	/// <see cref="EntranceCurve"/> and <see cref="ExitCurve"/> meet.
 	/// Normalized value at this point is 1.
 	/// </summary>
-	public float SwitchPoint { get; init; } = 0.5f;
+	public float SwitchPoint { get; set; } = 0.5f;
 
 	/// <summary>
 	/// <para>
