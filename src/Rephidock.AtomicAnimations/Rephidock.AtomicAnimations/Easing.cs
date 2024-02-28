@@ -32,7 +32,7 @@ public static class Easing {
 	#region //// Power
 
 	// General curves
-	public static float PowerIn(float t, float power) => MathF.Pow(t, power);
+	public static float PowerIn(float t, float power) => (float)Math.Pow(t, power);
 	public static float PowerOut(float t, float power) => 1 - PowerIn(1 - t, power);
 	public static float PowerInOut(float t, float power) {
 		if (t < 0.5) return PowerIn(t * 2, power) / 2;
@@ -60,15 +60,15 @@ public static class Easing {
 
 	#region //// Sine
 
-	public static float SineIn(float t) => 1 - MathF.Cos(t * MathF.PI / 2);
-	public static float SineOut(float t) => MathF.Sin(t * MathF.PI / 2);
-	public static float SineInOut(float t) => (MathF.Cos(t * MathF.PI) - 1) / -2;
+	public static float SineIn(float t) => 1 - (float)Math.Cos(t * Math.PI / 2);
+	public static float SineOut(float t) => (float)Math.Sin(t * Math.PI / 2);
+	public static float SineInOut(float t) => (float)(Math.Cos(t * Math.PI) - 1) / -2;
 
 	#endregion
 
 	#region //// Expo
 
-	public static float ExpoIn(float x) => MathF.Pow(2, 10 * (x - 1));
+	public static float ExpoIn(float x) => (float)Math.Pow(2, 10 * (x - 1));
 	public static float ExpoOut(float t) => 1 - ExpoIn(1 - t);
 	public static float ExpoInOut(float t) {
 		if (t < 0.5) return ExpoIn(t * 2) / 2;
@@ -79,7 +79,7 @@ public static class Easing {
 
 	#region //// Circ
 
-	public static float CircIn(float x) => MathF.Sqrt(1 - x * x) - 1;
+	public static float CircIn(float x) => (float)Math.Sqrt(1 - x * x) - 1;
 	public static float CircOut(float t) => 1 - CircIn(1 - t);
 	public static float CircInOut(float t) {
 		if (t < 0.5) return CircIn(t * 2) / 2;
@@ -96,7 +96,7 @@ public static class Easing {
 
 	public static float ElasticOut(float t, float elasticityMultiplier) {
 		float eleasticityPower = baseElasticityPower / elasticityMultiplier;
-		return MathF.Pow(2, -10 * t) * MathF.Sin((t - eleasticityPower / 4) * (2 * MathF.PI) / eleasticityPower) + 1;
+		return (float)Math.Pow(2, -10 * t) * (float)Math.Sin((t - eleasticityPower / 4) * (2 * Math.PI) / eleasticityPower) + 1;
 	}
 
 	public static float ElasticInOut(float t, float elasticityMultiplier) {

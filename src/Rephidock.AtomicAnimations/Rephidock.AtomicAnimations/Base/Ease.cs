@@ -32,7 +32,7 @@ public abstract class Ease : TimeSpanedAnimation {
 	protected sealed override void UpdateTimeSpannedImpl(TimeSpan deltaTime) {
 		
 		// Calculate new time progress
-		float timeProgressNew = (float)(ElapsedTime / Duration);
+		float timeProgressNew = (float)((double)ElapsedTime.Ticks / Duration.Ticks);
 
 		// Update till new time progress
 		EaseUpdateImpl(easingCurve(timeProgressNew));
