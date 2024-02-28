@@ -33,7 +33,9 @@ public abstract class Chain : Animation, IReadOnlyList<Animation> {
 	public void Add(Animation animation) {
 
 		// Guards
-		ArgumentNullException.ThrowIfNull(animation);
+		if (animation == null) { 
+			throw new ArgumentNullException(nameof(animation));	
+		}
 
 		if (HasStarted) {
 			throw new InvalidOperationException("Cannot add animations after chain was started");

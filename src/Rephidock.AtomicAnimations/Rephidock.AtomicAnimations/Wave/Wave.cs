@@ -51,14 +51,14 @@ public record Wave {
 
 		// Out of bounds before
 		if (normalizedTime <= 0) {
-			if (EntranceCurve is null) return 1;
+			if (EntranceCurve == null) return 1;
 			return 0;
 		}
 
 		// Entrance
 		if (normalizedTime <= SwitchPoint) {
 
-			if (EntranceCurve is null) return 1;
+			if (EntranceCurve == null) return 1;
 
 			float entranceTime = normalizedTime;
 			float entranceDuration = SwitchPoint;
@@ -68,7 +68,7 @@ public record Wave {
 		// Exit
 		if (normalizedTime < 1) {
 
-			if (ExitCurve is null) return 1;
+			if (ExitCurve == null) return 1;
 
 			float exitTime = normalizedTime - SwitchPoint;
 			float exitDuration = 1 - SwitchPoint;
@@ -77,7 +77,7 @@ public record Wave {
 
 		// Out of bounds after
 		//if (normalizedTime >= 1):
-		if (ExitCurve is null) return 1;
+		if (ExitCurve == null) return 1;
 		return 0;
 		
 	}

@@ -16,7 +16,7 @@ public abstract class Ease : TimeSpanedAnimation {
 	public Ease(TimeSpan duration, EasingCurve easingCurve) : base(duration) {
 
 		// Guards
-		ArgumentNullException.ThrowIfNull(easingCurve, nameof(easingCurve));
+		if (easingCurve == null) throw new ArgumentNullException(nameof(easingCurve));
 
 		// Set values
 		this.easingCurve = easingCurve;

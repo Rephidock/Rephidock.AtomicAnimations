@@ -46,7 +46,7 @@ public class AnimationPlayer {
 		LinkedListNode<Animation> currentNode = animations.First;
 
 		// Update all animations
-		while (currentNode is not null) {
+		while (currentNode != null) {
 
 			// Update and find next
 			currentNode.Value.Update(deltaTime);

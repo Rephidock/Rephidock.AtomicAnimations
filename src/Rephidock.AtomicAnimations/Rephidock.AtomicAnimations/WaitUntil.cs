@@ -14,7 +14,7 @@ public class WaitUntil : Animation {
 
 	/// <inheritdoc cref="WaitUntil"/>
 	public WaitUntil(Func<bool> predicate) {
-		ArgumentNullException.ThrowIfNull(predicate);
+		if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 		this.predicate = predicate;
 	}
 
