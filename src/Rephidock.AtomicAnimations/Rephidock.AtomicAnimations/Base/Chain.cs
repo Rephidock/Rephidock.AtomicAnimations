@@ -8,8 +8,9 @@ namespace Rephidock.AtomicAnimations.Base {
 
 /// <summary>
 /// A collection of <see cref="Animation"/>s.
+/// Is a readonly list.
 /// </summary>
-public abstract class Chain : Animation, IReadOnlyList<Animation> {
+public abstract class Chain : Animation, IList<Animation> {
 
 	#region //// Stroage, Creation
 
@@ -58,7 +59,13 @@ public abstract class Chain : Animation, IReadOnlyList<Animation> {
 	#region //// IReadOnlyList
 
 	/// <inheritdoc/>
-	public Animation this[int index] => animations[index];
+	public bool IsReadOnly => true;
+
+	/// <inheritdoc/>
+	public Animation this[int index] {
+		get { return animations[index] ; }
+		set { throw new NotSupportedException(); }
+	}
 
 	/// <inheritdoc/>
 	public int Count => animations.Count;
@@ -68,6 +75,27 @@ public abstract class Chain : Animation, IReadOnlyList<Animation> {
 
 	/// <inheritdoc/>
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+	/// <inheritdoc/>
+	public int IndexOf(Animation item) => animations.IndexOf(item);
+
+	/// <inheritdoc/>
+	public void CopyTo(Animation[] array, int arrayIndex) => animations.CopyTo(array, arrayIndex);
+	
+	/// <inheritdoc/>	
+	public bool Contains(Animation item) => animations.Contains(item);
+
+	/// <inheritdoc/>
+	public void Insert(int index, Animation item) { throw new NotSupportedException(); }
+	
+	/// <inheritdoc/>
+	public void RemoveAt(int index) { throw new NotSupportedException(); }
+	
+	/// <inheritdoc/>	
+	public void Clear() { throw new NotSupportedException(); }
+
+	/// <inheritdoc/>
+	public bool Remove(Animation item) { throw new NotSupportedException(); }
 
 	#endregion
 
