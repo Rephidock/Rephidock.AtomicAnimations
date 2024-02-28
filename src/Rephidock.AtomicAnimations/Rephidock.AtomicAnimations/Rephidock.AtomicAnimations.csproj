@@ -35,5 +35,9 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Rephidock.GeneralUtilities" Version="1.0.0" />
+  </ItemGroup>
 
 </Project>
