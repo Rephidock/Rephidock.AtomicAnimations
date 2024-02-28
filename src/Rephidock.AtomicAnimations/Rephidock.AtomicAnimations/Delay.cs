@@ -2,7 +2,7 @@
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>An empty animation that serves as a delay.</summary>
@@ -14,5 +14,7 @@ public class Delay : TimeSpanedAnimation {
 	/// <inheritdoc/>
 	protected override void UpdateTimeSpannedImpl(TimeSpan deltaTime) {
 	}
+
+}
 
 }

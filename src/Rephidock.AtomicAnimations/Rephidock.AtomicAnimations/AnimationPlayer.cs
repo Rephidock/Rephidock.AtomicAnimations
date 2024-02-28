@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -79,5 +79,7 @@ public class AnimationPlayer {
 		// Clear references
 		animations.Clear();
 	}
+
+}
 
 }

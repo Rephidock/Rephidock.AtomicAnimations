@@ -3,7 +3,7 @@ using Rephidock.GeneralUtilities;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -35,5 +35,7 @@ public class Shift1D : Ease {
 		adder(newValueX - accumulatorX);
 		accumulatorX = newValueX;
 	}
+
+}
 
 }

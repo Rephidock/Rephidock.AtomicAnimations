@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Rephidock.AtomicAnimations.Base;
+namespace Rephidock.AtomicAnimations.Base {
 
 
 /// <summary>
@@ -186,5 +186,7 @@ public abstract class Animation {
 	protected virtual void HaltImpl() { }
 
 	#endregion
+
+}
 
 }

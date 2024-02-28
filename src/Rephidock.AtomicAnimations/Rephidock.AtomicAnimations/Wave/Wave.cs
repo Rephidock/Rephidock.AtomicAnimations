@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Rephidock.AtomicAnimations.Wave;
+namespace Rephidock.AtomicAnimations.Wave {
 
 
 /// <summary>
@@ -81,5 +81,7 @@ public record Wave {
 		return 0;
 		
 	}
+
+}
 
 }

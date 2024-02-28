@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -167,5 +167,7 @@ public static class Easing {
 	#endregion
 
 	#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
+}
 
 }

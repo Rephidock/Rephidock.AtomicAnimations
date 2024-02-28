@@ -3,7 +3,7 @@ using Rephidock.GeneralUtilities;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations.Wave;
+namespace Rephidock.AtomicAnimations.Wave {
 
 
 /// <summary>
@@ -47,5 +47,7 @@ public class WaveEase : Ease {
 		updater(waveProbe);
 
 	}
+
+}
 
 }

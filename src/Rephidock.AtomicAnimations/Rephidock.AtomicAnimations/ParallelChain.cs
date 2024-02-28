@@ -2,7 +2,7 @@
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -88,5 +88,7 @@ public class ParallelChain : Chain {
 		}
 
 	}
+
+}
 
 }

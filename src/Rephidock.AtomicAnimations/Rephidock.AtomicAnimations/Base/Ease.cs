@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Rephidock.AtomicAnimations.Base;
+namespace Rephidock.AtomicAnimations.Base {
 
 
 /// <summary>
@@ -44,5 +44,7 @@ public abstract class Ease : TimeSpanedAnimation {
 		// Update till end
 		EaseUpdateImpl(1);
 	}
+
+}
 
 }

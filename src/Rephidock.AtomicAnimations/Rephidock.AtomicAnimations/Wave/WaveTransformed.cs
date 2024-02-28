@@ -2,7 +2,7 @@
 using Rephidock.GeneralUtilities;
 
 
-namespace Rephidock.AtomicAnimations.Wave;
+namespace Rephidock.AtomicAnimations.Wave {
 
 
 /// <summary>
@@ -55,5 +55,7 @@ public readonly struct WaveTransformed {
 		return MoreMath.Lerp(ValueRange.Value.start, ValueRange.Value.end, normalizedValue);
 
 	}
+
+}
 
 }

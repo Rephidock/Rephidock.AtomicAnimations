@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Rephidock.AtomicAnimations.Base;
+namespace Rephidock.AtomicAnimations.Base {
 
 
 /// <summary>
@@ -59,5 +59,7 @@ public abstract class TimeSpanedAnimation : Animation {
 	protected virtual void UpdateLastTimeSpannedImpl(TimeSpan deltaTimeNoExcess, TimeSpan exessTime) {
 		UpdateTimeSpannedImpl(deltaTimeNoExcess);
 	}
+
+}
 
 }

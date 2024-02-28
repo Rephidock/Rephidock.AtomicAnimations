@@ -2,7 +2,7 @@
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -24,5 +24,7 @@ public class WaitUntil : Animation {
 	protected override void UpdateImpl(TimeSpan deltaTime, TimeSpan elapsedTimePrevious) {
 		if (predicate()) End();
 	}
+
+}
 
 }

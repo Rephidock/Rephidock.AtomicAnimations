@@ -3,7 +3,7 @@ using Rephidock.GeneralUtilities;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -42,5 +42,7 @@ public class Shift2D : Ease {
 		accumulatorX = newValueX;
 		accumulatorY = newValueY;
 	}
+
+}
 
 }

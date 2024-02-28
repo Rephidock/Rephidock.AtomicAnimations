@@ -3,7 +3,7 @@ using Rephidock.GeneralUtilities;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -46,5 +46,7 @@ public class Move3D : Ease {
 		float newValueZ = MoreMath.Lerp(startZ, endZ, valueProgressNew);
 		setter(newValueX, newValueY, newValueZ);
 	}
+
+}
 
 }

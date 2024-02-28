@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-namespace Rephidock.AtomicAnimations.Base;
+namespace Rephidock.AtomicAnimations.Base {
 
 
 /// <summary>
@@ -68,5 +68,7 @@ public abstract class Chain : Animation, IReadOnlyList<Animation> {
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 	#endregion
+
+}
 
 }
