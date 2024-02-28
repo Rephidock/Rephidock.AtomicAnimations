@@ -16,6 +16,12 @@ public abstract class Animation {
 	/// </summary>
 	public TimeSpan ElapsedTime { get; protected set; } = TimeSpan.Zero;
 
+	/// <summary>
+	/// Time that is considered excess after animation has ended.
+	/// Set after animation was completed.
+	/// </summary>
+	public TimeSpan ExcessTime { get; private set; }
+
 	#region //// Flags
 
 	/// <summary>
@@ -127,12 +133,13 @@ public abstract class Animation {
 		// Do nothing if not animating
 		if (!HasStarted || HasEnded) return;
 
-		// End
+		// Set values
 		HasEnded = true;
+		ExcessTime = excessTime;
+
+		// Invoke events
 		OnEnd?.Invoke(excessTime);
 		OnCompletion?.Invoke();
-		return;
-
 	}
 	
 	/// <inheritdoc cref="End(TimeSpan)"/>
@@ -147,6 +154,7 @@ public abstract class Animation {
 		// Set flags
 		HasEnded = true;
 		WasHalted = true;
+		ExcessTime = TimeSpan.Zero;
 
 		// Invoke event
 		HaltImpl();
