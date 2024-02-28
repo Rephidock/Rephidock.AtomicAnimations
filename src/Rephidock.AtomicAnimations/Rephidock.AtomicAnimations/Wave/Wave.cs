@@ -21,13 +21,13 @@ public record Wave {
 	/// The rising (enterance) curve of the wave (from 0 to 1),
 	/// or <see langword="null"/> to substitute 1 at every point.
 	/// </summary>
-	public EasingCurve? EntranceCurve { get; init; } = null;
+	public EasingCurve EntranceCurve { get; set; } = null;
 
 	/// <summary>
 	/// The falling (exit) curve of the wave (from 1 to 0),
 	/// or <see langword="null"/> to substitute 1 at every point.
 	/// </summary>
-	public EasingCurve? ExitCurve { get; init; } = null;
+	public EasingCurve ExitCurve { get; set; } = null;
 
 	/// <summary>
 	/// The point of normalized time at which the

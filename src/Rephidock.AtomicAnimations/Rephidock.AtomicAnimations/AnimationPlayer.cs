@@ -42,8 +42,8 @@ public class AnimationPlayer {
 	/// </remarks>
 	public void Update(TimeSpan deltaTime) {
 
-		LinkedListNode<Animation>? nextNode;
-		LinkedListNode<Animation>? currentNode = animations.First;
+		LinkedListNode<Animation> nextNode;
+		LinkedListNode<Animation> currentNode = animations.First;
 
 		// Update all animations
 		while (currentNode is not null) {

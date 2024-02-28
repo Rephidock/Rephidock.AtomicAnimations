@@ -31,7 +31,6 @@
     <LangVersion>6</LangVersion>
     <RootNamespace>Rephidock.AtomicAnimations</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>

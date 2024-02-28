@@ -52,7 +52,7 @@ public abstract class Animation {
 	/// Argument: Initial time of the animation
 	/// </para>
 	/// </summary>
-	public event Action<TimeSpan>? OnStart;
+	public event Action<TimeSpan> OnStart = null;
 
 	/// <summary>
 	/// <para>
@@ -65,14 +65,14 @@ public abstract class Animation {
 	/// Argument: Excess time since animation is finished.
 	/// </para>
 	/// </summary>
-	public event Action<TimeSpan>? OnEnd;
+	public event Action<TimeSpan> OnEnd = null;
 
 	/// <summary>
 	/// The event that is fired when the animation ends or halted.
 	/// Invoked right after halting or right after <see cref="OnEnd"/>,
 	/// if animation wasnt halted.
 	/// </summary>
-	public event Action? OnCompletion;
+	public event Action OnCompletion = null;
 
 	#endregion
 
