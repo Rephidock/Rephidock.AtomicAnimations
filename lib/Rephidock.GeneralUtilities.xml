@@ -4,40 +4,6 @@
         <name>Rephidock.GeneralUtilities</name>
     </assembly>
     <members>
-        <member name="T:Rephidock.GeneralUtilities.Colors.ColorExtensions">
-            <summary>
-            Provides some extension methods for <see cref="T:System.Drawing.Color"/>.
-            </summary>
-        </member>
-        <member name="M:Rephidock.GeneralUtilities.Colors.ColorExtensions.WithAlpha(System.Drawing.Color,System.Byte)">
-            <summary>
-            Returns the given color with a changed alpha component.
-            </summary>
-            <param name="color">Color to chnage alpha of</param>
-            <param name="alpha">The alpha value to set</param>
-        </member>
-        <member name="M:Rephidock.GeneralUtilities.Colors.ColorExtensions.Transparent(System.Drawing.Color)">
-            <summary>Returns the given color with 0 alpha component.</summary>
-            <param name="color">Color to make transparent</param>
-        </member>
-        <member name="T:Rephidock.GeneralUtilities.Colors.ColorMath">
-            <summary>
-            Provides static methods for some color math.
-            </summary>
-        </member>
-        <member name="M:Rephidock.GeneralUtilities.Colors.ColorMath.AlphaBlend(System.Drawing.Color,System.Drawing.Color)">
-            <summary>Blend 2 colors with alpha-1-minus-alpha blending.</summary>
-            <param name="oldColor">The old color (existing on the canvas)</param>
-            <param name="newColor">The new color (drawn on top)</param>
-            <returns>A new blended color.</returns>
-        </member>
-        <member name="M:Rephidock.GeneralUtilities.Colors.ColorMath.LerpColor(System.Drawing.Color,System.Drawing.Color,System.Single)">
-            <summary>
-            Linearly interpolates between 2 colors.
-            Result <u>is</u> clamped.
-            </summary>
-            <inheritdoc cref="M:Rephidock.GeneralUtilities.MoreMath.Lerp(System.Single,System.Single,System.Single)"/>
-        </member>
         <member name="T:Rephidock.GeneralUtilities.EnumConverter`2">
             <summary>
             <para>
