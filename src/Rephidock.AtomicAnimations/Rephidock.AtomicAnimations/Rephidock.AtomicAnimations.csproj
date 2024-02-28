@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations</Title>
     <Authors>Rephidock</Authors>
-    <Version>1.0.0-alpha.0+netframework35.dev</Version>
+    <Version>1.0.0-alpha.0+framework35.dev</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Classes for simple animations that accept delegates</Description>
     <Copyright>Copyright (c) 2024 Rephidock</Copyright>
@@ -37,7 +37,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Rephidock.GeneralUtilities" Version="1.0.0" />
+    <Reference Include="Rephidock.GeneralUtilities">
+      <!--Version = "1.0.0+framework35"-->
+      <HintPath>../../../lib/Rephidock.GeneralUtilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
