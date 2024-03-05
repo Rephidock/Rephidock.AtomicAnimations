@@ -32,7 +32,7 @@ public class Shift3D : Ease {
 	: base(duration, easingCurve) {
 		this.shiftX = shiftX;
 		this.shiftY = shiftY;
-		this.shiftY = shiftZ;
+		this.shiftZ = shiftZ;
 		this.accumulatorX = 0;
 		this.accumulatorY = 0;
 		this.accumulatorZ = 0;
