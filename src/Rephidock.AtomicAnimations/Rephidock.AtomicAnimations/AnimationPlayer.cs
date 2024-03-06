@@ -63,12 +63,7 @@ public class AnimationPlayer {
 
 	}
 
-	/// <summary>
-	/// <para>
-	/// Halts and clears all given animations,
-	/// effectively halting and forgetting them.
-	/// </para>
-	/// </summary>
+	/// <summary>Halts and clears (forgets) all animations</summary>
 	public void HaltAndClear() {
 
 		// Halt all animations
@@ -77,6 +72,11 @@ public class AnimationPlayer {
 		}
 
 		// Clear references
+		animations.Clear();
+	}
+
+	/// <summary>Clears (forgets) all animations without halting them</summary>
+	public void Clear() {
 		animations.Clear();
 	}
 
