@@ -2,7 +2,7 @@
 using Rephidock.GeneralUtilities;
 
 
-namespace Rephidock.AtomicAnimations.Wave;
+namespace Rephidock.AtomicAnimations.Waves;
 
 
 /// <summary>
