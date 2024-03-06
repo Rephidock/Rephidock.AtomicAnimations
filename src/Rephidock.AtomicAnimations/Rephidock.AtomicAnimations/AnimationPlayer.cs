@@ -80,4 +80,7 @@ public class AnimationPlayer {
 		animations.Clear();
 	}
 
+	/// <summary>True if this player has animations playing</summary>
+	public bool HasAnimations => animations.Count > 0;
+
 }
