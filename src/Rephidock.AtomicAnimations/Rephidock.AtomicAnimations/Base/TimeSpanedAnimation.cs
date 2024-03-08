@@ -33,7 +33,7 @@ public abstract class TimeSpanedAnimation : Animation {
 			UpdateLastTimeSpannedImpl(timeTillDuration, excessTime);
 
 			// End
-			End();
+			End(excessTime);
 			return;
 		}
 

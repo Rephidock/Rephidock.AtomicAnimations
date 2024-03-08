@@ -55,6 +55,7 @@ public class AnimationPlayer {
 			// Remove node with finished animation
 			if (currentNode.Value.HasEnded) {
 				animations.Remove(currentNode);
+				OnAnimationCompletion?.Invoke(currentNode.Value);
 			}
 
 			// Continue to the next node
@@ -63,12 +64,7 @@ public class AnimationPlayer {
 
 	}
 
-	/// <summary>
-	/// <para>
-	/// Halts and clears all given animations,
-	/// effectively halting and forgetting them.
-	/// </para>
-	/// </summary>
+	/// <summary>Halts and clears (forgets) all animations</summary>
 	public void HaltAndClear() {
 
 		// Halt all animations
@@ -79,6 +75,23 @@ public class AnimationPlayer {
 		// Clear references
 		animations.Clear();
 	}
+
+	/// <summary>Clears (forgets) all animations without halting them</summary>
+	public void Clear() {
+		animations.Clear();
+	}
+
+	/// <summary>True if this player has animations playing</summary>
+	public bool HasAnimations => animations.Count > 0;
+
+	/// <summary>
+	/// Evenet that invoked when any given animaton completes.
+	/// Called after the player forget about the anmation.
+	/// </summary>
+	/// <remarks>
+	/// Does not get invoked when <see cref="HaltAndClear"/> is called.
+	/// </remarks>
+	public event Action<Animation>? OnAnimationCompletion = null;
 
 }
 
