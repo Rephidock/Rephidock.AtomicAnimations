@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations;
+namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
@@ -12,7 +12,7 @@ namespace Rephidock.AtomicAnimations;
 /// that are run in series or parrelel with possible
 /// delays in-between.
 /// </summary>
-public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
+public class AnimationChain : Animation, IList<ChainElement> {
 
 	/// <summary>List of animations in the chain.</summary>
 	readonly List<ChainElement> elements;
@@ -40,7 +40,7 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 	public void Add(ChainElement chainElement) {
 
 		// Guards
-		ArgumentNullException.ThrowIfNull(chainElement);
+		if (chainElement == null) throw new ArgumentNullException(nameof(chainElement));
 
 		if (HasStarted) {
 			throw new InvalidOperationException("Cannot add animations after chain was started");
@@ -55,7 +55,7 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 	/// <param name="animation">Animation to add or <see langword="null"/> to add a delay only</param>
 	/// <param name="isASplit">A flag that dictates if the next chain needs to ne a split</param>
 	/// <exception cref="InvalidOperationException">Called after <see cref="Animation.StartAndUpdate()"/></exception>
-	public void Add(TimeSpan delay, Animation? animation, bool isASplit = true) {
+	public void Add(TimeSpan delay, Animation animation, bool isASplit = true) {
 		elements.Add(
 			new ChainElement() {
 				DelayBeforeStart = delay,
@@ -108,12 +108,12 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 		splitsPlayer.Update(deltaTime);
 
 		// Reusable stage snippet
-		void StageNextElement(TimeSpan currentAnimationExcessTime) {
+		Action<TimeSpan> StageNextElement = delegate (TimeSpan currentAnimationExcessTime) {
 			currentElementIndex++;
 			currentElementAnimationStarted = false;
 			currentElementStagedTime = ElapsedTime - currentAnimationExcessTime;
 			deltaTime = currentAnimationExcessTime;
-		}
+		};
 
 		do {
 
@@ -143,7 +143,7 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 			if (currentElementAnimationStarted) {
 
 				// Safety check just in case
-				if (currentElement.Animation is null) {
+				if (currentElement.Animation == null) {
 					StageNextElement(TimeSpan.Zero);
 					continue;
 				}
@@ -182,7 +182,7 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 			}
 
 			// Wait finished -- start animation if exists
-			if (currentElement.Animation is not null) {
+			if (currentElement.Animation != null) {
 
 				if (currentElement.IsASplit) {
 
@@ -245,15 +245,78 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 	/// <inheritdoc/>
 	public int Count => elements.Count;
 
+	/// <summary>
+	/// <para>
+	/// Always returns true, as some <see cref="IList"/>
+	/// methods are not supported, due to absense of IReadOnlyList in
+	/// .net framework 3.5
+	/// </para>
+	/// <para>
+	/// Remark: Add methods only throw if this chain has been started
+	/// </para>
+	/// </summary>
+	public bool IsReadOnly => true;
+
 	/// <inheritdoc/>
-	public ChainElement this[int index] => elements[index];
+	public ChainElement this[int index] {
+		get { return elements[index]; }
+		set { throw new NotSupportedException(); }
+	}
 
 	/// <inheritdoc/>
 	public IEnumerator<ChainElement> GetEnumerator() => elements.GetEnumerator();
 
 	/// <inheritdoc/>
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-	
+
 	#endregion
+
+	#region //// IList: Not Implemented (part of downgrading)
+
+	/// <inheritdoc/>
+	/// <remarks>Throws <see cref="NotImplementedException"/></remarks>
+	public int IndexOf(ChainElement item) {
+		throw new NotImplementedException();
+	}
+
+	/// <inheritdoc/>
+	/// <remarks>Throws <see cref="NotImplementedException"/></remarks>
+	public bool Contains(ChainElement item) {
+		throw new NotImplementedException();
+	}
+
+	/// <inheritdoc/>
+	/// <remarks>Throws <see cref="NotImplementedException"/></remarks>
+	public void CopyTo(ChainElement[] array, int arrayIndex) {
+		throw new NotImplementedException();
+	}
+
+	#endregion
+
+	#region //// IList: Not Supported (part of downgrading)
+
+	/// <remarks>Throws <see cref="NotSupportedException"/></remarks>
+	public void Insert(int index, ChainElement item) {
+		throw new NotSupportedException();
+	}
+
+	/// <remarks>Throws <see cref="NotSupportedException"/></remarks>
+	public void RemoveAt(int index) {
+		throw new NotSupportedException();
+	}
+
+	/// <remarks>Throws <see cref="NotSupportedException"/></remarks>
+	public void Clear() {
+		throw new NotSupportedException();
+	}
+
+	/// <remarks>Throws <see cref="NotSupportedException"/></remarks>
+	public bool Remove(ChainElement item) {
+		throw new NotSupportedException();
+	}
+
+	#endregion
+
+}
 
 }

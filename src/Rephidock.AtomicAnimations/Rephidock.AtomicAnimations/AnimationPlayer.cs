@@ -91,7 +91,7 @@ public class AnimationPlayer {
 	/// <remarks>
 	/// Does not get invoked when <see cref="HaltAndClear"/> is called.
 	/// </remarks>
-	public event Action<Animation>? OnAnimationCompletion = null;
+	public event Action<Animation> OnAnimationCompletion = null;
 
 }
 
