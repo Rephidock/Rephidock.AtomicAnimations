@@ -13,6 +13,10 @@ namespace Rephidock.AtomicAnimations;
 /// and forgotten the moment they are finished.
 /// Multiple animations can be played at the same time.
 /// </para>
+/// <para>
+/// <see cref="IDisposable"/> animations are supported and
+/// are disposed of when they are finished.
+/// </para>
 /// </summary>
 /// <remarks>
 /// Animations are updated in the order of addition.
@@ -54,8 +58,14 @@ public class AnimationPlayer {
 
 			// Remove node with finished animation
 			if (currentNode.Value.HasEnded) {
+
 				animations.Remove(currentNode);
 				OnAnimationCompletion?.Invoke(currentNode.Value);
+
+				if (currentNode.Value is IDisposable disposable) {
+					disposable.Dispose();
+				}
+
 			}
 
 			// Continue to the next node
@@ -86,7 +96,8 @@ public class AnimationPlayer {
 
 	/// <summary>
 	/// Evenet that invoked when any given animaton completes.
-	/// Called after the player forget about the anmation.
+	/// Called after the player forget about the anmation
+	/// but right before it is disposed of.
 	/// </summary>
 	/// <remarks>
 	/// Does not get invoked when <see cref="HaltAndClear"/> is called.
