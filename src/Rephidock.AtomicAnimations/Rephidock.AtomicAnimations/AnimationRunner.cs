@@ -21,7 +21,7 @@ namespace Rephidock.AtomicAnimations;
 /// <remarks>
 /// Animations are updated in the order of addition.
 /// </remarks>
-public class AnimationPlayer {
+public class AnimationRunner {
 
 	readonly LinkedList<Animation> animations = new();
 

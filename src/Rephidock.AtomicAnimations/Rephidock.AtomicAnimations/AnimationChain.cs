@@ -22,14 +22,14 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 	/// <summary>Crates a <see cref="AnimationChain"/> with default capacity.</summary>
 	public AnimationChain() {
 		elements = new List<ChainElement>();
-		splitsPlayer = new AnimationPlayer();
+		splitsPlayer = new AnimationRunner();
 		splitsPlayer.OnAnimationCompletion += OnSplitEnd;
 	}
 
 	/// <summary>Crates a <see cref="AnimationChain"/> with <paramref name="capacity"/>.</summary>
 	public AnimationChain(int capacity) {
 		elements = new List<ChainElement>(capacity);
-		splitsPlayer = new AnimationPlayer();
+		splitsPlayer = new AnimationRunner();
 		splitsPlayer.OnAnimationCompletion += OnSplitEnd;
 	}
 
@@ -78,7 +78,7 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 	#region //// Animation
 
 	// Splits
-	readonly AnimationPlayer splitsPlayer;
+	readonly AnimationRunner splitsPlayer;
 	TimeSpan splitLastEndTime = TimeSpan.Zero; // excludes excess time
 
 	// Current element
