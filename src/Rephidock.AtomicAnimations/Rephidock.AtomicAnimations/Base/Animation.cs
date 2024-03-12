@@ -18,7 +18,7 @@ public abstract class Animation {
 
 	/// <summary>
 	/// Time that is considered excess after animation has ended.
-	/// Set after animation was completed.
+	/// Set after animation ends. Is <see cref="TimeSpan.Zero"/> otherwise.
 	/// </summary>
 	public TimeSpan ExcessTime { get; private set; }
 
@@ -38,41 +38,6 @@ public abstract class Animation {
 	/// Is <see langword="true"/> if the animation was halted before it finished.
 	/// </summary>
 	public bool WasHalted { get; private set; } = false;
-
-	#endregion
-
-	#region //// Events
-
-	/// <summary>
-	/// <para>
-	/// The event that is fired when the animation starts.
-	/// Invoked before the initial update but after the animation was initialized.
-	/// </para>
-	/// <para>
-	/// Argument: Initial time of the animation
-	/// </para>
-	/// </summary>
-	public event Action<TimeSpan>? OnStart;
-
-	/// <summary>
-	/// <para>
-	/// The event that is fired when the animation ended without being halted.
-	/// Invoked after the last update and after flags are set but
-	/// before invocation of <see cref="OnCompletion"/>.
-	/// Is not invoked when animation is halted.
-	/// </para>
-	/// <para>
-	/// Argument: Excess time since animation is finished.
-	/// </para>
-	/// </summary>
-	public event Action<TimeSpan>? OnEnd;
-
-	/// <summary>
-	/// The event that is fired when the animation ends or halted.
-	/// Invoked right after halting or right after <see cref="OnEnd"/>,
-	/// if animation wasnt halted.
-	/// </summary>
-	public event Action? OnCompletion;
 
 	#endregion
 
@@ -103,7 +68,6 @@ public abstract class Animation {
 
 		// Call implementations and events
 		StartImpl();
-		OnStart?.Invoke(initialTime);
 		Update(initialTime);
 	}
 
@@ -127,7 +91,6 @@ public abstract class Animation {
 	}
 
 	/// <summary>Successfully ends the animation.</summary>
-	/// <param name="excessTime">Excess time to pass to <see cref="OnEnd"/></param>
 	protected void End(TimeSpan excessTime) {
 
 		// Do nothing if not animating
@@ -136,10 +99,6 @@ public abstract class Animation {
 		// Set values
 		HasEnded = true;
 		ExcessTime = excessTime;
-
-		// Invoke events
-		OnEnd?.Invoke(excessTime);
-		OnCompletion?.Invoke();
 	}
 	
 	/// <inheritdoc cref="End(TimeSpan)"/>
@@ -156,9 +115,8 @@ public abstract class Animation {
 		WasHalted = true;
 		ExcessTime = TimeSpan.Zero;
 
-		// Invoke event
+		// Invoke implementation
 		HaltImpl();
-		OnCompletion?.Invoke();
 	}
 
 	#endregion
@@ -167,7 +125,7 @@ public abstract class Animation {
 
 	/// <summary>
 	/// <para>Implementation that is called before the first update.</para>
-	/// <para>Called after flags are set but before corresponding event is invoked.</para>
+	/// <para>Called after flags are set.</para>
 	/// </summary>
 	protected virtual void StartImpl() { }
 
@@ -181,7 +139,7 @@ public abstract class Animation {
 
 	/// <summary>
 	/// <para>Implementation of the halting.</para>
-	/// <para>Called after flags are set but before corresponding event is invoked.</para>
+	/// <para>Called after flags are set.</para>
 	/// </summary>
 	protected virtual void HaltImpl() { }
 
