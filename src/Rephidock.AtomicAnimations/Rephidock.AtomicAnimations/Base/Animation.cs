@@ -65,6 +65,7 @@ public abstract class Animation {
 		HasEnded = false;
 		WasHalted = false;
 		ElapsedTime = TimeSpan.Zero;
+		ExcessTime = TimeSpan.Zero;
 
 		// Call implementations and events
 		StartImpl();
