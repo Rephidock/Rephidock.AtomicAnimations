@@ -6,6 +6,7 @@ using Rephidock.AtomicAnimations.Base;
 
 namespace Rephidock.AtomicAnimations;
 
+/*
 
 /// <summary>
 /// A collection of <see cref="Animation"/>s
@@ -257,3 +258,4 @@ public class AnimationChain : Animation, IReadOnlyList<ChainElement> {
 	#endregion
 
 }
+*/
