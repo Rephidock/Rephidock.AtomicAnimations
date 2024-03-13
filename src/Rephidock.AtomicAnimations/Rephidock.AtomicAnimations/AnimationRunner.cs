@@ -6,6 +6,8 @@ using Rephidock.AtomicAnimations.Base;
 namespace Rephidock.AtomicAnimations {
 
 
+#pragma warning disable CA1513 // Use ObjectDisposedException throw helper
+
 /// <summary>
 /// <para>
 /// A player that automatically plays given animations.
@@ -13,11 +15,15 @@ namespace Rephidock.AtomicAnimations {
 /// and forgotten the moment they are finished.
 /// Multiple animations can be played at the same time.
 /// </para>
+/// <para>
+/// <see cref="IDisposable"/> animations are supported and
+/// are disposed of when they are finished.
+/// </para>
 /// </summary>
 /// <remarks>
 /// Animations are updated in the order of addition.
 /// </remarks>
-public class AnimationPlayer {
+public class AnimationRunner : IDisposable {
 
 	readonly LinkedList<Animation> animations = new LinkedList<Animation>();
 
@@ -27,9 +33,15 @@ public class AnimationPlayer {
 	/// <summary>
 	/// Adds an animation to play.
 	/// The animation is played immediately.
-	/// Stores a reference to the animation until it ends.
+	///	Takes owenership of the animation.
 	/// </summary>
 	public void Run(Animation animation, TimeSpan initialTime) {
+
+		// Guards
+		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
+		ArgumentNullException.ThrowIfNull(animation);
+
+		// Add animation
 		animation.StartAndUpdate(initialTime);
 		animations.AddLast(animation);
 	}
@@ -42,10 +54,13 @@ public class AnimationPlayer {
 	/// </remarks>
 	public void Update(TimeSpan deltaTime) {
 
+		// Dispose guard
+		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
+
+		// Update all animations
 		LinkedListNode<Animation> nextNode;
 		LinkedListNode<Animation> currentNode = animations.First;
 
-		// Update all animations
 		while (currentNode != null) {
 
 			// Update and find next
@@ -54,8 +69,14 @@ public class AnimationPlayer {
 
 			// Remove node with finished animation
 			if (currentNode.Value.HasEnded) {
+
 				animations.Remove(currentNode);
-				OnAnimationCompletion?.Invoke(currentNode.Value);
+				OnAnimationEnd?.Invoke(currentNode.Value);
+
+				if (currentNode.Value is IDisposable disposable) {
+					disposable.Dispose();
+				}
+
 			}
 
 			// Continue to the next node
@@ -64,20 +85,20 @@ public class AnimationPlayer {
 
 	}
 
-	/// <summary>Halts and clears (forgets) all animations</summary>
-	public void HaltAndClear() {
+	/// <summary>
+	/// Clears (forgets) all animations.
+	/// <see cref="IDisposable"/> animations are disposed of.
+	/// </summary>
+	public void Clear() {
 
-		// Halt all animations
+		// Dispose of disposable animations
 		foreach (var animation in animations) {
-			animation.Halt();
+			if (animation is IDisposable disposable) {
+				disposable.Dispose();
+			}
 		}
 
-		// Clear references
-		animations.Clear();
-	}
-
-	/// <summary>Clears (forgets) all animations without halting them</summary>
-	public void Clear() {
+		// Clear list
 		animations.Clear();
 	}
 
@@ -85,14 +106,44 @@ public class AnimationPlayer {
 	public bool HasAnimations => animations.Count > 0;
 
 	/// <summary>
-	/// Evenet that invoked when any given animaton completes.
-	/// Called after the player forget about the anmation.
+	/// Event that is invoked when any given animaton completes.
+	/// Called after the runner forget about the animation
+	/// but right before it is disposed of.
 	/// </summary>
 	/// <remarks>
-	/// Does not get invoked when <see cref="HaltAndClear"/> is called.
+	/// Does not get invoked when <see cref="Clear"/> is called.
 	/// </remarks>
-	public event Action<Animation> OnAnimationCompletion = null;
+	public event Action<Animation>? OnAnimationEnd = null;
+
+	#region //// IDisposable
+
+	bool isDiposed = false;
+
+	/// <inheritdoc/>
+	protected virtual void Dispose(bool isDisposingManaged) {
+
+		if (isDiposed) return;
+
+		if (isDisposingManaged) {
+
+			// Dispose of animations and clear the list
+			this.Clear();
+
+		}
+
+		isDiposed = true;
+	}
+
+	/// <inheritdoc/>
+	public void Dispose() {
+		Dispose(isDisposingManaged: true);
+		GC.SuppressFinalize(this);
+	}
+
+	#endregion
 
 }
 
 }
+
+#pragma warning restore CA1513 // Use ObjectDisposedException throw helper
