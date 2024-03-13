@@ -79,10 +79,16 @@ public class AnimationRunner {
 
 		// Halt all animations
 		foreach (var animation in animations) {
+
 			animation.Halt();
+
+			// Dipose of disposables
+			if (animation is IDisposable disposable) {
+				disposable.Dispose();
+			}
 		}
 
-		// Clear references
+		// Clear list
 		animations.Clear();
 	}
 
