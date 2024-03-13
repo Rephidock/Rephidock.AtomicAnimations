@@ -38,7 +38,7 @@ public class AnimationRunner : IDisposable {
 	public void Run(Animation animation, TimeSpan initialTime) {
 
 		// Guards
-		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
+		if (isDisposed) throw new ObjectDisposedException(this.GetType().FullName);
 		ArgumentNullException.ThrowIfNull(animation);
 
 		// Add animation
@@ -55,7 +55,7 @@ public class AnimationRunner : IDisposable {
 	public void Update(TimeSpan deltaTime) {
 
 		// Dispose guard
-		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
+		if (isDisposed) throw new ObjectDisposedException(this.GetType().FullName);
 
 		// Update all animations
 		LinkedListNode<Animation>? nextNode;
@@ -117,12 +117,12 @@ public class AnimationRunner : IDisposable {
 
 	#region //// IDisposable
 
-	bool isDiposed = false;
+	bool isDisposed = false;
 
 	/// <inheritdoc/>
 	protected virtual void Dispose(bool isDisposingManaged) {
 
-		if (isDiposed) return;
+		if (isDisposed) return;
 
 		if (isDisposingManaged) {
 
@@ -131,7 +131,7 @@ public class AnimationRunner : IDisposable {
 
 		}
 
-		isDiposed = true;
+		isDisposed = true;
 	}
 
 	/// <inheritdoc/>
