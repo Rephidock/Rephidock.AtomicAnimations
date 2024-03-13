@@ -16,6 +16,8 @@ namespace Rephidock.AtomicAnimations;
 /// <para>
 /// <see cref="IDisposable"/> animations are supported and
 /// are disposed of when they are finished.
+/// Note that if you are using <see cref="IDisposable"/> animations,
+/// <see cref="HaltAndClear"/> can be called to dispose of them.
 /// </para>
 /// </summary>
 /// <remarks>
@@ -74,7 +76,10 @@ public class AnimationRunner {
 
 	}
 
-	/// <summary>Halts and clears (forgets) all animations</summary>
+	/// <summary>
+	/// Halts and clears (forgets) all animations.
+	/// <see cref="IDisposable"/> animations are disposed of.
+	/// </summary>
 	public void HaltAndClear() {
 
 		// Halt all animations
