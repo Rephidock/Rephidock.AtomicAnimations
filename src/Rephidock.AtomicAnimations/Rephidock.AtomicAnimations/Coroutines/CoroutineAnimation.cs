@@ -47,7 +47,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 	TimeSpan lastStartedAnimationStartTime = TimeSpan.Zero;
 
 	CoroutineYield? currentDelayYield = null;
-	TimeSpan curentDelayStageTime = TimeSpan.Zero;
+	TimeSpan curentElementStageTime = TimeSpan.Zero;
 
 	void OnInnerAnimationEnd(Animation animation) {
 		TimeSpan animationEndTime = ElapsedTime - animation.ExcessTime;
@@ -73,7 +73,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 		lastStartedAnimationStartTime = TimeSpan.Zero;
 
 		currentDelayYield = null;
-		curentDelayStageTime = TimeSpan.Zero;
+		curentElementStageTime = TimeSpan.Zero;
 	}
 
 	/// <inheritdoc/>
@@ -103,12 +103,12 @@ public class CoroutineAnimation : Animation, IDisposable {
 			}
 
 			// Delay check
-			TimeSpan startTimeTarget = curentDelayStageTime;
+			TimeSpan startTimeTarget = curentElementStageTime;
 
 			if (currentDelayYield is not null) {
 
 				// Wait for time
-				startTimeTarget = curentDelayStageTime + currentDelayYield.WaitFor;
+				startTimeTarget = curentElementStageTime + currentDelayYield.WaitFor;
 
 				if (currentDelayYield.WaitUntil.HasValue && currentDelayYield.WaitUntil.Value > startTimeTarget) {
 					startTimeTarget = currentDelayYield.WaitUntil.Value;
@@ -156,6 +156,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 			}
 
 			bool hasMoreElements = coroutineEnumerator.MoveNext();
+			curentElementStageTime = startTimeTarget;
 
 			// No more elements
 			if (!hasMoreElements) {
@@ -182,7 +183,6 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 				// Stage delay
 				currentDelayYield = nextElement;
-				curentDelayStageTime = startTimeTarget;
 				continue;
 
 			}
