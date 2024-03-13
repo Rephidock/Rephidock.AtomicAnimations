@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Rephidock.AtomicAnimations.Base;
 
@@ -79,7 +78,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 	protected override void UpdateImpl(TimeSpan deltaTime, TimeSpan elapsedTimePrevious) {
 
 		// Dispose guard
-		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
+		if (isDisposed) throw new ObjectDisposedException(this.GetType().FullName);
 
 		// Update runner
 		innerRunner.Update(deltaTime);
@@ -90,7 +89,6 @@ public class CoroutineAnimation : Animation, IDisposable {
 			if (enumeratorFinishedTime.HasValue) {
 
 				if (innerRunner.HasAnimations) return;
-
 
 				if (innerRunnerEndTime > enumeratorFinishedTime.Value) {
 					// Animations finished after enumerator
@@ -197,12 +195,12 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 	#region //// IDisposable
 
-	bool isDiposed = false;
+	bool isDisposed = false;
 
 	/// <inheritdoc/>
 	protected virtual void Dispose(bool isDisposingManaged) {
 
-		if (isDiposed) return;
+		if (isDisposed) return;
 
 		// Disponse managed
 		if (isDisposingManaged) {
@@ -215,7 +213,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 		lastStartedAnimation = null;
 		currentDelayYield = null;
 
-		isDiposed = true;
+		isDisposed = true;
 	}
 
 	/// <inheritdoc/>
