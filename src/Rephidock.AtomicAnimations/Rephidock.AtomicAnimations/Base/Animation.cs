@@ -30,14 +30,9 @@ public abstract class Animation {
 	public bool HasStarted { get; private set; } = false;
 
 	/// <summary>
-	/// Is <see langword="true"/> if the animation is finished, halted or otherwise.
+	/// Is <see langword="true"/> if the animation finished execution.
 	/// </summary>
 	public bool HasEnded { get; private set; } = false;
-
-	/// <summary>
-	/// Is <see langword="true"/> if the animation was halted before it finished.
-	/// </summary>
-	public bool WasHalted { get; private set; } = false;
 
 	#endregion
 
@@ -63,7 +58,6 @@ public abstract class Animation {
 		// Set values
 		HasStarted = true;
 		HasEnded = false;
-		WasHalted = false;
 		ElapsedTime = TimeSpan.Zero;
 		ExcessTime = TimeSpan.Zero;
 
@@ -105,21 +99,6 @@ public abstract class Animation {
 	/// <inheritdoc cref="End(TimeSpan)"/>
 	protected void End() => End(TimeSpan.Zero);
 
-	/// <summary>Halts the animation. (Ends it prematurely).</summary>
-	public void Halt() {
-		
-		// Do nothing if not animating
-		if (!HasStarted || HasEnded) return;
-
-		// Set flags
-		HasEnded = true;
-		WasHalted = true;
-		ExcessTime = TimeSpan.Zero;
-
-		// Invoke implementation
-		HaltImpl();
-	}
-
 	#endregion
 
 	#region //// Internal implementation
@@ -137,12 +116,6 @@ public abstract class Animation {
 	/// <param name="deltaTime">Time since last update.</param>
 	/// <param name="elapsedTimePrevious"><see cref="ElapsedTime"/> before current update.</param>
 	protected abstract void UpdateImpl(TimeSpan deltaTime, TimeSpan elapsedTimePrevious);
-
-	/// <summary>
-	/// <para>Implementation of the halting.</para>
-	/// <para>Called after flags are set.</para>
-	/// </summary>
-	protected virtual void HaltImpl() { }
 
 	#endregion
 

@@ -69,7 +69,7 @@ public class AnimationRunner : IDisposable {
 			if (currentNode.Value.HasEnded) {
 
 				animations.Remove(currentNode);
-				OnAnimationCompletion?.Invoke(currentNode.Value);
+				OnAnimationEnd?.Invoke(currentNode.Value);
 
 				if (currentNode.Value is IDisposable disposable) {
 					disposable.Dispose();
@@ -84,17 +84,13 @@ public class AnimationRunner : IDisposable {
 	}
 
 	/// <summary>
-	/// Halts and clears (forgets) all animations.
+	/// Clears (forgets) all animations.
 	/// <see cref="IDisposable"/> animations are disposed of.
 	/// </summary>
-	public void HaltAndClear() {
+	public void Clear() {
 
-		// Halt all animations
+		// Dispose of disposable animations
 		foreach (var animation in animations) {
-
-			animation.Halt();
-
-			// Dipose of disposables
 			if (animation is IDisposable disposable) {
 				disposable.Dispose();
 			}
@@ -108,16 +104,16 @@ public class AnimationRunner : IDisposable {
 	public bool HasAnimations => animations.Count > 0;
 
 	/// <summary>
-	/// Evenet that invoked when any given animaton completes.
-	/// Called after the player forget about the anmation
+	/// Event that is invoked when any given animaton completes.
+	/// Called after the runner forget about the animation
 	/// but right before it is disposed of.
 	/// </summary>
 	/// <remarks>
-	/// Does not get invoked when <see cref="HaltAndClear"/> is called.
+	/// Does not get invoked when <see cref="Clear"/> is called.
 	/// </remarks>
-	public event Action<Animation>? OnAnimationCompletion = null;
+	public event Action<Animation>? OnAnimationEnd = null;
 
-	#region //// Disposing
+	#region //// IDisposable
 
 	bool isDiposed = false;
 
