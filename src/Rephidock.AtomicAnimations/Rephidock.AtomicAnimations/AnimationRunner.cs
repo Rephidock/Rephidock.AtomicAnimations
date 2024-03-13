@@ -6,6 +6,8 @@ using Rephidock.AtomicAnimations.Base;
 namespace Rephidock.AtomicAnimations;
 
 
+#pragma warning disable CA1513 // Use ObjectDisposedException throw helper
+
 /// <summary>
 /// <para>
 /// A player that automatically plays given animations.
@@ -31,7 +33,7 @@ public class AnimationRunner : IDisposable {
 	/// <summary>
 	/// Adds an animation to play.
 	/// The animation is played immediately.
-	/// Stores a reference to the animation until it ends.
+	///	Takes owenership of the animation.
 	/// </summary>
 	public void Run(Animation animation, TimeSpan initialTime) {
 
@@ -124,18 +126,10 @@ public class AnimationRunner : IDisposable {
 
 		if (isDisposingManaged) {
 
-			// Dispose of animations
-			foreach (var animation in animations) {
-				if (animation is IDisposable disposable) {
-					disposable.Dispose();
-				}
-			}
-
-			// Clear the list
-			animations.Clear();
+			// Dispose of animations and clear the list
+			this.Clear();
 
 		}
-
 
 		isDiposed = true;
 	}
@@ -149,3 +143,5 @@ public class AnimationRunner : IDisposable {
 	#endregion
 
 }
+
+#pragma warning restore CA1513 // Use ObjectDisposedException throw helper
