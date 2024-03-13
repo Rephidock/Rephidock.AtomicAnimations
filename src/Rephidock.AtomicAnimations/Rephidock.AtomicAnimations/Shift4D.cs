@@ -35,8 +35,8 @@ public class Shift4D : Ease {
 	: base(duration, easingCurve) {
 		this.shiftX = shiftX;
 		this.shiftY = shiftY;
-		this.shiftY = shiftZ;
-		this.shiftY = shiftW;
+		this.shiftZ = shiftZ;
+		this.shiftW = shiftW;
 		this.accumulatorX = 0;
 		this.accumulatorY = 0;
 		this.accumulatorZ = 0;
