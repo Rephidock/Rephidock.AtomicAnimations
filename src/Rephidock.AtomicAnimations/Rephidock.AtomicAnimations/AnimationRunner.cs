@@ -16,14 +16,12 @@ namespace Rephidock.AtomicAnimations;
 /// <para>
 /// <see cref="IDisposable"/> animations are supported and
 /// are disposed of when they are finished.
-/// Note that if you are using <see cref="IDisposable"/> animations,
-/// <see cref="HaltAndClear"/> can be called to dispose of them.
 /// </para>
 /// </summary>
 /// <remarks>
 /// Animations are updated in the order of addition.
 /// </remarks>
-public class AnimationRunner {
+public class AnimationRunner : IDisposable {
 
 	readonly LinkedList<Animation> animations = new();
 
@@ -36,6 +34,12 @@ public class AnimationRunner {
 	/// Stores a reference to the animation until it ends.
 	/// </summary>
 	public void Run(Animation animation, TimeSpan initialTime) {
+
+		// Guards
+		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
+		ArgumentNullException.ThrowIfNull(animation);
+
+		// Add animation
 		animation.StartAndUpdate(initialTime);
 		animations.AddLast(animation);
 	}
@@ -48,10 +52,13 @@ public class AnimationRunner {
 	/// </remarks>
 	public void Update(TimeSpan deltaTime) {
 
+		// Dispose guard
+		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
+
+		// Update all animations
 		LinkedListNode<Animation>? nextNode;
 		LinkedListNode<Animation>? currentNode = animations.First;
 
-		// Update all animations
 		while (currentNode is not null) {
 
 			// Update and find next
@@ -97,11 +104,6 @@ public class AnimationRunner {
 		animations.Clear();
 	}
 
-	/// <summary>Clears (forgets) all animations without halting them</summary>
-	public void Clear() {
-		animations.Clear();
-	}
-
 	/// <summary>True if this player has animations playing</summary>
 	public bool HasAnimations => animations.Count > 0;
 
@@ -114,5 +116,40 @@ public class AnimationRunner {
 	/// Does not get invoked when <see cref="HaltAndClear"/> is called.
 	/// </remarks>
 	public event Action<Animation>? OnAnimationCompletion = null;
+
+	#region //// Disposing
+
+	bool isDiposed = false;
+
+	/// <inheritdoc/>
+	protected virtual void Dispose(bool isDisposingManaged) {
+
+		if (isDiposed) return;
+
+		if (isDisposingManaged) {
+
+			// Dispose of animations
+			foreach (var animation in animations) {
+				if (animation is IDisposable disposable) {
+					disposable.Dispose();
+				}
+			}
+
+			// Clear the list
+			animations.Clear();
+
+		}
+
+
+		isDiposed = true;
+	}
+
+	/// <inheritdoc/>
+	public void Dispose() {
+		Dispose(isDisposingManaged: true);
+		GC.SuppressFinalize(this);
+	}
+
+	#endregion
 
 }
