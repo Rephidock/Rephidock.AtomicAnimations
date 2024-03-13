@@ -21,6 +21,11 @@ public static class CoroutineLinq {
 		yield return CoroutineYield.WaitPrevious;
 	}
 
+	/// <summary>Wraps a coroutine in an animation so it is playable.</summary>
+	public static CoroutineAnimation ToAnimation(this IEnumerable<CoroutineYield> coroutine) {
+		return new CoroutineAnimation(coroutine);
+	}
+
 	/// <summary>
 	/// Creates a coroutine based on a given coroutine
 	/// with a delegate call added and the end.
