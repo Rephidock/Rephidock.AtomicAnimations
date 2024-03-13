@@ -77,6 +77,9 @@ public abstract class Animation {
 	/// </remarks>
 	public void Update(TimeSpan deltaTime) {
 
+		// Do nothing if not animating
+		if (!HasStarted || HasEnded) return;
+
 		// Progress
 		TimeSpan elapsedTimePrevious = ElapsedTime;
 		ElapsedTime += deltaTime;
