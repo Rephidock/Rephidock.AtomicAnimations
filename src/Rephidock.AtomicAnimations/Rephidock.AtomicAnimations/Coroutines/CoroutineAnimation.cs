@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations.Coroutines;
+namespace Rephidock.AtomicAnimations.Coroutines {
 
-
-#pragma warning disable CA1513 // Use ObjectDisposedException throw helper
 
 /// <summary>
 /// <para>
@@ -38,16 +36,16 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 	#region //// Execution
 
-	IEnumerator<CoroutineYield>? coroutineEnumerator = null;
+	IEnumerator<CoroutineYield> coroutineEnumerator = null;
 	TimeSpan? enumeratorFinishedTime = null;
 
 	readonly AnimationRunner innerRunner;
 	TimeSpan innerRunnerEndTime = TimeSpan.Zero; // excludes excess time
 
-	Animation? lastStartedAnimation = null;
+	Animation lastStartedAnimation = null;
 	TimeSpan lastStartedAnimationStartTime = TimeSpan.Zero;
 
-	CoroutineYield? currentDelayYield = null;
+	CoroutineYield currentDelayYield = null;
 	TimeSpan curentDelayStageTime = TimeSpan.Zero;
 
 	void OnInnerAnimationEnd(Animation animation) {
@@ -89,7 +87,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 		do {
 
 			// Wait for animations to finish
-			if (enumeratorFinishedTime is not null) {
+			if (enumeratorFinishedTime.HasValue) {
 
 				if (innerRunner.HasAnimations) return;
 
@@ -107,7 +105,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 			// Delay check
 			TimeSpan startTimeTarget = curentDelayStageTime;
 
-			if (currentDelayYield is not null) {
+			if (currentDelayYield != null) {
 
 				// Wait for time
 				startTimeTarget = curentDelayStageTime + currentDelayYield.WaitFor;
@@ -129,7 +127,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 					// Update target start time
 					if (innerRunnerEndTime > startTimeTarget) startTimeTarget = innerRunnerEndTime;
 
-				} else if (currentDelayYield.WaitLastYieldedAnimation && lastStartedAnimation is not null) {
+				} else if (currentDelayYield.WaitLastYieldedAnimation && lastStartedAnimation != null) {
 
 					// Wait
 					if (!lastStartedAnimation.HasEnded) return;
@@ -141,7 +139,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 				}
 
 				// Wait for delegate
-				if (currentDelayYield.WaitUntilPredicate is not null) {
+				if (currentDelayYield.WaitUntilPredicate != null) {
 					if (!currentDelayYield.WaitUntilPredicate.Invoke()) return;
 					startTimeTarget = ElapsedTime;
 				}
@@ -152,7 +150,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 			}
 
 			// Find next element
-			if (coroutineEnumerator is null) {
+			if (coroutineEnumerator == null) {
 				enumeratorFinishedTime = startTimeTarget;
 				continue;
 			}
@@ -169,7 +167,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 			CoroutineYield nextElement = coroutineEnumerator.Current;
 
-			if (nextElement.Animation is not null) {
+			if (nextElement.Animation != null) {
 
 				// Start next animation
 				lastStartedAnimation = nextElement.Animation;
@@ -210,7 +208,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 		if (isDisposingManaged) {
 			innerRunner.Dispose();
 			coroutineEnumerator?.Dispose();
-			if (coroutine is IDisposable disposable) disposable.Dispose();
+			(coroutine as IDisposable)?.Dispose();
 		}
 
 		// Remove references
@@ -230,4 +228,4 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 }
 
-#pragma warning restore CA1513 // Use ObjectDisposedException throw helper
+}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations.Coroutines;
+namespace Rephidock.AtomicAnimations.Coroutines {
 
 
 /// <summary>
@@ -62,5 +62,7 @@ public static class CoroutineLinq {
 		}
 
 	}
+
+}
 
 }

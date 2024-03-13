@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Rephidock.AtomicAnimations.Base;
 
 
-namespace Rephidock.AtomicAnimations.Coroutines;
+namespace Rephidock.AtomicAnimations.Coroutines {
 
 
 /// <summary>
@@ -15,7 +15,7 @@ namespace Rephidock.AtomicAnimations.Coroutines;
 /// Immutable.
 /// </para>
 /// </summary>
-public record CoroutineYield {
+public class CoroutineYield {
 
 	#region //// Animation
 
@@ -24,7 +24,8 @@ public record CoroutineYield {
 	/// Must be set to <see langword="null"/> for waiting to apply.
 	/// (is a discriminated union with delays)
 	/// </summary>
-	public Animation? Animation { get; init; } = null;
+	/// <remarks>May be null; Must not be set after init.</remarks>
+	public Animation Animation { get; set; } = null;
 
 	/// <summary>
 	/// Wraps a given animation in a <see cref="CoroutineYield"/>.
@@ -43,31 +44,35 @@ public record CoroutineYield {
 	/// If <see langword="true"/>, causes the routine to wait for the single
 	/// previously yielded animations to finish.
 	/// </summary>
-	public bool WaitLastYieldedAnimation { get; init; } = false;
+	/// <remarks>Must not be set after init.</remarks>
+	public bool WaitLastYieldedAnimation { get; set; } = false;
 
 	/// <summary>
 	/// If <see langword="true"/>, causes the routine to wait for all
 	/// previously yielded animations to finish.
 	/// Overrules <see cref="WaitLastYieldedAnimation"/>
 	/// </summary>
-	public bool WaitAllYieldedAnimations { get; init; } = false;
+	/// <remarks>Must not be set after init.</remarks>
+	public bool WaitAllYieldedAnimations { get; set; } = false;
 
 	/// <summary>
 	/// The delay to wait.
 	/// If <see cref="WaitUntil"/> is set the target time is the maximum
 	/// of what either delays achive.
 	/// </summary>
-	public TimeSpan WaitFor { get; init; } = TimeSpan.Zero;
+	/// <remarks>Must not be set after init.</remarks>
+	public TimeSpan WaitFor { get; set; } = TimeSpan.Zero;
 
 	/// <summary>Elapsed time to wait until.</summary>
-	/// <remarks>The next animation is started from this timespan.</remarks>
-	public TimeSpan? WaitUntil { get; init; } = null;
+	/// <remarks>The next animation is started from this timespan; Must not be set after init.</remarks>
+	public TimeSpan? WaitUntil { get; set; } = null;
 
 	/// <summary>
 	/// If given, the delegate will block execution
 	/// until <see langword="true"/> is returned.
 	/// </summary>
-	public Func<bool>? WaitUntilPredicate { get; init; } = null;
+	/// <remarks>May be null; Must not be set after init.</remarks>
+	public Func<bool> WaitUntilPredicate { get; set; } = null;
 
 	#endregion
 
@@ -81,7 +86,7 @@ public record CoroutineYield {
 	/// Is a static instance with just
 	/// <see cref="WaitAllYieldedAnimations"/> being enabled.
 	/// </remarks>
-	public readonly static CoroutineYield Join = new() { WaitAllYieldedAnimations = true };
+	public readonly static CoroutineYield Join = new CoroutineYield() { WaitAllYieldedAnimations = true };
 
 	/// <summary>
 	/// A yeild that waits for a single previous
@@ -91,8 +96,10 @@ public record CoroutineYield {
 	/// Is a static instance with just
 	/// <see cref="WaitLastYieldedAnimation"/> being enabled.
 	/// </remarks>
-	public readonly static CoroutineYield WaitPrevious = new() { WaitLastYieldedAnimation = true };
+	public readonly static CoroutineYield WaitPrevious = new CoroutineYield() { WaitLastYieldedAnimation = true };
 
 	#endregion
+
+}
 
 }

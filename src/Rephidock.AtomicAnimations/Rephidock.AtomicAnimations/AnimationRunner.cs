@@ -6,8 +6,6 @@ using Rephidock.AtomicAnimations.Base;
 namespace Rephidock.AtomicAnimations {
 
 
-#pragma warning disable CA1513 // Use ObjectDisposedException throw helper
-
 /// <summary>
 /// <para>
 /// A player that automatically plays given animations.
@@ -39,7 +37,7 @@ public class AnimationRunner : IDisposable {
 
 		// Guards
 		if (isDiposed) throw new ObjectDisposedException(this.GetType().FullName);
-		ArgumentNullException.ThrowIfNull(animation);
+		if (animation == null) throw new ArgumentNullException(nameof(animation));
 
 		// Add animation
 		animation.StartAndUpdate(initialTime);
@@ -73,9 +71,8 @@ public class AnimationRunner : IDisposable {
 				animations.Remove(currentNode);
 				OnAnimationEnd?.Invoke(currentNode.Value);
 
-				if (currentNode.Value is IDisposable disposable) {
-					disposable.Dispose();
-				}
+				IDisposable disposable = currentNode.Value as IDisposable;
+				disposable?.Dispose();
 
 			}
 
@@ -93,9 +90,8 @@ public class AnimationRunner : IDisposable {
 
 		// Dispose of disposable animations
 		foreach (var animation in animations) {
-			if (animation is IDisposable disposable) {
-				disposable.Dispose();
-			}
+			IDisposable disposable = animation as IDisposable;
+			disposable?.Dispose();
 		}
 
 		// Clear list
@@ -113,7 +109,7 @@ public class AnimationRunner : IDisposable {
 	/// <remarks>
 	/// Does not get invoked when <see cref="Clear"/> is called.
 	/// </remarks>
-	public event Action<Animation>? OnAnimationEnd = null;
+	public event Action<Animation> OnAnimationEnd = null;
 
 	#region //// IDisposable
 
@@ -145,5 +141,3 @@ public class AnimationRunner : IDisposable {
 }
 
 }
-
-#pragma warning restore CA1513 // Use ObjectDisposedException throw helper
