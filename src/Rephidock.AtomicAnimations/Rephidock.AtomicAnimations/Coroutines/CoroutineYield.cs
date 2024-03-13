@@ -67,7 +67,7 @@ public record CoroutineYield {
 	/// If given, the delegate will block execution
 	/// until <see langword="true"/> is returned.
 	/// </summary>
-	public Action<bool>? WaitUntilPredicate { get; init; } = null;
+	public Func<bool>? WaitUntilPredicate { get; init; } = null;
 
 	#endregion
 
