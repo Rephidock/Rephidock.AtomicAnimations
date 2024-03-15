@@ -79,7 +79,7 @@ public static class Easing {
 
 	#region //// Circ
 
-	public static float CircIn(float x) => MathF.Sqrt(1 - x * x) - 1;
+	public static float CircIn(float x) => -MathF.Sqrt(1 - x * x) + 1;
 	public static float CircOut(float t) => 1 - CircIn(1 - t);
 	public static float CircInOut(float t) {
 		if (t < 0.5) return CircIn(t * 2) / 2;
