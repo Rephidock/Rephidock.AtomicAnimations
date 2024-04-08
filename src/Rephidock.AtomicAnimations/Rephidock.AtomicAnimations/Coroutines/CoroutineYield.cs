@@ -64,7 +64,7 @@ public record CoroutineYield {
 	public TimeSpan? WaitUntil { get; init; } = null;
 
 	/// <summary>
-	/// If given, the delegate will block execution
+	/// If given, the delegate will deny continuing
 	/// until <see langword="true"/> is returned.
 	/// </summary>
 	public Func<bool>? WaitUntilPredicate { get; init; } = null;
