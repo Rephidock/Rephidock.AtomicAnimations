@@ -30,7 +30,7 @@
     <RootNamespace>Rephidock.AtomicAnimations</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <ItemGroup>
