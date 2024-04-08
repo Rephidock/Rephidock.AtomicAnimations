@@ -34,7 +34,7 @@ public struct WaveTransformed {
 	public float? ValueRangeEnd { get; set; }
 
 	/// <summary>
-	/// Returns wave value (0..1) at specified position in the wave.
+	/// Returns wave value at specified position in the wave.
 	/// Positions before the wave begins and after the wave ends are valid.
 	/// See also: <see cref="Wave.GetValueAt(float)"/>
 	/// </summary>
@@ -48,7 +48,7 @@ public struct WaveTransformed {
 			normalizedTime = time;
 		}
 
-		// Prove the wave
+		// Probe the wave
 		float normalizedValue = Wave.GetValueAt(normalizedTime);
 
 		// Transform the value

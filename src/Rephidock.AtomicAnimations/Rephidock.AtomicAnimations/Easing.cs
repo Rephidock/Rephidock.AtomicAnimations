@@ -5,10 +5,11 @@ namespace Rephidock.AtomicAnimations {
 
 
 /// <summary>
-/// A delegate that represents an easing function curve.
-/// Parameters: normalized time -a.k.a.- time progress (0..1) -a.k.a.- t
-/// Returns: normalized value -a.k.a.- value progress (0..1)
+/// <para>A delegate that represents an easing function curve.</para>
+/// <para>Parameter: normalized time -a.k.a.- time progress (0..1) -a.k.a.- t</para>
+/// <para>Returns: normalized value -a.k.a.- value progress (0..1)</para>
 /// </summary>
+/// <param name="progress">normalized time -a.k.a.- time progress (0..1) -a.k.a.- t</param>
 public delegate float EasingCurve(float progress);
 
 /// <summary>
@@ -39,7 +40,7 @@ public static class Easing {
 		return 1 - PowerIn((1 - t) * 2, power) / 2;
 	}
 
-	// Shortcuts for curves
+	// Shortcuts for first 5 powers
 	public static float QuadIn(float t) => PowerIn(t, 2);
 	public static float QuadOut(float t) => PowerOut(t, 2);
 	public static float QuadInOut(float t) => PowerInOut(t, 2);
@@ -79,7 +80,7 @@ public static class Easing {
 
 	#region //// Circ
 
-	public static float CircIn(float x) => (float)Math.Sqrt(1 - x * x) - 1;
+	public static float CircIn(float x) => (float)-Math.Sqrt(1 - x * x) + 1;
 	public static float CircOut(float t) => 1 - CircIn(1 - t);
 	public static float CircInOut(float t) {
 		if (t < 0.5) return CircIn(t * 2) / 2;

@@ -68,7 +68,7 @@ public class CoroutineYield {
 	public TimeSpan? WaitUntil { get; set; } = null;
 
 	/// <summary>
-	/// If given, the delegate will block execution
+	/// If given, the delegate will deny continuing
 	/// until <see langword="true"/> is returned.
 	/// </summary>
 	/// <remarks>May be null; Must not be set after init.</remarks>
