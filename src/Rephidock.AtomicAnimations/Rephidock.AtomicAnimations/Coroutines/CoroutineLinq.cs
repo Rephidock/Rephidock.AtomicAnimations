@@ -16,6 +16,9 @@ public static class CoroutineLinq {
 	/// (Yields animation to be a coroutine).
 	/// Also adds a wait for the animation to be finished.
 	/// </summary>
+	/// <remarks>
+	/// If waiting is not desired, use a cast coverision instead.
+	/// </remarks>
 	public static IEnumerable<CoroutineYield> ToCoroutine(this Animation animation) {
 		yield return (CoroutineYield)animation;
 		yield return CoroutineYield.WaitPrevious;
