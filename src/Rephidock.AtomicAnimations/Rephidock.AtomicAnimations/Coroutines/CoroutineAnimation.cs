@@ -109,7 +109,11 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 				// Suspend until next update
 				if (currentDelayYield.SuspendForAnUpdate) {
-					currentDelayYield = currentDelayYield with { SuspendForAnUpdate = false };
+					// Hacky way to disable the flag:
+					// the instance should be immutable by design
+					// but becuase of old version that cannot be enforced with
+					// record type and init accessor.
+					currentDelayYield.SuspendForAnUpdate = false;
 					return;
 				}
 
@@ -174,7 +178,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 			CoroutineYield nextElement = coroutineEnumerator.Current;
 
-			if (nextElement is null) {
+			if (nextElement == null) {
 				// Skip null elements as a fail-safe
 				currentDelayYield = null;
 				continue;

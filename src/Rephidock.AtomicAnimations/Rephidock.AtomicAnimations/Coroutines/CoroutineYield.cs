@@ -95,7 +95,7 @@ public class CoroutineYield {
 	/// <remarks>
 	/// Is the only waiting option that does not affect start times of animations.
 	/// </remarks>
-	public bool SuspendForAnUpdate { get; init; } = false;
+	public bool SuspendForAnUpdate { get; set; } = false;
 
 	#endregion
 
@@ -129,7 +129,7 @@ public class CoroutineYield {
 	/// Is a static instance with just
 	/// <see cref="SuspendForAnUpdate"/> being enabled.
 	/// </remarks>
-	public readonly static CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
+	public readonly static CoroutineYield Suspend = new CoroutineYield() { SuspendForAnUpdate = true };
 
 
 	#endregion
