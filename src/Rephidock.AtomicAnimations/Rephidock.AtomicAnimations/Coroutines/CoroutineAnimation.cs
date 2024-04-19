@@ -50,7 +50,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 	TimeSpan lastStartedAnimationStartTime = TimeSpan.Zero;
 
 	CoroutineYield? currentDelayYield = null;
-	TimeSpan curentElementStageTime = TimeSpan.Zero;
+	TimeSpan currentElementStageTime = TimeSpan.Zero;
 
 	void OnInnerAnimationEnd(Animation animation) {
 		TimeSpan animationEndTime = ElapsedTime - animation.ExcessTime;
@@ -75,7 +75,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 		lastStartedAnimationStartTime = TimeSpan.Zero;
 
 		currentDelayYield = null;
-		curentElementStageTime = TimeSpan.Zero;
+		currentElementStageTime = TimeSpan.Zero;
 	}
 
 	/// <inheritdoc/>
@@ -105,7 +105,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 			}
 
 			// Wait for delay to finish
-			TimeSpan startTimeTarget = curentElementStageTime;
+			TimeSpan startTimeTarget = currentElementStageTime;
 
 			if (currentDelayYield is not null) {
 
@@ -116,7 +116,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 				}
 
 				// Wait for time
-				startTimeTarget = curentElementStageTime + currentDelayYield.WaitFor;
+				startTimeTarget = currentElementStageTime + currentDelayYield.WaitFor;
 
 				if (currentDelayYield.WaitUntil.HasValue && currentDelayYield.WaitUntil.Value > startTimeTarget) {
 					startTimeTarget = currentDelayYield.WaitUntil.Value;
@@ -163,11 +163,11 @@ public class CoroutineAnimation : Animation, IDisposable {
 				continue;
 			}
 
-			bool enmeratorHasNewCurrent = coroutineEnumerator.MoveNext();
-			curentElementStageTime = startTimeTarget;
+			bool enumeratorHasNewCurrent = coroutineEnumerator.MoveNext();
+			currentElementStageTime = startTimeTarget;
 
 			// No more elements
-			if (!enmeratorHasNewCurrent) {
+			if (!enumeratorHasNewCurrent) {
 				enumeratorFinishedTime = startTimeTarget;
 				coroutineEnumerator.Dispose();
 				coroutineEnumerator = null;
