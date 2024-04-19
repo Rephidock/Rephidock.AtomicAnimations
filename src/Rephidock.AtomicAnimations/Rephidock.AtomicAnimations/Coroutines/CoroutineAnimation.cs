@@ -10,7 +10,7 @@ namespace Rephidock.AtomicAnimations.Coroutines;
 
 /// <summary>
 /// <para>
-/// A wrapper that animates a corutine
+/// A wrapper that animates a coroutine
 /// (<see cref="IEnumerable{T}"/> of <see cref="CoroutineYield"/>).
 /// </para>
 /// <para>
@@ -24,7 +24,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 	readonly IEnumerable<CoroutineYield> coroutine;
 
 	/// <summary>
-	/// Creates a playable animation based on given corutine.
+	/// Creates a playable animation based on given coroutine.
 	/// (A runnable wrapped for a coroutine).
 	/// </summary>
 	public CoroutineAnimation(IEnumerable<CoroutineYield> coroutine) {
