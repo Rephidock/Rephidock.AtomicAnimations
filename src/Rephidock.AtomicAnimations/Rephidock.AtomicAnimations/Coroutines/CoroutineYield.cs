@@ -14,6 +14,9 @@ namespace Rephidock.AtomicAnimations.Coroutines {
 /// <para>
 /// Immutable.
 /// </para>
+/// <para>
+/// See also: <see cref="CoroutineAnimation"/>.
+/// </para>
 /// </summary>
 public class CoroutineYield {
 
@@ -70,9 +73,29 @@ public class CoroutineYield {
 	/// <summary>
 	/// If given, the delegate will deny continuing
 	/// until <see langword="true"/> is returned.
+	/// Is called every update until satified.
 	/// </summary>
-	/// <remarks>May be null; Must not be set after init.</remarks>
+	/// <remarks>
+	/// <para>
+	/// May be null; Must not be set after init.
+	/// </para>
+	/// <para>
+	/// /// The only waiting option that affects start times of animations
+	/// without relating to <see cref="TimeSpan"/>.
+	/// The following animation is launched on the same update
+	/// the predicate returns <see langword="true"/>.
+	/// </para>
+	/// </remarks>
 	public Func<bool> WaitUntilPredicate { get; set; } = null;
+
+	/// <summary>
+	/// If <see langword="true"/>, suspends execution until the next update call
+	/// <u>without</u> influcing the start times of the following animations.
+	/// </summary>
+	/// <remarks>
+	/// Is the only waiting option that does not affect start times of animations.
+	/// </remarks>
+	public bool SuspendForAnUpdate { get; init; } = false;
 
 	#endregion
 
@@ -97,6 +120,17 @@ public class CoroutineYield {
 	/// <see cref="WaitLastYieldedAnimation"/> being enabled.
 	/// </remarks>
 	public readonly static CoroutineYield WaitPrevious = new CoroutineYield() { WaitLastYieldedAnimation = true };
+
+	/// <summary>
+	/// A yeild that suspends execution until the next update call
+	/// <u>without</u> influcing the start times of the following animations.
+	/// </summary>
+	/// <remarks>
+	/// Is a static instance with just
+	/// <see cref="SuspendForAnUpdate"/> being enabled.
+	/// </remarks>
+	public readonly static CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
+
 
 	#endregion
 

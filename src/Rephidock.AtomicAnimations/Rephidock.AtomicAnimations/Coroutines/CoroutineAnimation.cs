@@ -8,7 +8,7 @@ namespace Rephidock.AtomicAnimations.Coroutines {
 
 /// <summary>
 /// <para>
-/// A wrapper that animations a corutine
+/// A wrapper that animates a corutine
 /// (<see cref="IEnumerable{T}"/> of <see cref="CoroutineYield"/>).
 /// </para>
 /// <para>
@@ -35,12 +35,15 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 	#region //// Execution
 
+	// Enumeration
 	IEnumerator<CoroutineYield> coroutineEnumerator = null;
 	TimeSpan? enumeratorFinishedTime = null;
 
+	// Running
 	readonly AnimationRunner innerRunner;
-	TimeSpan innerRunnerEndTime = TimeSpan.Zero; // excludes excess time
+	TimeSpan innerRunnerEndTime = TimeSpan.Zero; // excludes time accounted for
 
+	// Waiting
 	Animation lastStartedAnimation = null;
 	TimeSpan lastStartedAnimationStartTime = TimeSpan.Zero;
 
@@ -55,18 +58,17 @@ public class CoroutineAnimation : Animation, IDisposable {
 	/// <inheritdoc/>
 	protected override void StartImpl() {
 
-		// Dispose of old enumerator
+		// Reset enumerator
 		coroutineEnumerator?.Dispose();
 
-		// Created a new enumerator
 		coroutineEnumerator = coroutine.GetEnumerator();
-
-		// Reset
 		enumeratorFinishedTime = null;
 
+		// Reset runner
 		innerRunner.Clear();
 		innerRunnerEndTime = TimeSpan.Zero;
 
+		// Reset waiting flags
 		lastStartedAnimation = null;
 		lastStartedAnimationStartTime = TimeSpan.Zero;
 
@@ -85,7 +87,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 		do {
 
-			// Wait for animations to finish
+			// Enumerator done: Wait for animations to finish
 			if (enumeratorFinishedTime.HasValue) {
 
 				if (innerRunner.HasAnimations) return;
@@ -100,10 +102,16 @@ public class CoroutineAnimation : Animation, IDisposable {
 				return;
 			}
 
-			// Delay check
+			// Wait for delay to finish
 			TimeSpan startTimeTarget = curentElementStageTime;
 
 			if (currentDelayYield != null) {
+
+				// Suspend until next update
+				if (currentDelayYield.SuspendForAnUpdate) {
+					currentDelayYield = currentDelayYield with { SuspendForAnUpdate = false };
+					return;
+				}
 
 				// Wait for time
 				startTimeTarget = curentElementStageTime + currentDelayYield.WaitFor;
@@ -149,15 +157,15 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 			// Find next element
 			if (coroutineEnumerator == null) {
-				enumeratorFinishedTime = startTimeTarget;
+				enumeratorFinishedTime = startTimeTarget;	// failsafe
 				continue;
 			}
 
-			bool hasMoreElements = coroutineEnumerator.MoveNext();
+			bool enmeratorHasNewCurrent = coroutineEnumerator.MoveNext();
 			curentElementStageTime = startTimeTarget;
 
 			// No more elements
-			if (!hasMoreElements) {
+			if (!enmeratorHasNewCurrent) {
 				enumeratorFinishedTime = startTimeTarget;
 				coroutineEnumerator.Dispose();
 				coroutineEnumerator = null;
@@ -166,15 +174,18 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 			CoroutineYield nextElement = coroutineEnumerator.Current;
 
+			if (nextElement is null) {
+				// Skip null elements as a fail-safe
+				currentDelayYield = null;
+				continue;
+			}
+			
 			if (nextElement.Animation != null) {
 
 				// Start next animation
 				lastStartedAnimation = nextElement.Animation;
 				lastStartedAnimationStartTime = startTimeTarget;
 				innerRunner.Run(lastStartedAnimation, ElapsedTime - startTimeTarget);
-
-				// Start the check again
-				deltaTime = ElapsedTime - startTimeTarget;
 				continue;
 
 			} else {

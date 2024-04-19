@@ -27,7 +27,6 @@ public abstract class TimeSpanedAnimation : Animation {
 			// Calculate time
 			TimeSpan timeTillDuration = Duration - elapsedTimePrevious;
 			TimeSpan excessTime = ElapsedTime - Duration;
-			ElapsedTime = Duration;
 
 			// Invoke implementation
 			UpdateLastTimeSpannedImpl(timeTillDuration, excessTime);

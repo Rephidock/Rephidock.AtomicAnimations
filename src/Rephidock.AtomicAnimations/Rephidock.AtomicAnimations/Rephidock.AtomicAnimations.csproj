@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations</Title>
     <Authors>Rephidock</Authors>
-    <Version>0.3.3+framework35</Version>
+    <Version>0.4.0+framework35</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Classes for simple animations that accept delegates</Description>
     <Copyright>Copyright (c) 2024 Rephidock</Copyright>
@@ -13,7 +13,10 @@
     <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      Initial Release
+      - CoroutineAnimation: Added skipping null yields as a failsafe
+      - .Base.Animation: Made ElapsedTime take ExcessTime into account
+      - Added CorountineYield.SuspendForAnUpdate and (static) CoroutineYield.Suspend
+      - Tiny documentation fixes and clarifications.
     </PackageReleaseNotes>
   </PropertyGroup>
 

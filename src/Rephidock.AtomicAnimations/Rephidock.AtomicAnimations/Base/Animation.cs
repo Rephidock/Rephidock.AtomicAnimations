@@ -89,6 +89,10 @@ public abstract class Animation {
 	}
 
 	/// <summary>Successfully ends the animation.</summary>
+	/// <remarks>
+	/// Updates <see cref="ElapsedTime"/> to be the resulting duration.
+	/// (Makes <see cref="ElapsedTime"/> account for <paramref name="excessTime"/>).
+	/// </remarks>
 	protected void End(TimeSpan excessTime) {
 
 		// Do nothing if not animating
@@ -97,6 +101,9 @@ public abstract class Animation {
 		// Set values
 		HasEnded = true;
 		ExcessTime = excessTime;
+
+		// Account for excess time in elapsed time
+		ElapsedTime -= ExcessTime;
 	}
 	
 	/// <inheritdoc cref="End(TimeSpan)"/>
