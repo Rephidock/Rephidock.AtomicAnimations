@@ -10,7 +10,7 @@ namespace Rephidock.AtomicAnimations.Coroutines;
 
 /// <summary>
 /// <para>
-/// A wrapper that animations a corutine
+/// A wrapper that animates a corutine
 /// (<see cref="IEnumerable{T}"/> of <see cref="CoroutineYield"/>).
 /// </para>
 /// <para>

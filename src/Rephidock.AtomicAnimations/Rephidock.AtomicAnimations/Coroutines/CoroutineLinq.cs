@@ -28,7 +28,7 @@ public static class CoroutineLinq {
 
 	/// <summary>
 	/// Creates a coroutine based on a given coroutine
-	/// with a delegate call added and the end.
+	/// with a delegate call added at the end.
 	/// </summary>
 	public static IEnumerable<CoroutineYield> AppendCall(
 		this IEnumerable<CoroutineYield> coroutine,
