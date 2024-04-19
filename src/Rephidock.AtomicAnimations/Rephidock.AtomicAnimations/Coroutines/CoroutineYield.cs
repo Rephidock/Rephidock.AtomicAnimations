@@ -58,7 +58,7 @@ public record CoroutineYield {
 	/// <summary>
 	/// The delay to wait.
 	/// If <see cref="WaitUntil"/> is set the target time is the maximum
-	/// of what either delays achive.
+	/// of what either delays achieve.
 	/// </summary>
 	public TimeSpan WaitFor { get; init; } = TimeSpan.Zero;
 
@@ -69,7 +69,7 @@ public record CoroutineYield {
 	/// <summary>
 	/// If given, the delegate will deny continuing
 	/// until <see langword="true"/> is returned.
-	/// Is called every update until satified.
+	/// Is called every update until satisfied.
 	/// </summary>
 	/// <remarks>
 	/// The only waiting option that affects start times of animations
@@ -81,7 +81,7 @@ public record CoroutineYield {
 
 	/// <summary>
 	/// If <see langword="true"/>, suspends execution until the next update call
-	/// <u>without</u> influcing the start times of the following animations.
+	/// <u>without</u> influencing the start times of the following animations.
 	/// </summary>
 	/// <remarks>
 	/// Is the only waiting option that does not affect start times of animations.
@@ -93,8 +93,8 @@ public record CoroutineYield {
 	#region //// Static instances
 
 	/// <summary>
-	/// A yeild that waits for all previously
-	/// yieled animations in the coroutine to finish.
+	/// A yield that waits for all previously
+	/// yielded animations in the coroutine to finish.
 	/// </summary>
 	/// <remarks>
 	/// Is a static instance with just
@@ -103,8 +103,8 @@ public record CoroutineYield {
 	public readonly static CoroutineYield Join = new() { WaitAllYieldedAnimations = true };
 
 	/// <summary>
-	/// A yeild that waits for a single previous
-	/// yieled animation in the coroutine to finish.
+	/// A yield that waits for a single previous
+	/// yielded animation in the coroutine to finish.
 	/// </summary>
 	/// <remarks>
 	/// Is a static instance with just
@@ -113,15 +113,14 @@ public record CoroutineYield {
 	public readonly static CoroutineYield WaitPrevious = new() { WaitLastYieldedAnimation = true };
 
 	/// <summary>
-	/// A yeild that suspends execution until the next update call
-	/// <u>without</u> influcing the start times of the following animations.
+	/// A yield that suspends execution until the next update call
+	/// <u>without</u> influencing the start times of the following animations.
 	/// </summary>
 	/// <remarks>
 	/// Is a static instance with just
 	/// <see cref="SuspendForAnUpdate"/> being enabled.
 	/// </remarks>
 	public readonly static CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
-
 
 	#endregion
 
