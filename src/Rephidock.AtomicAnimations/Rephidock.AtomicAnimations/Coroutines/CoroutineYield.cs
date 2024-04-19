@@ -69,6 +69,12 @@ public record CoroutineYield {
 	/// </summary>
 	public Func<bool>? WaitUntilPredicate { get; init; } = null;
 
+	/// <summary>
+	/// If <see langword="true"/>, suspends execution until the next update call
+	/// <u>without</u> influcing the start times of the following animations.
+	/// </summary>
+	public bool SuspendForAnUpdate { get; init; } = false;
+
 	#endregion
 
 	#region //// Static instances
@@ -92,6 +98,17 @@ public record CoroutineYield {
 	/// <see cref="WaitLastYieldedAnimation"/> being enabled.
 	/// </remarks>
 	public readonly static CoroutineYield WaitPrevious = new() { WaitLastYieldedAnimation = true };
+
+	/// <summary>
+	/// A yeild that suspends execution until the next update call
+	/// <u>without</u> influcing the start times of the following animations.
+	/// </summary>
+	/// <remarks>
+	/// Is a static instance with just
+	/// <see cref="SuspendForAnUpdate"/> being enabled.
+	/// </remarks>
+	public readonly static CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
+
 
 	#endregion
 

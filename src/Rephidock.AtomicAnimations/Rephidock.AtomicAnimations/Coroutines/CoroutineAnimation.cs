@@ -107,6 +107,12 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 			if (currentDelayYield is not null) {
 
+				// Suspend until next update
+				if (currentDelayYield.SuspendForAnUpdate) {
+					currentDelayYield = currentDelayYield with { SuspendForAnUpdate = false };
+					return;
+				}
+
 				// Wait for time
 				startTimeTarget = curentElementStageTime + currentDelayYield.WaitFor;
 

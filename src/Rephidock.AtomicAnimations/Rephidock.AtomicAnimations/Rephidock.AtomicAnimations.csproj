@@ -14,6 +14,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
       - CoroutineAnimation: Added skipping null yields as a failsafe
+      - Added CorountineYield.SuspendForAnUpdate and (static) CoroutineYield.Suspend
       - Tiny documentation fixes and clarifications.
     </PackageReleaseNotes>
   </PropertyGroup>
