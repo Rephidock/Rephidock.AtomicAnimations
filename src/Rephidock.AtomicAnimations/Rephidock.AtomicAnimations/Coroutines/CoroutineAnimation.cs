@@ -168,6 +168,12 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 			CoroutineYield nextElement = coroutineEnumerator.Current;
 
+			if (nextElement is null) {
+				// Skip null elements as a fail-safe
+				currentDelayYield = null;
+				continue;
+			}
+
 			if (nextElement.Animation is not null) {
 
 				// Start next animation
