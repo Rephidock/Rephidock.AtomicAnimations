@@ -11,8 +11,8 @@ namespace Rephidock.AtomicAnimations.Waves;
 /// The change happens at switch point of normalized time (from 0 to 1).
 /// </para>
 /// <para>
-/// Curves can be omitted to make the wave one-sided, meaning
-/// the sides can be substituted with 1 or 0 completely.
+/// Curves can be omitted to make the wave one-sided.
+/// Omitted curves are substituded with 1 at every point.
 /// </para>
 /// </summary>
 public record Wave {
@@ -41,7 +41,7 @@ public record Wave {
 	/// Returns the value (0..1) of the curve at <paramref name="normalizedTime"/> (0..1).
 	/// </para>
 	/// <para>
-	/// Out of bounds time is value and will return 0 if
+	/// Out of bounds time is a valid input and will return 0 if
 	/// the curve is not one-sided, -or-
 	/// 0 or 1 if the curve is one-sided, depending on
 	/// the direction of out of bounds.
