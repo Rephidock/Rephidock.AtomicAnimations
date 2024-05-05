@@ -14,6 +14,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
       - Waves.Wave: Fixed ExitCurve acting like a 2nd enterance curve
+      - Documentation tweaks
     </PackageReleaseNotes>
   </PropertyGroup>
 
