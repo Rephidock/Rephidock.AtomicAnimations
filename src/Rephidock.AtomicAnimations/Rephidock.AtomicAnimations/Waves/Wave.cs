@@ -72,7 +72,7 @@ public record Wave {
 
 			float exitTime = normalizedTime - SwitchPoint;
 			float exitDuration = 1 - SwitchPoint;
-			return ExitCurve(exitTime / exitDuration);
+			return 1 - ExitCurve(exitTime / exitDuration);
 		}
 
 		// Out of bounds after
