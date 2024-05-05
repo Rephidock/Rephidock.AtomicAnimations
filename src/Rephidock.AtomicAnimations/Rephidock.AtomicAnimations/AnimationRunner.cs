@@ -10,14 +10,17 @@ namespace Rephidock.AtomicAnimations;
 
 /// <summary>
 /// <para>
-/// A player that automatically plays given animations.
+/// A class that automatically plays given animations.
 /// Animations are started the moment they are added
 /// and forgotten the moment they are finished.
-/// Multiple animations can be played at the same time.
+/// Plays given animations in parallel.
+/// </para>
+/// <para>
+/// See also: <see cref="AnimationQueue"/>
 /// </para>
 /// <para>
 /// <see cref="IDisposable"/> animations are supported and
-/// are disposed of when they are finished.
+/// are disposed of when they are finished or when the runner is cleared.
 /// </para>
 /// </summary>
 /// <remarks>
@@ -102,12 +105,12 @@ public class AnimationRunner : IDisposable {
 		animations.Clear();
 	}
 
-	/// <summary>True if this player has animations playing</summary>
+	/// <summary>True if this runner has animations playing</summary>
 	public bool HasAnimations => animations.Count > 0;
 
 	/// <summary>
 	/// Event that is invoked when any given animaton completes.
-	/// Called after the runner forget about the animation
+	/// Called after the runner forgets about the animation
 	/// but right before it is disposed of.
 	/// </summary>
 	/// <remarks>

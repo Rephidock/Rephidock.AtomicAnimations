@@ -10,6 +10,7 @@ namespace Rephidock.AtomicAnimations.Coroutines;
 /// <para>
 /// An element and basis of a coroutine.
 /// Coroutines are <see cref="IEnumerable{T}"/> of <see cref="CoroutineYield"/>.
+/// May hold an animation or a wait instruction.
 /// </para>
 /// <para>
 /// Immutable.
