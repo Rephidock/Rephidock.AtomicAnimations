@@ -36,7 +36,7 @@ public class AnimationRunner : IDisposable {
 	/// <summary>
 	/// Adds an animation to play.
 	/// The animation is played immediately.
-	///	Takes owenership of the animation.
+	/// Takes ownership of the animation.
 	/// </summary>
 	public void Run(Animation animation, TimeSpan initialTime) {
 
@@ -109,7 +109,7 @@ public class AnimationRunner : IDisposable {
 	public bool HasAnimations => animations.Count > 0;
 
 	/// <summary>
-	/// Event that is invoked when any given animaton completes.
+	/// Event that is invoked when any given animation completes.
 	/// Called after the runner forgets about the animation
 	/// but right before it is disposed of.
 	/// </summary>

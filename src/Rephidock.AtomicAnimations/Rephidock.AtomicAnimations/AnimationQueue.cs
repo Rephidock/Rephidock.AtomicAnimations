@@ -34,7 +34,7 @@ public class AnimationQueue : IDisposable {
 	/// <summary>
 	/// <para>
 	/// Adds an animation to play.
-	///	Takes owenership of the animation.
+	/// Takes ownership of the animation.
 	/// </para>
 	/// <para>
 	/// The animation is played immediately if the queue
@@ -138,7 +138,7 @@ public class AnimationQueue : IDisposable {
 	public int EnqueuedCount => animations.Count;
 
 	/// <summary>
-	/// Event that is invoked when any given animaton completes.
+	/// Event that is invoked when any given animation completes.
 	/// Called right before the animation is disposed of and
 	/// the next one in the queue is staged.
 	/// Called before <see cref="HasAnimations"/> is updated.
