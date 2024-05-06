@@ -30,9 +30,6 @@ public class AnimationRunner : IDisposable {
 
 	readonly LinkedList<Animation> animations = new();
 
-	/// <inheritdoc cref="Run(Animation, TimeSpan)"/>
-	public void Run(Animation animation) => Run(animation, TimeSpan.Zero);
-
 	/// <summary>
 	/// Adds an animation to play.
 	/// The animation is played immediately.
@@ -47,6 +44,22 @@ public class AnimationRunner : IDisposable {
 		// Add animation
 		animation.StartAndUpdate(initialTime);
 		animations.AddLast(animation);
+	}
+
+	/// <inheritdoc cref="Run(Animation, TimeSpan)"/>
+	public void Run(Animation animation) => Run(animation, TimeSpan.Zero);
+
+	/// <inheritdoc cref="Run(Animation, TimeSpan)"/>
+	/// <remarks>Initializes the lazy value instantly.</remarks>
+	public void Run(Lazy<Animation> animation, TimeSpan initialTime) {
+		ArgumentNullException.ThrowIfNull(animation);
+		Run(animation.Value, initialTime);
+	}
+
+	/// <inheritdoc cref="Run(Lazy{Animation}, TimeSpan)"/>
+	public void Run(Lazy<Animation> animation) {
+		ArgumentNullException.ThrowIfNull(animation);
+		Run(animation.Value);
 	}
 
 	/// <summary>
