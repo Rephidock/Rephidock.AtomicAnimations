@@ -29,7 +29,32 @@ public class AnimationQueue : IDisposable {
 
 	Animation? currentlyPlayingAnimation = null;
 
-	readonly Queue<Animation> animations = new();
+	readonly Queue<Lazy<Animation>> animations = new();
+
+	/// <inheritdoc cref="Enqueue(Animation)"/>
+	/// <remarks>
+	/// <para>
+	/// A <see langword="null"/> lazily initialized value
+	/// will cause a <see cref="NullReferenceException"/>
+	/// when that animation is staged.
+	/// </para>
+	/// <para>
+	/// Any exception thrown when the lazy value is initialized
+	/// will cause <see cref="Clear"/> to be called.
+	/// </para>
+	/// </remarks>
+	public void Enqueue(Lazy<Animation> animation) {
+
+		// Guards
+		if (isDisposed) throw new ObjectDisposedException(this.GetType().FullName);
+		ArgumentNullException.ThrowIfNull(animation);
+
+		// Add animation
+		animations.Enqueue(animation);
+		
+		// Play if no animation is playing
+		if (currentlyPlayingAnimation is null) StageNextAnimation(TimeSpan.Zero);
+	}
 
 	/// <summary>
 	/// <para>
@@ -42,16 +67,8 @@ public class AnimationQueue : IDisposable {
 	/// </para>
 	/// </summary>
 	public void Enqueue(Animation animation) {
-
-		// Guards
-		if (isDisposed) throw new ObjectDisposedException(this.GetType().FullName);
 		ArgumentNullException.ThrowIfNull(animation);
-
-		// Add animation
-		animations.Enqueue(animation);
-		
-		// Play if no animation is playing
-		if (currentlyPlayingAnimation is null) StageNextAnimation(TimeSpan.Zero);
+		Enqueue(new Lazy<Animation>(animation));
 	}
 
 	/// <summary>
@@ -71,9 +88,22 @@ public class AnimationQueue : IDisposable {
 		// Queue empty -- done
 		if (animations.Count <= 0) return;
 
-		// Set next anmation as current one and start it
-		currentlyPlayingAnimation = animations.Dequeue();
-		currentlyPlayingAnimation.StartAndUpdate(prevAnimExcessTime);
+		// Set next animation as current one and start it
+		try {
+
+			currentlyPlayingAnimation = animations.Dequeue().Value;
+
+			if (currentlyPlayingAnimation is null) {
+				throw new NullReferenceException("A previously enqueued lazy animation has a value of null.");
+			}
+
+			currentlyPlayingAnimation.StartAndUpdate(prevAnimExcessTime);
+
+		} catch {
+			Clear();
+			throw;
+		}
+
 	}
 
 	/// <summary>
@@ -110,6 +140,10 @@ public class AnimationQueue : IDisposable {
 	/// Clears (forgets) all animations, including the one currently playing.
 	/// <see cref="IDisposable"/> animations are disposed of.
 	/// </summary>
+	/// <remarks>
+	/// Lazily initialized animations are initialized and then
+	/// disposed of if necessary.
+	/// </remarks>
 	public void Clear() {
 
 		// Dispose of current animation
@@ -118,9 +152,9 @@ public class AnimationQueue : IDisposable {
 		}
 		currentlyPlayingAnimation = null;
 
-		// Dispose of queued animations
+		// Init and dispose of queued animations
 		foreach (var animation in animations) {
-			if (animation is IDisposable disposable) {
+			if (animation.Value is IDisposable disposable) {
 				disposable.Dispose();
 			}
 		}
