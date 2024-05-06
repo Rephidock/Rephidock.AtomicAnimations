@@ -8,7 +8,8 @@ Low-level animations written in vanilla C#.
 
 - Easing functions (for normalized time and values) in the `Easing` class. `EasingCurve` delegate included.
 - Animation 'atoms' running on a single thread and controlled with `StartAndUpdate(TimeSpan)` and `Update(TimeSpan)`.
-- `AnimationRunner` that runs given animations (in parallel) when they are added. 
+- `AnimationRunner` that runs given animations in parallel when they are added.
+- `AnimationQueue` that runs given animations in series when they are added.
 - `Shift*` atoms, with an adder delegate, stacking together with other `Shift*` atoms.
 - `Move*` atoms, with a setter delegate, overwriting other atoms.
 - `Waves.WaveEase` atom for animations that can be interpreted as a moving wave.
