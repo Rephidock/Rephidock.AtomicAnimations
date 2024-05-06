@@ -141,6 +141,7 @@ public class AnimationQueue : IDisposable {
 	/// Event that is invoked when any given animaton completes.
 	/// Called right before the animation is disposed of and
 	/// the next one in the queue is staged.
+	/// Called before <see cref="HasAnimations"/> is updated.
 	/// </summary>
 	/// <remarks>
 	/// Does not get invoked when <see cref="Clear"/> is called.
