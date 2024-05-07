@@ -33,6 +33,39 @@ public class WaveEase : Ease {
 		this.updater = updater;
 	}
 
+	/// <summary>
+	/// Creates a <see cref="WaveEase"/> that shifts the <paramref name="wave"/>
+	/// from behind an abitrary span of width <paramref name="spanWidth"/>, starting at
+	/// horizontal position 0, to right beyond it,
+	/// as if the wave runs through said abitrary span.
+	/// </summary>
+	public static WaveEase CreateRunthrough(
+		Wave wave,
+		float spanWidth,
+		bool isDirectionReversed,
+		TimeSpan duration,
+		EasingCurve easingCurve,
+		Action<ShiftedWave> updater
+	) {
+
+		float startOffset = -wave.Width;
+		float shift = spanWidth + wave.Width;
+
+		if (isDirectionReversed) {
+			startOffset += shift;
+			shift = -shift;
+		}
+
+		return new WaveEase(
+			wave,
+			startOffset,
+			startOffset + shift,
+			duration,
+			easingCurve,
+			updater
+		);
+	}
+
 	/// <inheritdoc/>
 	protected override void EaseUpdateImpl(float valueProgressNew) {
 
