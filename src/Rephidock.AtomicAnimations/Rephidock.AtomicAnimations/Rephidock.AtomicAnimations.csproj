@@ -13,9 +13,9 @@
     <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
+      - (breaking) Completely reworked Waves namespace
       - Added AnimationQueue: A serial alternative to AnimationRunner
       - Added support for Lazy&lt;Animation&gt; in AnimationRunner, AnimationQueue
-      - Waves.Wave: Fixed ExitCurve acting like a 2nd enterance curve
       - Documentation tweaks
     </PackageReleaseNotes>
   </PropertyGroup>
