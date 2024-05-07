@@ -105,6 +105,10 @@ public record Wave {
 	/// depending on the bound.
 	/// </para>
 	/// </summary>
+	/// <remarks>
+	/// Technically can be used as an <see cref="EasingCurve"/>,
+	/// provided the wave stats at value of 0 and ends at value of 1 and position of 1.
+	/// </remarks>
 	public float GetValueAt(float horizontalPosition) {
 
 		// Out of bounds checks
