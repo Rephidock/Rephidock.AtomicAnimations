@@ -82,7 +82,7 @@ public class TestExplorer : IDisposable {
 	#region //// Test exploring and running
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
-	IReadOnlyList<(VisualTestMetaAttribute, Type)> AllTests { get; set; } = null!;
+	IReadOnlyList<(VisualTestMetaAttribute meta, Type type)> AllTests { get; set; } = null!;
 
 
 	void LoadTests() {
@@ -100,6 +100,10 @@ public class TestExplorer : IDisposable {
 			.ToList()
 			.AsReadOnly();
 
+		StdOut.WriteLine($"Found {AllTests.Count} tests:");
+		foreach (var testName in AllTests.Select(pair => pair.meta.Name)) {
+			StdOut.WriteLine(testName);
+		}
 	}
 
 	void OnKeyPressed(KeyEventArgs @event) {
