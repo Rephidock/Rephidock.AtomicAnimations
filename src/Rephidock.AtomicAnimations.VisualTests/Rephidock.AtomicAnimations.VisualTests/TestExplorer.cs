@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -37,8 +40,9 @@ public class TestExplorer : IDisposable {
 
 		StdOut.WriteLine("Launching visual tester...");
 
-		// Load assets
+		// Load
 		LoadAssets();
+		LoadTests();
 
 		// Create window
 		Window = new(WindowSize, WindowName);
@@ -71,7 +75,29 @@ public class TestExplorer : IDisposable {
 	}
 
 	#endregion
-	
+
+	#region //// Test exploring and running
+
+	/// <remarks>Initialized in <see cref="Run"/></remarks>
+	IReadOnlyList<(VisualTestMetaAttribute, Type)> AllTests { get; set; } = null!;
+
+
+	void LoadTests() {
+
+		AllTests = Assembly
+			.GetExecutingAssembly()
+			.GetTypes()
+			.Where(type => type.IsSubclassOf(typeof(VisualTest)) && type.IsClass && !type.IsAbstract)
+			.Where(type => type.GetConstructor(Type.EmptyTypes) is not null)
+			.Select(type => (type.GetCustomAttribute<VisualTestMetaAttribute>(), type))
+			.Where(pair => pair.Item1 is not null)
+			.Cast<(VisualTestMetaAttribute, Type)>()
+			.OrderBy(pair => pair.Item1.Name)
+			.ToList()
+			.AsReadOnly();
+
+	}
+
 	void OnKeyPressed(KeyEventArgs @event) {
 
 		// Escape -- close
@@ -85,6 +111,8 @@ public class TestExplorer : IDisposable {
 	void OnTick(TimeSpan deltaTime) {
 		Window.Clear(Color.Black);
 	}
+
+	#endregion
 
 	#region //// Draw shortcuts
 
