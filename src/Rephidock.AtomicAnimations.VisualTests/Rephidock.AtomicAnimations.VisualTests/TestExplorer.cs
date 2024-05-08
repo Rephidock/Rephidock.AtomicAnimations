@@ -12,6 +12,16 @@ public class TestExplorer : IDisposable {
 	
 	public required TextWriter StdOut { get; init; }
 
+	#region //// Assets
+
+	protected Font MainFont { get; private set; } = null!;
+
+	void LoadAssets() {
+		MainFont = new Font("Assets/JetBrainsMono-Regular.ttf");
+	}
+
+	#endregion
+
 	#region //// Window and Main Loop
 
 	protected RenderWindow Window { get; private set; } = null!;
@@ -27,6 +37,8 @@ public class TestExplorer : IDisposable {
 
 		StdOut.WriteLine("Launching visual tester...");
 
+		// Load assets
+		LoadAssets();
 
 		// Create window
 		Window = new(WindowSize, WindowName);
@@ -74,6 +86,21 @@ public class TestExplorer : IDisposable {
 		Window.Clear(Color.Black);
 	}
 
+	#region //// Draw shortcuts
+
+	void DrawText(string text, uint size, Vector2f position) {
+
+		using Text textObject = new() {
+			Font = MainFont,
+			Position = position,
+			CharacterSize = size,
+			DisplayedString = text
+		};
+
+		Window.Draw(textObject);
+	}
+
+	#endregion
 
 	#region //// IDisposable
 
@@ -86,6 +113,7 @@ public class TestExplorer : IDisposable {
 
 		if (disposingManaged) {
 			Window?.Dispose();
+			MainFont?.Dispose();
 		}
 
 		isDisposed = true;
