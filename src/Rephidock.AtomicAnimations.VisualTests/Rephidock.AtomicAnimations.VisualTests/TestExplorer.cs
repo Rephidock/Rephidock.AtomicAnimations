@@ -17,9 +17,11 @@ public class TestExplorer : IDisposable {
 
 	#region //// Assets
 
+	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	protected Font MainFont { get; private set; } = null!;
 
 	void LoadAssets() {
+		StdOut.WriteLine("Launching assets...");
 		MainFont = new Font("Assets/JetBrainsMono-Regular.ttf");
 	}
 
@@ -27,6 +29,7 @@ public class TestExplorer : IDisposable {
 
 	#region //// Window and Main Loop
 
+	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	protected RenderWindow Window { get; private set; } = null!;
 
 	const string WindowName = "Atomic Animations Visual Tests";
@@ -83,6 +86,7 @@ public class TestExplorer : IDisposable {
 
 
 	void LoadTests() {
+		StdOut.WriteLine("Finding tests...");
 
 		AllTests = Assembly
 			.GetExecutingAssembly()
