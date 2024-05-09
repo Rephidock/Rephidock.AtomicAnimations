@@ -173,7 +173,7 @@ public class TestExplorer : IDisposable {
 		// Draw title
 		DrawText(DefaultTitle, Layout.TitleDisplay);
 		// Draw delta time and fps
-		DrawText($"Δt={deltaTime.Milliseconds:D3} (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowGetBottomLeft() + Layout.FpsDisplayOffset);
+		DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowGetBottomLeft() + Layout.FpsDisplayOffset);
 
 		// Draw controls
 		if (isShowingControls) {
