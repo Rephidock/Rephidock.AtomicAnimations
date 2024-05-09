@@ -103,6 +103,24 @@ public class TestExplorer : IDisposable {
 
 	const string DefaultTitle = WindowName + " | [f1] for controls";
 
+	bool isShowingControls = false;
+
+	readonly static IReadOnlyList<string> ControlsHelp = [
+		"= Test Select =",
+		"[f1]: Toggle this help",
+		"[↑],[↓]: Choose test",
+		"[enter]: Start test",
+		"[esc]: Exit",
+		"",
+		"= Test =",
+		"[esc]: Back",
+		"[enter]: Restart test",
+		"[space]: Pause/Resume test OR Step",
+		"",
+		"= Either =",
+		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
+		"[alt]+[↑], [alt]+[↓]: Change initial time"
+	];
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	IReadOnlyList<(VisualTestMetaAttribute meta, Type type)> AllTests { get; set; } = null!;
@@ -137,6 +155,11 @@ public class TestExplorer : IDisposable {
 			return;
 		}
 
+		// Help toggle
+		if (@event.Code == Keyboard.Key.F1) {
+			isShowingControls = !isShowingControls;
+		}
+
 	}
 
 	void OnTick(TimeSpan deltaTime) {
@@ -149,10 +172,36 @@ public class TestExplorer : IDisposable {
 		// Draw delta time and fps
 		DrawText($"Δt={deltaTime.Milliseconds:D3} (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowGetBottomLeft() + Layout.FpsDisplayOffset);
 
-		// Draw test select
-		if (AllTests.Count == 0) {
+		// Draw controls
+		if (isShowingControls) {
+
+			Vector2f currentOffset = Layout.TestSelectStartOffset;
+
+			for (int i = 0; i < ControlsHelp.Count; i++) {
+
+				// Check if this is the last line to be drawn
+				bool isThisLineLast = currentOffset.Y + Layout.TestSelectOptionSpacing >= Window.Size.Y + Layout.TestSelectEndY;
+
+				// If it is and there is more text -- draw ....
+				if (isThisLineLast && i != ControlsHelp.Count - 1) {
+					DrawText("...", currentOffset);
+
+				// Otherwise draw if not empty
+				} else if (!string.IsNullOrEmpty(ControlsHelp[i])) {
+					DrawText(ControlsHelp[i], currentOffset);
+				}
+
+				// Advance to next line
+				if (isThisLineLast) break;
+				currentOffset.Y += Layout.TestSelectOptionSpacing;
+			}
+
+
+		// or no tests message
+		} else if (AllTests.Count == 0) {
 			DrawText("No tests found.", Layout.TestSelectStartOffset);
 
+		// or test select
 		} else {
 
 			Vector2f currentOffset = Layout.TestSelectStartOffset;
