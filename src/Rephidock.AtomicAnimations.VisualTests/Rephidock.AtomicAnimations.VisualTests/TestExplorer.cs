@@ -139,6 +139,24 @@ public class TestExplorer : IDisposable {
 		// Draw delta time and fps
 		DrawText($"Δt={deltaTime.Milliseconds:D3} (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowGetBottomLeft() + Layout.FpsDisplayOffset);
 
+		// Draw test select
+		if (AllTests.Count == 0) {
+			DrawText("No tests found.", Layout.TestSelectStartOffset);
+
+		} else {
+
+			Vector2f currentOffset = Layout.TestSelectStartOffset;
+
+			for (int i = 0; i < AllTests.Count; i++) {
+
+				DrawText(AllTests[i].meta.Name, currentOffset);
+
+				currentOffset.Y += Layout.TestSelectOptionSpacing;
+				if (currentOffset.Y >= Window.Size.Y + Layout.TestSelectEndY) break;
+			}
+
+		}
+
 	}
 
 	#endregion
