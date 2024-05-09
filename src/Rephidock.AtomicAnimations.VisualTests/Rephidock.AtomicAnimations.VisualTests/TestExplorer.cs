@@ -123,26 +123,16 @@ public class TestExplorer : IDisposable {
 	];
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
-	IReadOnlyList<(VisualTestMetaAttribute meta, Type type)> AllTests { get; set; } = null!;
+	TestRunner TestRunner { get; set; } = null!;
 
 
 	void LoadTests() {
 		StdOut.WriteLine("Finding tests...");
 
-		AllTests = Assembly
-			.GetExecutingAssembly()
-			.GetTypes()
-			.Where(type => type.IsSubclassOf(typeof(VisualTest)) && type.IsClass && !type.IsAbstract)
-			.Where(type => type.GetConstructor(Type.EmptyTypes) is not null)
-			.Select(type => (type.GetCustomAttribute<VisualTestMetaAttribute>(), type))
-			.Where(pair => pair.Item1 is not null)
-			.Cast<(VisualTestMetaAttribute, Type)>()
-			.OrderBy(pair => pair.Item1.Name)
-			.ToList()
-			.AsReadOnly();
+		TestRunner = new TestRunner();
 
-		StdOut.WriteLine($"Found {AllTests.Count} tests:");
-		foreach (var testName in AllTests.Select(pair => pair.meta.Name)) {
+		StdOut.WriteLine($"Found {TestRunner.TestCount} tests:");
+		foreach (var testName in TestRunner.AllTests.Select(pair => pair.meta.Name)) {
 			StdOut.WriteLine(testName);
 		}
 	}
@@ -196,9 +186,8 @@ public class TestExplorer : IDisposable {
 				currentOffset.Y += Layout.TestSelectOptionSpacing;
 			}
 
-
 		// or no tests message
-		} else if (AllTests.Count == 0) {
+		} else if (TestRunner.TestCount == 0) {
 			DrawText("No tests found.", Layout.TestSelectStartOffset);
 
 		// or test select
@@ -206,9 +195,9 @@ public class TestExplorer : IDisposable {
 
 			Vector2f currentOffset = Layout.TestSelectStartOffset;
 
-			for (int i = 0; i < AllTests.Count; i++) {
+			for (int i = 0; i < TestRunner.AllTests.Count; i++) {
 
-				DrawText(AllTests[i].meta.Name, currentOffset);
+				DrawText(TestRunner.AllTests[i].meta.Name, currentOffset);
 
 				currentOffset.Y += Layout.TestSelectOptionSpacing;
 				if (currentOffset.Y >= Window.Size.Y + Layout.TestSelectEndY) break;
@@ -247,6 +236,7 @@ public class TestExplorer : IDisposable {
 		if (disposingManaged) {
 			Window?.Dispose();
 			MainFont?.Dispose();
+			TestRunner?.Dispose();
 		}
 
 		isDisposed = true;
