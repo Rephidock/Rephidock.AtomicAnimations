@@ -15,14 +15,29 @@ public class TestExplorer : IDisposable {
 	
 	public required TextWriter StdOut { get; init; }
 
-	#region //// Assets
+	#region //// Assets and layout constants
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	protected Font MainFont { get; private set; } = null!;
 
+	const uint MainFontSize = 18;
+
+	const uint MainFontLineSpacing = 24; // Hardcoded to be const. Retrivied from `MainFont.GetLineSpacing(MainFontSize)`
+
 	void LoadAssets() {
 		StdOut.WriteLine("Launching assets...");
 		MainFont = new Font("Assets/JetBrainsMono-Regular.ttf");
+	}
+
+	public static class Layout {
+
+		public readonly static Vector2f FpsDisplayOffset = new(5, -MainFontLineSpacing);
+
+		public readonly static Vector2f TestSelectStartOffset = new(5, 5);
+
+		public readonly static float TestSelectOptionSpacing = MainFontLineSpacing + 5;
+
+		public readonly static float TestSelectEndY = FpsDisplayOffset.Y - 2 * MainFontLineSpacing;
 	}
 
 	#endregion
@@ -124,12 +139,14 @@ public class TestExplorer : IDisposable {
 
 	#region //// Draw shortcuts
 
-	void DrawText(string text, uint size, Vector2f position) {
+	Vector2f WindowGetBottomLeft() => new Vector2f(0, Window.Size.Y);
+
+	void DrawText(string text, Vector2f position) {
 
 		using Text textObject = new() {
 			Font = MainFont,
 			Position = position,
-			CharacterSize = size,
+			CharacterSize = MainFontSize,
 			DisplayedString = text
 		};
 
@@ -139,7 +156,6 @@ public class TestExplorer : IDisposable {
 	#endregion
 
 	#region //// IDisposable
-
 
 	private bool isDisposed;
 
