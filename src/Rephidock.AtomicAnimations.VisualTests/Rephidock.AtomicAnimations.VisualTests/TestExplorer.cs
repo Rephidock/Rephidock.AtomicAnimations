@@ -29,15 +29,22 @@ public class TestExplorer : IDisposable {
 		MainFont = new Font("Assets/JetBrainsMono-Regular.ttf");
 	}
 
+
 	public static class Layout {
 
-		public readonly static Vector2f FpsDisplayOffset = new(5, -MainFontLineSpacing);
+		public readonly static Vector2f TitleDisplay = new(5, 10);
 
-		public readonly static Vector2f TestSelectStartOffset = new(5, 5);
+		public readonly static Vector2f TestSelectStartOffset = new(40, 2 * MainFontLineSpacing);
+
+		public readonly static float TestCursorX = 10;
 
 		public readonly static float TestSelectOptionSpacing = MainFontLineSpacing + 5;
 
-		public readonly static float TestSelectEndY = FpsDisplayOffset.Y - 2 * MainFontLineSpacing;
+		public readonly static float TestSelectEndY = FpsDisplayOffset.Y - 3 * MainFontLineSpacing;
+
+		public readonly static Vector2f FpsDisplayOffset = new(5, -MainFontLineSpacing * 2);
+
+		public readonly static Vector2f StatusDisplayOffset = new(5, -MainFontLineSpacing);
 	}
 
 	#endregion
@@ -94,7 +101,6 @@ public class TestExplorer : IDisposable {
 
 	#endregion
 
-	#region //// Test exploring and running
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	IReadOnlyList<(VisualTestMetaAttribute meta, Type type)> AllTests { get; set; } = null!;
@@ -158,8 +164,6 @@ public class TestExplorer : IDisposable {
 		}
 
 	}
-
-	#endregion
 
 	#region //// Draw shortcuts
 
