@@ -125,6 +125,7 @@ public class TestExplorer : IDisposable {
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	TestRunner TestRunner { get; set; } = null!;
 
+	int CurrentySelectTestIndex = 0;
 
 	void LoadTests() {
 		StdOut.WriteLine("Finding tests...");
@@ -148,6 +149,18 @@ public class TestExplorer : IDisposable {
 		// Help toggle
 		if (@event.Code == Keyboard.Key.F1) {
 			isShowingControls = !isShowingControls;
+			return;
+		}
+
+		// Movement on test select
+		if (@event.Code == Keyboard.Key.Up) {
+			CurrentySelectTestIndex = (CurrentySelectTestIndex - 1).TrueMod(TestRunner.TestCount);
+			return;
+		}
+
+		if (@event.Code == Keyboard.Key.Down) {
+			CurrentySelectTestIndex = (CurrentySelectTestIndex + 1).TrueMod(TestRunner.TestCount);
+			return;
 		}
 
 	}
@@ -198,6 +211,10 @@ public class TestExplorer : IDisposable {
 			for (int i = 0; i < TestRunner.AllTests.Count; i++) {
 
 				DrawText(TestRunner.AllTests[i].meta.Name, currentOffset);
+
+				if (i == CurrentySelectTestIndex) {
+					DrawText(">", new Vector2f(Layout.TestCursorX, currentOffset.Y));
+				}
 
 				currentOffset.Y += Layout.TestSelectOptionSpacing;
 				if (currentOffset.Y >= Window.Size.Y + Layout.TestSelectEndY) break;
