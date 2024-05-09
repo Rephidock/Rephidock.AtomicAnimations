@@ -132,7 +132,13 @@ public class TestExplorer : IDisposable {
 	}
 
 	void OnTick(TimeSpan deltaTime) {
+
+		// Clear previous frame
 		Window.Clear(Color.Black);
+
+		// Draw delta time and fps
+		DrawText($"Δt={deltaTime.Milliseconds:D3} (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowGetBottomLeft() + Layout.FpsDisplayOffset);
+
 	}
 
 	#endregion
