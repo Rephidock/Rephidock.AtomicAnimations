@@ -101,6 +101,8 @@ public class TestExplorer : IDisposable {
 
 	#endregion
 
+	const string DefaultTitle = WindowName + " | [f1] for controls";
+
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	IReadOnlyList<(VisualTestMetaAttribute meta, Type type)> AllTests { get; set; } = null!;
@@ -142,6 +144,8 @@ public class TestExplorer : IDisposable {
 		// Clear previous frame
 		Window.Clear(Color.Black);
 
+		// Draw title
+		DrawText(DefaultTitle, Layout.TitleDisplay);
 		// Draw delta time and fps
 		DrawText($"Δt={deltaTime.Milliseconds:D3} (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowGetBottomLeft() + Layout.FpsDisplayOffset);
 
