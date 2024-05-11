@@ -145,27 +145,65 @@ public class TestExplorer : IDisposable {
 
 	void OnKeyPressed(KeyEventArgs @event) {
 
-		// Escape -- close
-		if (@event.Code == Keyboard.Key.Escape) {
-			OnCloseRequest();
-			return;
-		}
+		// If test is running
+		if (TestRunner.IsRunningATest) {
 
-		// Help toggle
-		if (@event.Code == Keyboard.Key.F1) {
-			isShowingControls = !isShowingControls;
-			return;
-		}
+			// Escape -- back
+			if (@event.Code == Keyboard.Key.Escape) {
+				TestRunner.StopTest();
+				StdOut.WriteLine("Test stopped");
+				Window.SetTitle(WindowName);
+				return;
+			}
 
-		// Movement on test select
-		if (@event.Code == Keyboard.Key.Up) {
-			CurrentySelectTestIndex = (CurrentySelectTestIndex - 1).TrueMod(TestRunner.TestCount);
-			return;
-		}
+			// Enter -- restart
+			if (@event.Code == Keyboard.Key.Enter) {
+				StdOut.WriteLine("Restarting the test...");
+				TestRunner.RestartTest();
+			}
 
-		if (@event.Code == Keyboard.Key.Down) {
-			CurrentySelectTestIndex = (CurrentySelectTestIndex + 1).TrueMod(TestRunner.TestCount);
 			return;
+
+		// If on test select
+		} else {
+
+			// Escape -- close or back
+			if (@event.Code == Keyboard.Key.Escape) {
+				OnCloseRequest();
+				return;
+			}
+
+			// Help toggle
+			if (@event.Code == Keyboard.Key.F1) {
+				isShowingControls = !isShowingControls;
+				return;
+			}
+
+			// ignore other input if controls are shown
+			if (isShowingControls) return;
+
+			// Movement on test select
+			if (@event.Code == Keyboard.Key.Up) {
+				CurrentySelectTestIndex = (CurrentySelectTestIndex - 1).TrueMod(TestRunner.TestCount);
+				return;
+			}
+
+			if (@event.Code == Keyboard.Key.Down) {
+				CurrentySelectTestIndex = (CurrentySelectTestIndex + 1).TrueMod(TestRunner.TestCount);
+				return;
+			}
+
+			// Start test
+			if (@event.Code == Keyboard.Key.Enter) {
+
+				string testName = TestRunner.AllTests[CurrentySelectTestIndex].meta.Name;
+
+				StdOut.WriteLine($"Starting test \"{testName}\" (index {CurrentySelectTestIndex})...");
+				Window.SetTitle($"{WindowName} - {testName}");
+
+				TestRunner.BeginTest(CurrentySelectTestIndex);
+			}
+
 		}
 
 	}
@@ -176,12 +214,22 @@ public class TestExplorer : IDisposable {
 		Window.Clear(Color.Black);
 
 		// Draw title
-		WindowDrawer.DrawText(DefaultTitle, Layout.TitleDisplay);
+		if (TestRunner.IsRunningATest) {
+			string testName = TestRunner.AllTests[CurrentySelectTestIndex].meta.Name;
+			WindowDrawer.DrawText($"Running \"{testName}\"", Layout.TitleDisplay);
+		} else {
+			WindowDrawer.DrawText(DefaultTitle, Layout.TitleDisplay);
+		}
+
 		// Draw delta time and fps
 		WindowDrawer.DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowDrawer.GetBottomLeft() + Layout.FpsDisplayOffset);
 
-		// Draw controls
-		if (isShowingControls) {
+		// Update and draw the test
+		if (TestRunner.IsRunningATest) {
+			TestRunner.UpdateAndDrawTest(deltaTime, WindowDrawer);
+
+		// or draw controls
+		} else if (isShowingControls) {
 
 			Vector2f currentOffset = Layout.TestSelectStartOffset;
 
