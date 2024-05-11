@@ -33,6 +33,53 @@ public class TestRunner : IDisposable {
 
 	#endregion
 
+	#region //// Runnig test
+
+	public int? RunningTestIndex { get; private set; } = null;
+
+	public VisualTest? RunningTest { get; private set; } = null;
+
+	public bool IsRunningATest => RunningTest is not null;
+
+	public void BeginTest(int testIndex) {
+
+		// Guards
+		ObjectDisposedException.ThrowIf(isDisposed, this);
+		ArgumentOutOfRangeException.ThrowIfLessThan(testIndex, 0);
+		ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(testIndex, AllTests.Count);
+
+		// Stop existing test
+		StopTest();
+
+		// Create the test
+		RunningTest = (VisualTest)Activator.CreateInstance(AllTests[testIndex].type)!;
+		RunningTestIndex = testIndex;
+
+		// Start the test
+		RunningTest.Start(TimeSpan.Zero);
+	}
+
+	public void StopTest() {
+		RunningTest?.Dispose();
+		RunningTest = null;
+		RunningTestIndex = null;
+	}
+
+	public void RestartTest() {
+
+		if (!IsRunningATest) return;
+
+		int indexToStart = RunningTestIndex!.Value;
+		StopTest();
+		BeginTest(indexToStart);
+	}
+
+	public void UpdateAndDrawTest(TimeSpan deltaTime, Drawer drawer) {
+		RunningTest?.Update(deltaTime);
+		RunningTest?.Draw(drawer);
+	}
+
+	#endregion
 
 	#region //// IDisposable
 
@@ -43,7 +90,7 @@ public class TestRunner : IDisposable {
 		if (isDisposed) return;
 
 		if (disposingManaged) {
-
+			RunningTest?.Dispose();
 		}
 
 		isDisposed = true;
