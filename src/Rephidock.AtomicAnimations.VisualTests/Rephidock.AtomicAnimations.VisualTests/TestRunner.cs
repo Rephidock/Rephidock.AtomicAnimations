@@ -24,8 +24,7 @@ public class TestRunner : IDisposable {
 			.Where(type => type.IsSubclassOf(typeof(VisualTest)) && type.IsClass && !type.IsAbstract)
 			.Where(type => type.GetConstructor(Type.EmptyTypes) is not null)
 			.Select(type => (type.GetCustomAttribute<VisualTestMetaAttribute>(), type))
-			.Where(pair => pair.Item1 is not null)
-			.Cast<(VisualTestMetaAttribute, Type)>()
+			.Select(pair => (pair.Item1 ?? VisualTestMetaAttribute.DefaultMeta, pair.Item2))
 			.OrderBy(pair => pair.Item1.Name)
 			.ToList()
 			.AsReadOnly();

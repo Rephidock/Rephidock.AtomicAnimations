@@ -9,4 +9,8 @@ public class VisualTestMetaAttribute : Attribute {
 
 	public required string Name { get; init; }
 
+	public readonly static VisualTestMetaAttribute DefaultMeta = new() {
+		Name = "Unnamed"
+	};
+
 }
