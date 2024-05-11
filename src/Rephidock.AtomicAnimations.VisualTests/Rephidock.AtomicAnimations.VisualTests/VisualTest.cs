@@ -17,8 +17,8 @@ public abstract class VisualTest : IDisposable {
 	/// <summary>Called every frame to render relevant objects.</summary>
 	public abstract IEnumerable<Drawable> GetDrawables(FloatRect windowSize);
 
-	/// <summary>Called one time when the time flow begins.</summary>
-	protected virtual void Destroy() { }
+	/// <summary>Called when managed objects need to be disposed.</summary>
+	protected virtual void DisposeManaged() { }
 
 	#region //// IDisposable
 
@@ -29,7 +29,7 @@ public abstract class VisualTest : IDisposable {
 		if (isDisposed) return;
 
 		if (disposingManaged) {
-			Destroy();
+			DisposeManaged();
 		}
 
 		isDisposed = true;
