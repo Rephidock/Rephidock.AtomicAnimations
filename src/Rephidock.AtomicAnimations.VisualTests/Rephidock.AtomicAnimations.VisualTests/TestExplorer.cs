@@ -206,9 +206,54 @@ public class TestExplorer : IDisposable {
 		// or test select
 		} else {
 
+			// Find out which options fit
+			int menuFirstDrawnOptionIndex, menuLastDrawnOptionIndex;
+
+			float menuStartY = Layout.TestSelectStartOffset.Y;
+			float menuEndY = Window.Size.Y + Layout.TestSelectEndY;
+
+			int numberOfTestLines = (int)Math.Floor((menuEndY - menuStartY) / Layout.TestSelectOptionSpacing) + 1;
+
+
+			if (numberOfTestLines <= 1) {
+				// Single test fits or no tests fit
+				menuFirstDrawnOptionIndex = CurrentySelectTestIndex;
+				menuLastDrawnOptionIndex = CurrentySelectTestIndex;
+
+			} else if (numberOfTestLines >= TestRunner.AllTests.Count) {
+				// All tests fit
+				menuFirstDrawnOptionIndex = 0;
+				menuLastDrawnOptionIndex = TestRunner.AllTests.Count - 1;
+
+			} else {
+
+				// Some fit
+
+				// Keep cursor in the middle
+				int cursorPositionWithinVisible = numberOfTestLines / 2;
+
+				// First are shown
+				if (CurrentySelectTestIndex < cursorPositionWithinVisible) {
+					menuFirstDrawnOptionIndex = 0;
+					menuLastDrawnOptionIndex = numberOfTestLines - 1;
+
+				// Last are shown
+				} else if (CurrentySelectTestIndex - cursorPositionWithinVisible + numberOfTestLines >= TestRunner.AllTests.Count) {
+					menuLastDrawnOptionIndex = TestRunner.AllTests.Count - 1;
+					menuFirstDrawnOptionIndex = menuLastDrawnOptionIndex - numberOfTestLines + 1;
+
+				// Middle is shown
+				} else {
+					menuFirstDrawnOptionIndex = CurrentySelectTestIndex - cursorPositionWithinVisible;
+					menuLastDrawnOptionIndex = menuFirstDrawnOptionIndex + numberOfTestLines - 1;
+				}
+
+			}
+
+
 			Vector2f currentOffset = Layout.TestSelectStartOffset;
 
-			for (int i = 0; i < TestRunner.AllTests.Count; i++) {
+			for (int i = menuFirstDrawnOptionIndex; i <= menuLastDrawnOptionIndex; i++) {
 
 				DrawText(TestRunner.AllTests[i].meta.Name, currentOffset);
 
@@ -217,7 +262,6 @@ public class TestExplorer : IDisposable {
 				}
 
 				currentOffset.Y += Layout.TestSelectOptionSpacing;
-				if (currentOffset.Y >= Window.Size.Y + Layout.TestSelectEndY) break;
 			}
 
 		}
