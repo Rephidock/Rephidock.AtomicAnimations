@@ -22,7 +22,7 @@ public class TestExplorer : IDisposable {
 
 	const uint MainFontSize = 18;
 
-	const uint MainFontLineSpacing = 24; // Hardcoded to be const. Retrivied from `MainFont.GetLineSpacing(MainFontSize)`
+	const int MainFontLineSpacing = 24; // Hardcoded to be const. Retrivied from `MainFont.GetLineSpacing(MainFontSize)`
 
 	void LoadAssets() {
 		StdOut.WriteLine("Launching assets...");
@@ -49,7 +49,7 @@ public class TestExplorer : IDisposable {
 
 	#endregion
 
-	#region //// Window and Main Loop
+	#region //// Window, Drawer and Main Loop
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	protected RenderWindow Window { get; private set; } = null!;
@@ -57,6 +57,9 @@ public class TestExplorer : IDisposable {
 	const string WindowName = "Atomic Animations Visual Tests";
 	static VideoMode WindowSize = new(800, 600);
 	const uint WindowFrameRate = 60;
+
+	/// <remarks>Initialized in <see cref="Run"/></remarks>
+	protected Drawer WindowDrawer { get; private set; } = null!;
 
 
 	public void Run() {
@@ -75,6 +78,8 @@ public class TestExplorer : IDisposable {
 		Window.Closed += (_, _) => OnCloseRequest();
 		Window.KeyPressed += (_, @event) => OnKeyPressed(@event);
 		Window.Resized += (_, newSize) => OnWindowResize(newSize);
+
+		WindowDrawer = new Drawer(Window, MainFont, MainFontSize, MainFontLineSpacing);
 
 		// Run main event loop
 		StdOut.WriteLine("Time to test!");
@@ -171,9 +176,9 @@ public class TestExplorer : IDisposable {
 		Window.Clear(Color.Black);
 
 		// Draw title
-		DrawText(DefaultTitle, Layout.TitleDisplay);
+		WindowDrawer.DrawText(DefaultTitle, Layout.TitleDisplay);
 		// Draw delta time and fps
-		DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowGetBottomLeft() + Layout.FpsDisplayOffset);
+		WindowDrawer.DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowDrawer.GetBottomLeft() + Layout.FpsDisplayOffset);
 
 		// Draw controls
 		if (isShowingControls) {
@@ -187,11 +192,11 @@ public class TestExplorer : IDisposable {
 
 				// If it is and there is more text -- draw ....
 				if (isThisLineLast && i != ControlsHelp.Count - 1) {
-					DrawText("...", currentOffset);
+					WindowDrawer.DrawText("...", currentOffset);
 
 				// Otherwise draw if not empty
 				} else if (!string.IsNullOrEmpty(ControlsHelp[i])) {
-					DrawText(ControlsHelp[i], currentOffset);
+					WindowDrawer.DrawText(ControlsHelp[i], currentOffset);
 				}
 
 				// Advance to next line
@@ -201,7 +206,7 @@ public class TestExplorer : IDisposable {
 
 		// or no tests message
 		} else if (TestRunner.TestCount == 0) {
-			DrawText("No tests found.", Layout.TestSelectStartOffset);
+			WindowDrawer.DrawText("No tests found.", Layout.TestSelectStartOffset);
 
 		// or test select
 		} else {
@@ -255,10 +260,10 @@ public class TestExplorer : IDisposable {
 
 			for (int i = menuFirstDrawnOptionIndex; i <= menuLastDrawnOptionIndex; i++) {
 
-				DrawText(TestRunner.AllTests[i].meta.Name, currentOffset);
+				WindowDrawer.DrawText(TestRunner.AllTests[i].meta.Name, currentOffset);
 
 				if (i == CurrentySelectTestIndex) {
-					DrawText(">", new Vector2f(Layout.TestCursorX, currentOffset.Y));
+					WindowDrawer.DrawText(">", new Vector2f(Layout.TestCursorX, currentOffset.Y));
 				}
 
 				currentOffset.Y += Layout.TestSelectOptionSpacing;
@@ -267,24 +272,6 @@ public class TestExplorer : IDisposable {
 		}
 
 	}
-
-	#region //// Draw shortcuts
-
-	Vector2f WindowGetBottomLeft() => new Vector2f(0, Window.Size.Y);
-
-	void DrawText(string text, Vector2f position) {
-
-		using Text textObject = new() {
-			Font = MainFont,
-			Position = position,
-			CharacterSize = MainFontSize,
-			DisplayedString = text
-		};
-
-		Window.Draw(textObject);
-	}
-
-	#endregion
 
 	#region //// IDisposable
 

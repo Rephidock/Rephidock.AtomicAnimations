@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using SFML.Graphics;
 
 
 namespace Rephidock.AtomicAnimations.VisualTests;
@@ -14,8 +12,8 @@ public abstract class VisualTest : IDisposable {
 	/// <summary>Called every tick during time flow.</summary>
 	public abstract void Update(TimeSpan deltaTime);
 
-	/// <summary>Called every frame to render relevant objects.</summary>
-	public abstract IEnumerable<Drawable> GetDrawables(FloatRect windowSize);
+	/// <summary>Called every frame to draw to the canvas.</summary>
+	public abstract void Draw(Drawer drawer);
 
 	/// <summary>Called when managed objects need to be disposed.</summary>
 	protected virtual void DisposeManaged() { }
