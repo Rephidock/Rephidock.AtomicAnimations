@@ -13,8 +13,8 @@
     <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - Waves.Wave: Fixed ExitCurve acting like a 2nd enterance curve
-      - Documentation tweaks
+      - Waves.Wave: Fixed ExitCurve acting like a 2nd entrance curve
+      - Tiny documentation tweaks
     </PackageReleaseNotes>
   </PropertyGroup>
 
