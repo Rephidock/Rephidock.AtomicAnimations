@@ -167,9 +167,13 @@ public class TestExplorer : IDisposable {
 		// If on test select
 		} else {
 
-			// Escape -- close or back
+			// Escape -- close or hide help
 			if (@event.Code == Keyboard.Key.Escape) {
-				OnCloseRequest();
+				if (isShowingControls) {
+					isShowingControls = false;
+				} else {
+					OnCloseRequest();
+				}
 				return;
 			}
 
