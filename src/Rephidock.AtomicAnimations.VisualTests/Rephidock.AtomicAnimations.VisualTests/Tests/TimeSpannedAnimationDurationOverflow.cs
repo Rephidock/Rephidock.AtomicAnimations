@@ -6,7 +6,7 @@ using SFML.System;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "TimeSpannedAnimation duration overflow")]
+[VisualTestMeta(Name = "Excess time: TimeSpannedAnimation")]
 public class TimeSpannedAnimationDurationOverflow : VisualTest {
 
 	readonly TimeSpanedAnimation anim = new EmptyTimeSpannedAnimation(TimeSpan.FromSeconds(5));

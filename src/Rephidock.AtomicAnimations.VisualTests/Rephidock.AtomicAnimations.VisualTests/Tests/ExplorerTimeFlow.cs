@@ -5,7 +5,7 @@ using SFML.System;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "Explorer Time Flow")]
+[VisualTestMeta(Name = "Explorer: Time Flow")]
 public class ExplorerTimeFlow : VisualTest {
 
 	TimeSpan startTime;
