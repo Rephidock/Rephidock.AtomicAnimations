@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rephidock.AtomicAnimations", "Rephidock.AtomicAnimations\Rephidock.AtomicAnimations.csproj", "{1D6AC25D-DCE7-4702-B05D-C185B726139E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rephidock.AtomicAnimations.VisualTests", "Rephidock.AtomicAnimations.VisualTests\Rephidock.AtomicAnimations.VisualTests\Rephidock.AtomicAnimations.VisualTests.csproj", "{60E08C0C-0F89-47CD-A774-59D5E32DBA5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rephidock.AtomicAnimations.VisualTests", "Rephidock.AtomicAnimations.VisualTests\Rephidock.AtomicAnimations.VisualTests.csproj", "{60E08C0C-0F89-47CD-A774-59D5E32DBA5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

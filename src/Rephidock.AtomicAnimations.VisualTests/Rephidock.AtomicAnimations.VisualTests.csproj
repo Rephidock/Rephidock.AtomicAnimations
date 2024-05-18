@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Rephidock.AtomicAnimations\Rephidock.AtomicAnimations.csproj" />
+    <ProjectReference Include="..\Rephidock.AtomicAnimations\Rephidock.AtomicAnimations.csproj" />
   </ItemGroup>
 
   <ItemGroup>
