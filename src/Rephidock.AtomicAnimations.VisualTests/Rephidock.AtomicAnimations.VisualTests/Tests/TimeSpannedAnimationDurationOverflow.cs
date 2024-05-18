@@ -9,7 +9,7 @@ namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 [VisualTestMeta(Name = "TimeSpannedAnimation duration overflow")]
 public class TimeSpannedAnimationDurationOverflow : VisualTest {
 
-	TimeSpanedAnimation anim = new EmptyTimeSpannedAnimation(TimeSpan.FromSeconds(5));
+	readonly TimeSpanedAnimation anim = new EmptyTimeSpannedAnimation(TimeSpan.FromSeconds(5));
 
 	public override void Start(TimeSpan startTime) {
 		anim.StartAndUpdate(startTime);
@@ -23,7 +23,7 @@ public class TimeSpannedAnimationDurationOverflow : VisualTest {
 
 		Vector2f currentPosition = new(80, 100);
 
-		drawer.DrawText($"Time: {anim.ElapsedTime.TotalSeconds:F6} / {anim.Duration.TotalSeconds:F6}", currentPosition);
+		drawer.DrawText($"Time: {anim.ElapsedTime.TotalSeconds:F7} / {anim.Duration.TotalSeconds:F7}", currentPosition);
 		currentPosition.Y += drawer.MainFontLineSpacing;
 
 		drawer.DrawText($"HasEnded: {anim.HasEnded}", currentPosition);
