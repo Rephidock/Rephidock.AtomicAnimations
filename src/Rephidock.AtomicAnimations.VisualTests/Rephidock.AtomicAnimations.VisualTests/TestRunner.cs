@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SFML.Graphics;
+using Rephidock.GeneralUtilities;
 
 
 namespace Rephidock.AtomicAnimations.VisualTests;
@@ -25,6 +25,15 @@ public class TestRunner : IDisposable {
 			.Where(type => type.GetConstructor(Type.EmptyTypes) is not null)
 			.Select(type => (type.GetCustomAttribute<VisualTestMetaAttribute>(), type))
 			.Select(pair => (pair.Item1 ?? new VisualTestMetaAttribute() { Name = pair.Item2.Name }, pair.Item2))
+			.Select(
+				pair => (
+					pair.Item1.WithEventHandlingData(
+						pair.Item2.GetMethod(nameof(VisualTest.HandleDirectionEvent))!.IsOverride(),
+						pair.Item2.GetMethod(nameof(VisualTest.HandleNumericEvent))!.IsOverride()
+					),
+					pair.Item2
+				)
+			)
 			.OrderBy(pair => pair.Item1.Name)
 			.ToList()
 			.AsReadOnly();

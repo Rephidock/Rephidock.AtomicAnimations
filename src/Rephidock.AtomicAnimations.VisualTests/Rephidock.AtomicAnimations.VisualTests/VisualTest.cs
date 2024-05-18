@@ -15,6 +15,12 @@ public abstract class VisualTest : IDisposable {
 	/// <summary>Called every frame to draw to the canvas.</summary>
 	public abstract void Draw(Drawer drawer);
 
+	/// <summary>Called when the tester invokes an event with a numeric key.</summary>
+	public virtual void HandleNumericEvent(int @event) { }
+
+	/// <summary>Called when the tester invokes an event with a directional key.</summary>
+	public virtual void HandleDirectionEvent(ArrowDirection @event) { }
+
 	/// <summary>Called when managed objects need to be disposed.</summary>
 	protected virtual void DisposeManaged() { }
 
@@ -45,4 +51,12 @@ public abstract class VisualTest : IDisposable {
 
 	#endregion
 
+}
+
+
+public enum ArrowDirection {
+	Left,
+	Up,
+	Down,
+	Right
 }
