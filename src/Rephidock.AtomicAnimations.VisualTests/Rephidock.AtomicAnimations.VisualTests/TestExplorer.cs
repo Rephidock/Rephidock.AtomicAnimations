@@ -224,8 +224,8 @@ public class TestExplorer : IDisposable {
 				return;
 			}
 
-			// ignore other input if controls are shown
-			if (isShowingControls) return;
+			// ignore other input if controls are shown or no tests are present
+			if (isShowingControls || TestRunner.TestCount == 0) return;
 
 			// Movement on test select
 			if (@event.Code == Keyboard.Key.Up) {
