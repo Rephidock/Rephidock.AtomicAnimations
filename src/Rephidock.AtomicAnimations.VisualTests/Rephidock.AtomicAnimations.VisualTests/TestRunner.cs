@@ -41,7 +41,7 @@ public class TestRunner : IDisposable {
 
 	public bool IsRunningATest => RunningTest is not null;
 
-	public void BeginTest(int testIndex) {
+	public void StartTest(int testIndex) {
 
 		// Guards
 		ObjectDisposedException.ThrowIf(isDisposed, this);
@@ -71,7 +71,7 @@ public class TestRunner : IDisposable {
 
 		int indexToStart = RunningTestIndex!.Value;
 		StopTest();
-		BeginTest(indexToStart);
+		StartTest(indexToStart);
 	}
 
 	public void UpdateAndDrawTest(TimeSpan deltaTime, Drawer drawer) {

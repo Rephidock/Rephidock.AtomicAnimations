@@ -205,7 +205,7 @@ public class TestExplorer : IDisposable {
 				StdOut.WriteLine($"Starting test \"{testName}\" (index {CurrentySelectTestIndex})...");
 				Window.SetTitle($"{WindowName} - {testName}");
 
-				TestRunner.BeginTest(CurrentySelectTestIndex);
+				TestRunner.StartTest(CurrentySelectTestIndex);
 			}
 
 		}
