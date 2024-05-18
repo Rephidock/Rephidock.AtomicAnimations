@@ -56,7 +56,7 @@ public class TestRunner : IDisposable {
 		RunningTestIndex = testIndex;
 
 		// Start the test
-		RunningTest.Start(TimeSpan.Zero);
+		RunningTest.Start(InitialTime);
 	}
 
 	public void StopTest() {
@@ -78,6 +78,15 @@ public class TestRunner : IDisposable {
 		RunningTest?.Update(deltaTime);
 		RunningTest?.Draw(drawer);
 	}
+
+	#endregion
+
+	#region //// Running time settings
+
+	public TimeSpan InitialTime { get; set; } = TimeSpan.Zero;
+
+
+	public TimeSpan PresetInitialTimeStep { get; } = TimeSpan.FromSeconds(0.1); 
 
 	#endregion
 

@@ -145,6 +145,20 @@ public class TestExplorer : IDisposable {
 
 	void OnKeyPressed(KeyEventArgs @event) {
 
+		// If holding alt
+		if (@event.Alt) {
+
+			// Change inital time
+			if (@event.Code == Keyboard.Key.Up) {
+				TestRunner.InitialTime += TestRunner.PresetInitialTimeStep;
+			} else if (@event.Code == Keyboard.Key.Down) {
+				TestRunner.InitialTime -= TestRunner.PresetInitialTimeStep;
+				if (TestRunner.InitialTime < TimeSpan.Zero) TestRunner.InitialTime = TimeSpan.Zero;
+			}
+
+			return;
+		}
+
 		// If test is running
 		if (TestRunner.IsRunningATest) {
 
@@ -224,6 +238,11 @@ public class TestExplorer : IDisposable {
 		} else {
 			WindowDrawer.DrawText(DefaultTitle, Layout.TitleDisplay);
 		}
+
+		// Draw status bar
+		string initialTimeStatus = $"INIT: {TestRunner.InitialTime.TotalSeconds:F1}s";
+
+		WindowDrawer.DrawText($"{initialTimeStatus}", WindowDrawer.GetBottomLeft() + Layout.StatusDisplayOffset);
 
 		// Draw delta time and fps
 		WindowDrawer.DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowDrawer.GetBottomLeft() + Layout.FpsDisplayOffset);
