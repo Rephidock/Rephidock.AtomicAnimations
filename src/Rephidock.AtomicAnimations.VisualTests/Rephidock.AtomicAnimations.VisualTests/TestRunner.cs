@@ -56,6 +56,7 @@ public class TestRunner : IDisposable {
 		RunningTestIndex = testIndex;
 
 		// Start the test
+		IsPaused = StartPaused;
 		RunningTest.Start(InitialTime);
 	}
 
@@ -63,6 +64,8 @@ public class TestRunner : IDisposable {
 		RunningTest?.Dispose();
 		RunningTest = null;
 		RunningTestIndex = null;
+
+		IsPaused = false;
 	}
 
 	public void RestartTest() {
@@ -75,7 +78,7 @@ public class TestRunner : IDisposable {
 	}
 
 	public void UpdateAndDrawTest(TimeSpan deltaTime, Drawer drawer) {
-		RunningTest?.Update(deltaTime);
+		if (!IsPaused) RunningTest?.Update(deltaTime);
 		RunningTest?.Draw(drawer);
 	}
 
@@ -84,6 +87,11 @@ public class TestRunner : IDisposable {
 	#region //// Running time settings
 
 	public TimeSpan InitialTime { get; set; } = TimeSpan.Zero;
+	public bool StartPaused { get; set; } = false;
+
+	public bool IsPaused { get; set; } = false;
+
+	public bool IsManualTimeFlow { get; set; } = false;
 
 
 	public TimeSpan PresetInitialTimeStep { get; } = TimeSpan.FromSeconds(0.1); 

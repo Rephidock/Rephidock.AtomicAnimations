@@ -116,13 +116,14 @@ public class TestExplorer : IDisposable {
 		"[↑],[↓]: Choose test",
 		"[enter]: Start test",
 		"[esc]: Exit",
+		"[space]: Toggle start paused",
+		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
+		"[alt]+[↑], [alt]+[↓]: Change initial time",
 		"",
 		"= Test =",
 		"[esc]: Back",
 		"[enter]: Restart test",
 		"[space]: Pause/Resume test OR Step",
-		"",
-		"= Either =",
 		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
 		"[alt]+[↑], [alt]+[↓]: Change initial time"
 	];
@@ -174,6 +175,19 @@ public class TestExplorer : IDisposable {
 			if (@event.Code == Keyboard.Key.Enter) {
 				StdOut.WriteLine("Restarting the test...");
 				TestRunner.RestartTest();
+				return;
+			}
+
+			// Space -- pause or step
+			if (@event.Code == Keyboard.Key.Space) {
+
+				if (TestRunner.IsManualTimeFlow) {
+					//todo
+				} else {
+					TestRunner.IsPaused = !TestRunner.IsPaused;
+				}
+				
+				return;
 			}
 
 			return;
@@ -211,7 +225,7 @@ public class TestExplorer : IDisposable {
 				return;
 			}
 
-			// Start test
+			// Enter -- Start test
 			if (@event.Code == Keyboard.Key.Enter) {
 
 				string testName = TestRunner.AllTests[CurrentySelectTestIndex].meta.Name;
@@ -220,6 +234,12 @@ public class TestExplorer : IDisposable {
 				Window.SetTitle($"{WindowName} - {testName}");
 
 				TestRunner.StartTest(CurrentySelectTestIndex);
+			}
+
+			// Space -- toggle start paused
+			if (@event.Code == Keyboard.Key.Space) {
+				TestRunner.StartPaused = !TestRunner.StartPaused;
+				return;
 			}
 
 		}
@@ -240,9 +260,10 @@ public class TestExplorer : IDisposable {
 		}
 
 		// Draw status bar
-		string initialTimeStatus = $"INIT: {TestRunner.InitialTime.TotalSeconds:F1}s";
+		string initialStatus = $"INIT: {TestRunner.InitialTime.TotalSeconds:F1}s{(TestRunner.StartPaused ? " paused" : "")}";
+		string runStatus = $"RUN:{(TestRunner.IsPaused ? " paused" : "")}";
 
-		WindowDrawer.DrawText($"{initialTimeStatus}", WindowDrawer.GetBottomLeft() + Layout.StatusDisplayOffset);
+		WindowDrawer.DrawText($"{initialStatus} {runStatus}", WindowDrawer.GetBottomLeft() + Layout.StatusDisplayOffset);
 
 		// Draw delta time and fps
 		WindowDrawer.DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowDrawer.GetBottomLeft() + Layout.FpsDisplayOffset);
