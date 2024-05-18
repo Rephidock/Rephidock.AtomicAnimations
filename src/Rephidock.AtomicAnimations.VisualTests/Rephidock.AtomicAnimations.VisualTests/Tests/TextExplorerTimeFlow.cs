@@ -8,9 +8,12 @@ namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 [VisualTestMeta(Name = "Explorer Time Flow")]
 public class TextExplorerTimeFlow : VisualTest {
 
+	TimeSpan startTime;
+
 	TimeSpan currentTime;
 
 	public override void Start(TimeSpan startTime) {
+		this.startTime = startTime;
 		currentTime = startTime;
 	}
 
@@ -19,7 +22,8 @@ public class TextExplorerTimeFlow : VisualTest {
 	}
 
 	public override void Draw(Drawer drawer) {
-		drawer.DrawText(currentTime.ToString(), new Vector2f(100, 100));
+		drawer.DrawText(startTime.ToString(), new Vector2f(100, 100));
+		drawer.DrawText(currentTime.ToString(), new Vector2f(100, 100 + drawer.MainFontLineSpacing));
 	}
 
 }
