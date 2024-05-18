@@ -108,6 +108,8 @@ public class TestExplorer : IDisposable {
 
 	const string DefaultTitle = WindowName + " | [f1] for controls";
 
+	const string MarkerHandlesEvents = "⚡";
+
 	bool isShowingControls = false;
 
 	readonly static IReadOnlyList<string> ControlsHelp = [
@@ -122,6 +124,7 @@ public class TestExplorer : IDisposable {
 		"",
 		"= Test =",
 		"[esc]: Back",
+		"[0]..[9],[←],[↓],[↑],[→]: Invoke events (⚡ icon)",
 		"[enter]: Restart test",
 		"[space]: Pause/Resume test OR Step",
 		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
@@ -200,6 +203,39 @@ public class TestExplorer : IDisposable {
 					TestRunner.IsPaused = !TestRunner.IsPaused;
 				}
 				
+				return;
+			}
+
+			// Alpha-Numeric -- numeric event
+			if (@event.Code >= Keyboard.Key.Num0 && @event.Code <= Keyboard.Key.Num9) {
+				TestRunner.RunningTest?.HandleNumericEvent(@event.Code - Keyboard.Key.Num0);
+				return;
+			}
+
+			// Numpad -- numeric event
+			if (@event.Code >= Keyboard.Key.Numpad0 && @event.Code <= Keyboard.Key.Numpad9) {
+				TestRunner.RunningTest?.HandleNumericEvent(@event.Code - Keyboard.Key.Numpad0);
+				return;
+			}
+
+			// Direactional events
+			if (@event.Code == Keyboard.Key.Up) {
+				TestRunner.RunningTest?.HandleDirectionEvent(ArrowDirection.Up);
+				return;
+			}
+
+			if (@event.Code == Keyboard.Key.Down) {
+				TestRunner.RunningTest?.HandleDirectionEvent(ArrowDirection.Down);
+				return;
+			}
+
+			if (@event.Code == Keyboard.Key.Left) {
+				TestRunner.RunningTest?.HandleDirectionEvent(ArrowDirection.Left);
+				return;
+			}
+
+			if (@event.Code == Keyboard.Key.Right) {
+				TestRunner.RunningTest?.HandleDirectionEvent(ArrowDirection.Right);
 				return;
 			}
 
@@ -374,12 +410,17 @@ public class TestExplorer : IDisposable {
 
 			for (int i = menuFirstDrawnOptionIndex; i <= menuLastDrawnOptionIndex; i++) {
 
-				WindowDrawer.DrawText(TestRunner.AllTests[i].meta.Name, currentOffset);
-
+				// Create and draw display row
+				var currentMeta = TestRunner.AllTests[i].meta;
+				bool handlesEvents = currentMeta.HandlesDirectionalEvents || currentMeta.HandlesNumericEvents;
+				WindowDrawer.DrawText(handlesEvents ? $"{currentMeta.Name} {MarkerHandlesEvents}" : currentMeta.Name, currentOffset);
+				
+				// Draw cursor
 				if (i == CurrentySelectTestIndex) {
 					WindowDrawer.DrawText(">", new Vector2f(Layout.TestCursorX, currentOffset.Y));
 				}
 
+				// Advance positon
 				currentOffset.Y += Layout.TestSelectOptionSpacing;
 			}
 
