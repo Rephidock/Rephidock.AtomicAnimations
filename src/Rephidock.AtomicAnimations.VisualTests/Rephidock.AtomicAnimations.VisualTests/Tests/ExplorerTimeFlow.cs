@@ -6,7 +6,7 @@ namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
 [VisualTestMeta(Name = "Explorer Time Flow")]
-public class TextExplorerTimeFlow : VisualTest {
+public class ExplorerTimeFlow : VisualTest {
 
 	TimeSpan startTime;
 
