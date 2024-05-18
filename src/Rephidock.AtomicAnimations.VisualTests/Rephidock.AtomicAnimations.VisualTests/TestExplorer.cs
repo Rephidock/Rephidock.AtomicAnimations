@@ -160,6 +160,19 @@ public class TestExplorer : IDisposable {
 			return;
 		}
 
+		// If holding shift
+		if (@event.Shift) {
+
+			// Change speed
+			if (@event.Code == Keyboard.Key.Up) {
+				TestRunner.PresetTimesSwitchToNext();
+			} else if (@event.Code == Keyboard.Key.Down) {
+				TestRunner.PresetTimesSwitchToPrevious();
+			}
+
+			return;
+		}
+
 		// If test is running
 		if (TestRunner.IsRunningATest) {
 
@@ -182,7 +195,7 @@ public class TestExplorer : IDisposable {
 			if (@event.Code == Keyboard.Key.Space) {
 
 				if (TestRunner.IsManualTimeFlow) {
-					//todo
+					TestRunner.QueueManualStep();
 				} else {
 					TestRunner.IsPaused = !TestRunner.IsPaused;
 				}
@@ -260,10 +273,19 @@ public class TestExplorer : IDisposable {
 		}
 
 		// Draw status bar
-		string initialStatus = $"INIT: {TestRunner.InitialTime.TotalSeconds:F1}s{(TestRunner.StartPaused ? " paused" : "")}";
-		string runStatus = $"RUN:{(TestRunner.IsPaused ? " paused" : "")}";
+		string initialStatus = $"INIT: {TestRunner.InitialTime.TotalSeconds:F1}s";
+		if (TestRunner.StartPaused) initialStatus += " paused";
 
-		WindowDrawer.DrawText($"{initialStatus} {runStatus}", WindowDrawer.GetBottomLeft() + Layout.StatusDisplayOffset);
+		string runStatus = "RUN: ";
+		if (TestRunner.IsManualTimeFlow) {
+			runStatus += $"manual +={TestRunner.ManualTimeStep.name}";
+		} else {
+			runStatus += $"{TestRunner.TimeMultiplier}x";
+			if (TestRunner.IsPaused) runStatus += " paused";
+		}
+
+
+		WindowDrawer.DrawText($"{initialStatus}; {runStatus}", WindowDrawer.GetBottomLeft() + Layout.StatusDisplayOffset);
 
 		// Draw delta time and fps
 		WindowDrawer.DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowDrawer.GetBottomLeft() + Layout.FpsDisplayOffset);
