@@ -94,14 +94,19 @@ public class Drawer {
 		DrawTarget.Draw(rectShape);
 	}
 
-	public void DrawCirle(Vector2f position, float radius, Color color, uint pointCount = 32) {
+	public void DrawCirle(Vector2f center, float radius, Color color, uint pointCount = 32) {
 
 		using CircleShape rectShape = new(radius, pointCount) {
-			Position = position,
-			FillColor = color
+			Position = center,
+			FillColor = color,
+			Origin = new Vector2f(radius, radius)
 		};
 
 		DrawTarget.Draw(rectShape);
+	}
+
+	public void DrawPrimitive(PrimitiveType type, params Vertex[] verticeis) {
+		DrawTarget.Draw(verticeis, type);
 	}
 
 	#endregion
