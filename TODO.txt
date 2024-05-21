@@ -1,0 +1,16 @@
+TO DO:
+- Waves: Wave builder
+
+DOING:
+
+TO TEST:
+- Animation runner
+- Animation queue
+- Handling of lazy animations
+- Lazy animation throwing exceptions
+- Coroutines
+- Wave
+- Wave shifted
+- Wave ease run-through
+
+TESTING:
