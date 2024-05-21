@@ -92,21 +92,23 @@ public class TestRunner : IDisposable {
 
 	public void UpdateAndDrawTest(TimeSpan deltaTime, Drawer drawer) {
 
-		TimeSpan multipledDeltaTime = TimeSpan.Zero;
-
 		if (IsManualTimeFlow) {
 			// Manual time flow
+			TimeSpan multipledDeltaTime = ManualTimeStep.value;
 			for (; ManualStepsQueued > 0; ManualStepsQueued--) {
-				multipledDeltaTime = ManualTimeStep.value;
+				RunningElapsedTime += multipledDeltaTime;
+				RunningTest?.Update(multipledDeltaTime);
 			}
 			
 		} else {
-			// Time flow with multiplier
-			if (!IsPaused) multipledDeltaTime = deltaTime * TimeMultiplier;
+			// Normal time flow with multiplier
+			if (!IsPaused) {
+				TimeSpan multipledDeltaTime = deltaTime * TimeMultiplier;
+				RunningElapsedTime += multipledDeltaTime;
+				RunningTest?.Update(multipledDeltaTime);
+			}
 		}
 
-		RunningElapsedTime += multipledDeltaTime;
-		RunningTest?.Update(multipledDeltaTime);
 		RunningTest?.Draw(drawer);
 	}
 
