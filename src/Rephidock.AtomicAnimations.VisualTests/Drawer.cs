@@ -80,12 +80,12 @@ public class Drawer {
 		DrawTarget.Draw(rectShape);
 	}
 
-	public void DrawRectangle(FloatRect rect, Vector2f scale, float rotation, Vector2f normalizedOrgin, Color color) {
+	public void DrawRectangle(FloatRect rect, Vector2f scale, float rotation, Vector2f normalizedOrigin, Color color) {
 
 		using RectangleShape rectShape = new() {
 			Position = new Vector2f(rect.Left, rect.Top),
 			Size = new Vector2f(rect.Width, rect.Height),
-			Origin = new Vector2f(rect.Width * normalizedOrgin.X, rect.Height * normalizedOrgin.Y),
+			Origin = new Vector2f(rect.Width * normalizedOrigin.X, rect.Height * normalizedOrigin.Y),
 			Scale = scale,
 			Rotation = rotation,
 			FillColor = color
