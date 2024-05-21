@@ -1,5 +1,6 @@
 TO DO:
 - Waves: Wave builder
+- Better readme
 
 DOING:
 
