@@ -50,6 +50,8 @@ public class TestRunner : IDisposable {
 
 	public bool IsRunningATest => RunningTest is not null;
 
+	public TimeSpan RunningElapsedTime { get; private set; } = TimeSpan.Zero;
+
 	public void StartTest(int testIndex) {
 
 		// Guards
@@ -67,6 +69,7 @@ public class TestRunner : IDisposable {
 		// Start the test
 		IsPaused = StartPaused;
 		ManualStepsQueued = 0;
+		RunningElapsedTime = InitialTime;
 		RunningTest.Start(InitialTime);
 	}
 
@@ -89,17 +92,21 @@ public class TestRunner : IDisposable {
 
 	public void UpdateAndDrawTest(TimeSpan deltaTime, Drawer drawer) {
 
+		TimeSpan multipledDeltaTime = TimeSpan.Zero;
+
 		if (IsManualTimeFlow) {
 			// Manual time flow
 			for (; ManualStepsQueued > 0; ManualStepsQueued--) {
-				RunningTest?.Update(ManualTimeStep.value);
+				multipledDeltaTime = ManualTimeStep.value;
 			}
 			
 		} else {
 			// Time flow with multiplier
-			if (!IsPaused) RunningTest?.Update(deltaTime * TimeMultiplier);
+			if (!IsPaused) multipledDeltaTime = deltaTime * TimeMultiplier;
 		}
 
+		RunningElapsedTime += multipledDeltaTime;
+		RunningTest?.Update(multipledDeltaTime);
 		RunningTest?.Draw(drawer);
 	}
 

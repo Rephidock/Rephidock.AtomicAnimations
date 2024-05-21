@@ -320,8 +320,14 @@ public class TestExplorer : IDisposable {
 			if (TestRunner.IsPaused) runStatus += " paused";
 		}
 
+		string elapsedTime = "ELAPSED: ";
+		if (TestRunner.IsRunningATest) {
+			elapsedTime += TestRunner.RunningElapsedTime.ToString();
+		} else {
+			elapsedTime += "not running";
+		}
 
-		WindowDrawer.DrawText($"{initialStatus}; {runStatus}", WindowDrawer.GetBottomLeft() + Layout.StatusDisplayOffset);
+        WindowDrawer.DrawText($"{initialStatus}; {runStatus}; {elapsedTime}", WindowDrawer.GetBottomLeft() + Layout.StatusDisplayOffset);
 
 		// Draw delta time and fps
 		WindowDrawer.DrawText($"Δt {deltaTime.Milliseconds:D3}ms (~{1 / deltaTime.TotalSeconds:F0} fps)", WindowDrawer.GetBottomLeft() + Layout.FpsDisplayOffset);
