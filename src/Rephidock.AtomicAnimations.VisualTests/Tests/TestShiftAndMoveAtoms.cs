@@ -86,6 +86,11 @@ public class TestMove4D : TestShift4D {
 
 	public TestMove4D() : base() {
 
+		curX = 0;
+		curY = 0;
+		curRot = 0;
+		curXScale = 0;
+
 		Anim = new Move4D(
 			startX, startY, startRot, startXScale,
 			startX + shiftX, startY + shiftY, startRot + shiftRot, startXScale + shiftXScale,
@@ -161,6 +166,10 @@ public class TestMove3D : TestShift3D {
 
 	public TestMove3D() : base() {
 
+		curX = 0;
+		curY = 0;
+		curRot = 0;
+
 		Anim = new Move3D(
 			startX, startY, startRot,
 			startX + shiftX, startY + shiftY, startRot + shiftRot,
@@ -231,6 +240,9 @@ public class TestMove2D : TestShift2D {
 
 	public TestMove2D() : base() {
 
+		curX = 0;
+		curY = 0;
+
 		Anim = new Move2D(
 			startX, startY,
 			startX + shiftX, startY + shiftY,
@@ -295,6 +307,8 @@ public class TestShift1D : TestEaseBase {
 public class TestMove1D : TestShift1D {
 
 	public TestMove1D() : base() {
+
+		curX = 0;
 
 		Anim = new Move1D(
 			startX,
