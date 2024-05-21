@@ -121,6 +121,9 @@ public class AnimationRunner : IDisposable {
 	/// <summary>True if this runner has animations playing</summary>
 	public bool HasAnimations => animations.Count > 0;
 
+	/// <summary>The number of animations playing</summary>
+	public int PlayingCount => animations.Count;
+
 	/// <summary>
 	/// Event that is invoked when any given animation completes.
 	/// Called after the runner forgets about the animation
