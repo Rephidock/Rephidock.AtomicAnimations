@@ -143,6 +143,7 @@ public class TestExplorer : IDisposable {
 
 		StdOut.WriteLine($"Found {TestRunner.TestCount} tests:");
 		foreach (var testName in TestRunner.AllTests.Select(pair => pair.meta.Name)) {
+			StdOut.Write("- ");
 			StdOut.WriteLine(testName);
 		}
 	}
