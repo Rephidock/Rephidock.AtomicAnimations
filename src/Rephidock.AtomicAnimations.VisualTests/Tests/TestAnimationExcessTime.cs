@@ -7,7 +7,7 @@ namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
 [VisualTestMeta(Name = "Excess time: Animation")]
-public class AnimationExcessTime : VisualTest {
+public class TestAnimationExcessTime : VisualTest {
 
 	readonly Animation anim = new EmptyAnimation();
 

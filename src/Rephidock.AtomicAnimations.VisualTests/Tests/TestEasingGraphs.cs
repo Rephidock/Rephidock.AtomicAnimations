@@ -11,7 +11,7 @@ namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
 [VisualTestMeta(Name = "Easing graphs")]
-public class EasingGraphs : VisualTest {
+public class TestEasingGraphs : VisualTest {
 
 	readonly (string name, EasingCurve curve)[] easingCurves;
 	int currentCurveIndex = 0;
@@ -20,7 +20,7 @@ public class EasingGraphs : VisualTest {
 	const float padding = 0.25f;
 	const float centerRadius = 5;
 
-	public EasingGraphs() {
+	public TestEasingGraphs() {
 		easingCurves = typeof(Easing)
 			.GetMethods(BindingFlags.Static | BindingFlags.Public)
 			.Select(mi => (mi.Name, (EasingCurve?)Delegate.CreateDelegate(typeof(EasingCurve), mi, false)))

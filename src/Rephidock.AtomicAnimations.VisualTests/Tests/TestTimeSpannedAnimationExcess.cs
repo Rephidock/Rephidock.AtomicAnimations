@@ -7,7 +7,7 @@ namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
 [VisualTestMeta(Name = "Excess time: TimeSpannedAnimation")]
-public class TimeSpannedAnimationDurationOverflow : VisualTest {
+public class TestTimeSpannedAnimationExcess : VisualTest {
 
 	readonly TimeSpanedAnimation anim = new EmptyTimeSpannedAnimation(TimeSpan.FromSeconds(5));
 

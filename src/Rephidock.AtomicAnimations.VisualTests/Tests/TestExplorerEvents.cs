@@ -6,7 +6,7 @@ namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
 [VisualTestMeta(Name = "Explorer: Events")]
-public class ExplorerEvents : VisualTest {
+public class TestExplorerEvents : VisualTest {
 
 	ArrowDirection? lastArrowDirection = null;
 	int? lastNumericEvent = null;
