@@ -25,7 +25,7 @@ public class TestExplorer : IDisposable {
 	const int MainFontLineSpacing = 24; // Hardcoded to be const. Retrivied from `MainFont.GetLineSpacing(MainFontSize)`
 
 	void LoadAssets() {
-		StdOut.WriteLine("Launching assets...");
+		StdOut.WriteLine("Loading assets...");
 		MainFont = new Font("Assets/JetBrainsMono-Regular.ttf");
 	}
 
