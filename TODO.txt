@@ -1,8 +1,8 @@
 TO DO:
-- Waves: Wave builder
 - Better readme
 
 DOING:
+- Waves: Wave builder
 
 TO TEST:
 - Lazy animation throwing exceptions
