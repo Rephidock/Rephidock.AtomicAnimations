@@ -5,12 +5,8 @@ TO DO:
 DOING:
 
 TO TEST:
-- Animation queue
-- Handling of lazy animations
 - Lazy animation throwing exceptions
 - Coroutines
 - Wave
 - Wave shifted
 - Wave ease run-through
-
-TESTING:
