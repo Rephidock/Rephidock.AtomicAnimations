@@ -31,7 +31,7 @@ public record Wave {
 	/// Not empty.
 	/// </para>
 	/// </summary>
-	public IReadOnlyList<EasingCurve> Curves { get; private init; }
+	public IReadOnlyList<EasingCurve> Curves { get; }
 
 	/// <summary>
 	/// <para>
@@ -42,7 +42,7 @@ public record Wave {
 	/// Has the same length as <see cref="Curves"/>.
 	/// </para>
 	/// </summary>
-	public IReadOnlyList<float> CurveDestinations { get; private init; }
+	public IReadOnlyList<float> CurveDestinations { get; }
 
 	/// <summary>
 	/// <para>
@@ -60,13 +60,13 @@ public record Wave {
 	/// The value at the gap is the end value of the last wave contributing to the gap.
 	/// </para>
 	/// </summary>
-	public IReadOnlyList<float> CurveHorizontalEnds { get; private init; }
+	public IReadOnlyList<float> CurveHorizontalEnds { get; }
 
 	/// <summary>
 	/// The value of the wave at x position <c>0</c>.
 	/// Also the value the first curve starts at.
 	/// </summary>
-	public float StartValue { get; private init; }
+	public float StartValue { get; }
 
 	/// <summary>The total width of the curve.</summary>
 	public float Width => CurveHorizontalEnds[^1];
