@@ -9,15 +9,18 @@ namespace Rephidock.AtomicAnimations.Waves;
 public readonly struct ShiftedWave {
 
 #if NET8_0_OR_GREATER
-	/// <summary>The wave that is to be moved and stretched.</summary>
+	/// <summary>The wave that is to be moved.</summary>
 	public required Wave Wave { get; init; }
 #else
-	/// <summary>The wave that is to be moved and stretched.</summary>
+	/// <summary>The wave that is to be moved.</summary>
 	/// <remarks>Required.</remarks>
 	public /* required */ Wave Wave { get; init; }
 #endif
 
-	/// <summary>The horizontal offset of the wave</summary>
+	/// <summary>
+	/// The horizontal offset of the wave.
+	/// Higher values mean furhter to the right.
+	/// </summary>
 	public float Offset { get; init; }
 
 	/// <inheritdoc cref="Wave.GetValueAt(float)"/>
