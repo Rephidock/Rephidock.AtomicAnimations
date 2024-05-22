@@ -57,7 +57,7 @@ public record Wave {
 	/// </para>
 	/// <para>
 	/// If two or more ends are equal it is a vertical gap. 
-	/// The value at the end is the end of the gap.
+	/// The value at the gap is the end value of the last wave contributing to the gap.
 	/// </para>
 	/// </summary>
 	public IReadOnlyList<float> CurveHorizontalEnds { get; private init; }
@@ -107,7 +107,7 @@ public record Wave {
 	/// </summary>
 	/// <remarks>
 	/// Technically can be used as an <see cref="EasingCurve"/>,
-	/// provided the wave stats at value of 0 and ends at value of 1 and position of 1.
+	/// provided StartValue is <c>0</c>, EndValue is <c>1</c> and Width is <c>1</c>.
 	/// </remarks>
 	public float GetValueAt(float horizontalPosition) {
 
