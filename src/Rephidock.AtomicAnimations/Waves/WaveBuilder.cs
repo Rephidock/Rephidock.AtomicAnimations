@@ -6,6 +6,10 @@ using System.Linq;
 namespace Rephidock.AtomicAnimations.Waves;
 
 
+/// <summary>
+/// A class that allows to create a <see cref="Wave"/>
+/// by appending segments.
+/// </summary>
 public class WaveBuilder {
 
 	#region //// Storage
