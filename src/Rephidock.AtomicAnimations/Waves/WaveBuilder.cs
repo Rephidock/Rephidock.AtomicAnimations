@@ -38,11 +38,11 @@ public class WaveBuilder {
 
 	/// <inheritdoc cref="Wave.Width"/>
 	/// <remarks>The given value changes as more curves are added.</remarks>
-	public float Width => ends[^1];
+	public float Width => curves.Count == 0 ? 0 : ends[^1];
 
 	/// <inheritdoc cref="Wave.EndValue"/>
 	/// <remarks>The given value changes as more curves are added.</remarks>
-	public float EndValue => destinations[^1];
+	public float EndValue => curves.Count == 0 ? StartValue : destinations[^1];
 
 	#endregion
 
