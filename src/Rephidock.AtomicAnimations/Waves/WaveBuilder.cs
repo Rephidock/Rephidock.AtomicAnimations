@@ -52,6 +52,59 @@ public class WaveBuilder {
 
 	#region //// Building
 
+	/// <summary>Fluently sets <see cref="StartValue"/></summary>
+	/// <returns>this</returns>
+	public WaveBuilder SetStartValue(float value) {
+		StartValue = value;
+		return this;
+	}
+
+	/// <summary>Fluently adds a single segment to the curve.</summary>
+	/// <returns>this</returns>
+	public WaveBuilder Add(EasingCurve curve, float destination = 1, float width = 0) {
+		curves.Add(curve);
+		destinations.Add(destination);
+		ends.Add(Width + width);
+		return this;
+	}
+
+	/// <summary>Fluently adds a vertical gap.</summary>
+	/// <returns>this</returns>
+	public WaveBuilder AddGap(float destination = 1) => Add(Easing.Linear, destination, 0);
+
+	/// <summary>Changes the destination of the most recently added gap or segment.</summary>
+	/// <returns>this</returns>
+	public WaveBuilder To(float destination) {
+
+		if (curves.Count == 0) throw new InvalidOperationException("Cannot change destination: no curve segments were added.");
+
+		destinations[^1] = destination;
+		return this;
+	}
+
+	/// <summary>Changes the width of the most recently added segment.</summary>
+	/// <returns>this</returns>
+	public WaveBuilder Over(float width) {
+
+		if (curves.Count == 0) throw new InvalidOperationException("Cannot change width: no curve segments were added.");
+
+		if (curves.Count == 1) {
+			ends[0] = width;
+		} else {
+			ends[^1] = ends[^2] + width;
+		}
+
+		return this;
+	}
+
+	/// <summary>
+	/// Creates a new <see cref="Wave"/>.
+	/// </summary>
+	/// <exception cref="ArgumentException">No segments have been added.</exception>
+	public Wave ToWave() {
+		return new Wave(StartValue, curves, destinations, ends);
+	}
+
 	#endregion
 
 }
