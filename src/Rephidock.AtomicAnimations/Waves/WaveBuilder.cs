@@ -61,7 +61,10 @@ public class WaveBuilder {
 
 	/// <summary>Fluently adds a single segment to the curve.</summary>
 	/// <returns>this</returns>
+	/// <exception cref="ArgumentException"><paramref name="width"/> is negative.</exception>
 	public WaveBuilder Add(EasingCurve curve, float destination = 1, float width = 0) {
+
+		if (width < 0) throw new ArgumentException("Width of a curve cannot be negative", nameof(width));
 
 		float oldWidth = Width;
 
@@ -90,9 +93,12 @@ public class WaveBuilder {
 	/// <summary>Changes the width of the most recently added segment.</summary>
 	/// <returns>this</returns>
 	/// <exception cref="InvalidOperationException">No curve segments where added.</exception>
+	/// <exception cref="ArgumentException"><paramref name="width"/> is negative.</exception>
 	public WaveBuilder Over(float width) {
 
 		if (curves.Count == 0) throw new InvalidOperationException("Cannot change width: no curve segments were added.");
+
+		if (width < 0) throw new ArgumentException("Width of a curve cannot be negative", nameof(width));
 
 		if (curves.Count == 1) {
 			ends[0] = width;
