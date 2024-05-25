@@ -13,7 +13,7 @@ public class TestAnimationQueueShifts : VisualTest {
 	readonly protected AnimationQueue queue = new();
 
 	protected Vector2f position = new(100, 200);
-	int animationsStarted = 0;
+	int animationsEnqueued = 0;
 	int animationsFinished = 0;
 
 	readonly static Vector2f size = new(100, 100);
@@ -42,13 +42,13 @@ public class TestAnimationQueueShifts : VisualTest {
 		drawer.DrawText(
 			$"x: {position.X:F6} y:{position.Y:F6}\n" +
 			$"Is running: {queue.HasAnimations} + {queue.EnqueuedCount} queued\n" +
-			$"Animation counts: {animationsStarted} started, {animationsFinished} finished",
+			$"Animation counts: {animationsEnqueued} enqueued, {animationsFinished} finished",
 			new Vector2f(100, 100)
 		);
 	}
 
 	public override void HandleDirectionEvent(ArrowDirection @event) {
-		animationsStarted++;
+		animationsEnqueued++;
 
 		switch (@event) {
 			case ArrowDirection.Left:
