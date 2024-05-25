@@ -6,6 +6,5 @@ DOING:
 TO TEST:
 - Lazy animation throwing exceptions
 - Coroutines
-- Wave
 - Wave shifted
 - Wave ease run-through
