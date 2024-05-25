@@ -39,14 +39,14 @@ public class TestWaves : VisualTest {
 
 			// display index 3
 			new WaveBuilder()
-			.Add(Easing.Linear).To(1f).Over(400)
-			.Add(Easing.Linear).To(0f).Over(400)
+			.Add(Easing.Linear).To(1f).Over(300)
+			.Add(Easing.Linear).To(0f).Over(300)
 			.ToWave(),
 
 			// display index 4
 			new WaveBuilder()
-			.Add(Easing.QuadOut).To(1f).Over(400)
-			.Add(Easing.QuadOut).To(0f).Over(400)
+			.Add(Easing.QuadOut).To(1f).Over(300)
+			.Add(Easing.QuadOut).To(0f).Over(300)
 			.ToWave(),
 
 			// display index 5
