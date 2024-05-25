@@ -62,9 +62,13 @@ public class WaveBuilder {
 	/// <summary>Fluently adds a single segment to the curve.</summary>
 	/// <returns>this</returns>
 	public WaveBuilder Add(EasingCurve curve, float destination = 1, float width = 0) {
+
+		float oldWidth = Width;
+
 		curves.Add(curve);
 		destinations.Add(destination);
-		ends.Add(Width + width);
+		ends.Add(oldWidth + width);
+
 		return this;
 	}
 
