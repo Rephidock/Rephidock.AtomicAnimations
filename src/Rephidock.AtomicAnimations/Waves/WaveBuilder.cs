@@ -74,6 +74,7 @@ public class WaveBuilder {
 
 	/// <summary>Changes the destination of the most recently added gap or segment.</summary>
 	/// <returns>this</returns>
+	/// <exception cref="InvalidOperationException">No curve segments where added.</exception>
 	public WaveBuilder To(float destination) {
 
 		if (curves.Count == 0) throw new InvalidOperationException("Cannot change destination: no curve segments were added.");
@@ -84,6 +85,7 @@ public class WaveBuilder {
 
 	/// <summary>Changes the width of the most recently added segment.</summary>
 	/// <returns>this</returns>
+	/// <exception cref="InvalidOperationException">No curve segments where added.</exception>
 	public WaveBuilder Over(float width) {
 
 		if (curves.Count == 0) throw new InvalidOperationException("Cannot change width: no curve segments were added.");
@@ -92,6 +94,23 @@ public class WaveBuilder {
 			ends[0] = width;
 		} else {
 			ends[^1] = ends[^2] + width;
+		}
+
+		return this;
+	}
+
+	/// <summary>
+	/// Changes the horizontal ends of the curves such that
+	/// the total width of the wave is <c>1</c>.
+	/// </summary>
+	/// <returns>this</returns>
+	public WaveBuilder NormalizeWidth() {
+
+		if (curves.Count == 0) return this;
+
+		float oldWidth = Width;
+		for (int i = 0; i < curves.Count; i++) {
+			ends[i] /= oldWidth;
 		}
 
 		return this;
