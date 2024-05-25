@@ -118,7 +118,8 @@ public record Wave {
 		// Find the last curve holding the horizontal position
 		for (int i = Curves.Count - 1; i >= 0; i--) {
 
-			if (horizontalPosition > CurveHorizontalEnds[i]) continue;
+			float curveStart = i == 0 ? 0 : CurveHorizontalEnds[i - 1];
+			if (curveStart > horizontalPosition) continue;
 
 			float currentValueStart = i == 0 ? StartValue : CurveDestinations[i - 1];
 			float currentValueEnd = CurveDestinations[i];
