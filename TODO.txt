@@ -4,7 +4,6 @@ TO DO:
 DOING:
 
 TO TEST:
+- Runner and queue disposing animations
 - Lazy animation throwing exceptions
 - Coroutines
-- Wave shifted
-- Wave ease run-through
