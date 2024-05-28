@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations</Title>
     <Authors>Rephidock</Authors>
-    <Version>0.5.0-alpha.0</Version>
+    <Version>0.5.0</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Classes for simple animations that accept delegates</Description>
     <Copyright>Copyright (c) 2024 Rephidock</Copyright>
@@ -13,10 +13,10 @@
     <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - (breaking) Completely reworked Waves. They are no longer forced normalized and are no longer limited to 2 curves.
+      - (breaking) Completely reworked Waves. They are no longer forced normalized and are no longer not limited to 2 curves.
       - Added AnimationRunner.PlayingCount
       - Added AnimationQueue: A serial alternative to AnimationRunner
-      - Added support for Lazy&lt;Animation&gt; in AnimationRunner, AnimationQueue
+      - Added support for Lazy&lt;Animation&gt; in AnimationRunner and AnimationQueue
       - Documentation tweaks
     </PackageReleaseNotes>
   </PropertyGroup>
