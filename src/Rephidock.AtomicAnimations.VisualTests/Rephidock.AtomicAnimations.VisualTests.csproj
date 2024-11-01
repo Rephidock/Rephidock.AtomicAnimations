@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Rephidock.GeneralUtilities" Version="1.3.0" />
+    <PackageReference Include="Rephidock.GeneralUtilities" Version="2.0.0" />
     <PackageReference Include="SFML.Net" Version="2.5.1" />
   </ItemGroup>
 

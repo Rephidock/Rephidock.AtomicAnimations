@@ -5,7 +5,7 @@ using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using Rephidock.GeneralUtilities;
+using Rephidock.GeneralUtilities.Maths;
 
 
 namespace Rephidock.AtomicAnimations.VisualTests;
@@ -292,12 +292,12 @@ public class TestExplorer : IDisposable {
 
 			// Movement on test select
 			if (@event.Code == Keyboard.Key.Up) {
-				CurrentySelectTestIndex = (CurrentySelectTestIndex - 1).TrueMod(TestRunner.TestCount);
+				CurrentySelectTestIndex = (CurrentySelectTestIndex - 1).PosMod(TestRunner.TestCount);
 				return;
 			}
 
 			if (@event.Code == Keyboard.Key.Down) {
-				CurrentySelectTestIndex = (CurrentySelectTestIndex + 1).TrueMod(TestRunner.TestCount);
+				CurrentySelectTestIndex = (CurrentySelectTestIndex + 1).PosMod(TestRunner.TestCount);
 				return;
 			}
 

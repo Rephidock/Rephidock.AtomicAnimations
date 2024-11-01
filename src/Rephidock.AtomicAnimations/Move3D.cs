@@ -1,5 +1,5 @@
 ﻿using System;
-using Rephidock.GeneralUtilities;
+using Rephidock.GeneralUtilities.Maths;
 using Rephidock.AtomicAnimations.Base;
 
 

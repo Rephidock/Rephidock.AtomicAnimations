@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Linq;
 using SFML.System;
 using SFML.Graphics;
-using Rephidock.GeneralUtilities;
+using Rephidock.GeneralUtilities.Maths;
 using Rephidock.AtomicAnimations;
 
 
@@ -82,9 +82,9 @@ public class TestEasingGraphs : VisualTest {
 	public override void HandleDirectionEvent(ArrowDirection @event) {
 		
 		if (@event == ArrowDirection.Up || @event == ArrowDirection.Left) {
-			currentCurveIndex = (currentCurveIndex - 1).TrueMod(easingCurves.Length);
+			currentCurveIndex = (currentCurveIndex - 1).PosMod(easingCurves.Length);
 		} else if (@event == ArrowDirection.Down || @event == ArrowDirection.Right) {
-			currentCurveIndex = (currentCurveIndex + 1).TrueMod(easingCurves.Length);
+			currentCurveIndex = (currentCurveIndex + 1).PosMod(easingCurves.Length);
 		}
 
 	}

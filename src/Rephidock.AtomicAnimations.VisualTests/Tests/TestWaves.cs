@@ -2,7 +2,7 @@
 using SFML.System;
 using SFML.Graphics;
 using System.Collections.Generic;
-using Rephidock.GeneralUtilities;
+using Rephidock.GeneralUtilities.Maths;
 using Rephidock.AtomicAnimations;
 using Rephidock.AtomicAnimations.Waves;
 
@@ -151,9 +151,9 @@ public class TestWaves : VisualTest {
 	public override void HandleDirectionEvent(ArrowDirection @event) {
 		
 		if (@event == ArrowDirection.Up || @event == ArrowDirection.Left) {
-			currentWaveIndex = (currentWaveIndex - 1).TrueMod(waves.Length);
+			currentWaveIndex = (currentWaveIndex - 1).PosMod(waves.Length);
 		} else if (@event == ArrowDirection.Down || @event == ArrowDirection.Right) {
-			currentWaveIndex = (currentWaveIndex + 1).TrueMod(waves.Length);
+			currentWaveIndex = (currentWaveIndex + 1).PosMod(waves.Length);
 		}
 
 	}

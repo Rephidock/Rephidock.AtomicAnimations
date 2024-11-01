@@ -1,7 +1,7 @@
-﻿using Rephidock.GeneralUtilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rephidock.GeneralUtilities.Maths;
 
 
 namespace Rephidock.AtomicAnimations.Waves;
@@ -137,7 +137,7 @@ public record Wave {
 			}
 
 			// Find value according to the curve
-			float currentNormalizedTime = MoreMath.ReverseLerp(currentTimeStart, currentTimeEnd, horizontalPosition);
+			float currentNormalizedTime = MoreMath.InverseLerp(currentTimeStart, currentTimeEnd, horizontalPosition);
 			float currentNormalizedValue = Curves[i](currentNormalizedTime);
 			return MoreMath.Lerp(currentValueStart, currentValueEnd, currentNormalizedValue);
 
