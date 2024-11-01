@@ -2,6 +2,7 @@ TO DO:
 - Better readme
 - Make a framework 3.5 fork package (after GeneralUtilities)
 - Update to use the general utilities 2.0
+- Add directories to visual tests
 
 DOING:
 

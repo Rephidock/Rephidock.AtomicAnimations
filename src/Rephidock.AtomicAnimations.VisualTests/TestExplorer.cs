@@ -15,7 +15,7 @@ public class TestExplorer : IDisposable {
 	
 	public required TextWriter StdOut { get; init; }
 
-	#region //// Assets and layout constants
+	#region //// Assets, Layout
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	protected Font MainFont { get; private set; } = null!;
@@ -45,6 +45,34 @@ public class TestExplorer : IDisposable {
 		public readonly static Vector2f FpsDisplayOffset = new(5, -MainFontLineSpacing * 2);
 
 		public readonly static Vector2f StatusDisplayOffset = new(5, -MainFontLineSpacing);
+	}
+
+	#endregion
+
+	#region //// Listing formats
+
+	const string ParentDirectoryName = "..";
+
+	string FormatEvents(bool handlesDirectional, bool handlesNumeric) {
+		if (!handlesDirectional && !handlesNumeric) return new string(' ', 5);
+		return $"⚡: {(handlesDirectional ? '↘' : ' ')}{(handlesNumeric ? '⁹' : ' ')}";
+	}
+
+	string FormatDirectory(int totalTests) {
+		return $"√ {totalTests,3}";
+	}
+
+	string FormatCalatlogueItem(TestCatalogueItem item) {
+
+		// Format as directory
+		if (item.IsDirectory) {
+			return $"{FormatDirectory(-1)} {item.Name}";
+		}
+
+		// Format as test
+		string eventIcons = FormatEvents(item.TestHandlesDirectionalEvents, item.TestHandlesNumericEvents);
+		return $"{eventIcons} {item.Name}";
+
 	}
 
 	#endregion
@@ -108,8 +136,6 @@ public class TestExplorer : IDisposable {
 
 	const string DefaultTitle = WindowName + " | [f1] for controls";
 
-	const string MarkerHandlesEvents = "⚡";
-
 	bool isShowingControls = false;
 
 	readonly static IReadOnlyList<string> ControlsHelp = [
@@ -142,7 +168,7 @@ public class TestExplorer : IDisposable {
 		TestRunner = new TestRunner();
 
 		StdOut.WriteLine($"Found {TestRunner.TestCount} tests:");
-		foreach (var testName in TestRunner.AllTests.Select(pair => pair.meta.Name)) {
+		foreach (var testName in TestRunner.AllTests.Select(pair => pair.Name)) {
 			StdOut.Write("- ");
 			StdOut.WriteLine(testName);
 		}
@@ -278,7 +304,7 @@ public class TestExplorer : IDisposable {
 			// Enter -- Start test
 			if (@event.Code == Keyboard.Key.Enter) {
 
-				string testName = TestRunner.AllTests[CurrentySelectTestIndex].meta.Name;
+				string testName = TestRunner.AllTests[CurrentySelectTestIndex].Name;
 
 				StdOut.WriteLine($"Starting test \"{testName}\" (index {CurrentySelectTestIndex})...");
 				Window.SetTitle($"{WindowName} - {testName}");
@@ -303,7 +329,7 @@ public class TestExplorer : IDisposable {
 
 		// Draw title
 		if (TestRunner.IsRunningATest) {
-			string testName = TestRunner.AllTests[CurrentySelectTestIndex].meta.Name;
+			string testName = TestRunner.AllTests[CurrentySelectTestIndex].Name;
 			WindowDrawer.DrawText($"Running \"{testName}\"", Layout.TitleDisplay);
 		} else {
 			WindowDrawer.DrawText(DefaultTitle, Layout.TitleDisplay);
@@ -418,9 +444,7 @@ public class TestExplorer : IDisposable {
 			for (int i = menuFirstDrawnOptionIndex; i <= menuLastDrawnOptionIndex; i++) {
 
 				// Create and draw display row
-				var currentMeta = TestRunner.AllTests[i].meta;
-				bool handlesEvents = currentMeta.HandlesDirectionalEvents || currentMeta.HandlesNumericEvents;
-				WindowDrawer.DrawText(handlesEvents ? $"{currentMeta.Name} {MarkerHandlesEvents}" : currentMeta.Name, currentOffset);
+				WindowDrawer.DrawText(FormatCalatlogueItem(TestRunner.AllTests[i]), currentOffset);
 				
 				// Draw cursor
 				if (i == CurrentySelectTestIndex) {

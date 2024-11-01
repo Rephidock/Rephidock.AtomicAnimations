@@ -12,7 +12,7 @@ public class TestRunner : IDisposable {
 
 	#region //// Stroage and creation
 
-	public IReadOnlyList<(VisualTestMetaAttribute meta, Type type)> AllTests { get; set; }
+	public IReadOnlyList<TestCatalogueItem> AllTests { get; set; }
 
 	public int TestCount => AllTests.Count;
 
@@ -24,17 +24,8 @@ public class TestRunner : IDisposable {
 			.Where(type => type.IsSubclassOf(typeof(VisualTest)) && type.IsClass && !type.IsAbstract)
 			.Where(type => type.GetConstructor(Type.EmptyTypes) is not null)
 			.Select(type => (type.GetCustomAttribute<VisualTestMetaAttribute>(), type))
-			.Select(pair => (pair.Item1 ?? new VisualTestMetaAttribute() { Name = pair.Item2.Name }, pair.Item2))
-			.Select(
-				pair => (
-					pair.Item1.WithEventHandlingData(
-						pair.Item2.GetMethod(nameof(VisualTest.HandleDirectionEvent))!.IsOverride(),
-						pair.Item2.GetMethod(nameof(VisualTest.HandleNumericEvent))!.IsOverride()
-					),
-					pair.Item2
-				)
-			)
-			.OrderBy(pair => pair.Item1.Name)
+			.Select(pair => TestCatalogueItem.CreateTest(pair.Item1?.Name ?? pair.type.Name, pair.type))
+			.OrderBy(ci => ci.Name)
 			.ToList()
 			.AsReadOnly();
 
@@ -63,7 +54,7 @@ public class TestRunner : IDisposable {
 		StopTest();
 
 		// Create the test
-		RunningTest = (VisualTest)Activator.CreateInstance(AllTests[testIndex].type)!;
+		RunningTest = (VisualTest)Activator.CreateInstance(AllTests[testIndex].TestClass!)!;
 		RunningTestIndex = testIndex;
 
 		// Start the test

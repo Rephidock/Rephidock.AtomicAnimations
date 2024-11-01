@@ -5,6 +5,10 @@ using SFML.Graphics;
 namespace Rephidock.AtomicAnimations.VisualTests;
 
 
+/// <summary>
+/// A api object given to tests to
+/// perform basic rendering
+/// </summary>
 public class Drawer {
 
 	#region //// Creation and storage
