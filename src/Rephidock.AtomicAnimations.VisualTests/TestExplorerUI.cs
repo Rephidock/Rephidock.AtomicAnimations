@@ -11,7 +11,7 @@ using Rephidock.GeneralUtilities.Maths;
 namespace Rephidock.AtomicAnimations.VisualTests;
 
 
-public class TestExplorer : IDisposable {
+public class TestExplorerUI : IDisposable {
 	
 	public required TextWriter StdOut { get; init; }
 
