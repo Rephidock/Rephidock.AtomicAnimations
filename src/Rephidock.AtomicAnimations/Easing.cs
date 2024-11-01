@@ -69,7 +69,7 @@ public static class Easing {
 
 	#region //// Expo
 
-	public static float ExpoIn(float x) => MathF.Pow(2, 10 * (x - 1));
+	public static float ExpoIn(float t) => MathF.Pow(2, 10 * (t - 1));
 	public static float ExpoOut(float t) => 1 - ExpoIn(1 - t);
 	public static float ExpoInOut(float t) {
 		if (t < 0.5) return ExpoIn(t * 2) / 2;
@@ -80,7 +80,7 @@ public static class Easing {
 
 	#region //// Circ
 
-	public static float CircIn(float x) => -MathF.Sqrt(1 - x * x) + 1;
+	public static float CircIn(float t) => -MathF.Sqrt(1 - t * t) + 1;
 	public static float CircOut(float t) => 1 - CircIn(1 - t);
 	public static float CircInOut(float t) {
 		if (t < 0.5) return CircIn(t * 2) / 2;
@@ -116,9 +116,9 @@ public static class Easing {
 
 	const float baseBackConstant = 1.70158f;
 
-	public static float BackIn(float x, float backMultiplier) {
+	public static float BackIn(float t, float backMultiplier) {
 		float backValue = baseBackConstant * backMultiplier;
-		return x * x * ((backValue + 1) * x - backValue);
+		return t * t * ((backValue + 1) * t - backValue);
 	}
 
 	public static float BackOut(float t, float backMultiplier) {
