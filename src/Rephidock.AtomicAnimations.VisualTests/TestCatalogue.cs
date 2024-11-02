@@ -81,14 +81,16 @@ public class TestCatalogue {
 		CurrentDirectoryOptions = new(currentDirectoryOrdered);
 	}
 
+
+	// Directory display
+	public string CurrentDirectoryPath { get; private set; } = "/";
+
+	public ReadOnlyCollection<KeyValuePair<string, TestCatalogueItem>> CurrentDirectoryOptions { get; }
+
 	// Directory model
 	readonly Stack<KeyValuePair<string, TestCatalogueItem>> subdirectoryStack = new();
 	readonly List<KeyValuePair<string, TestCatalogueItem>> currentDirectoryOrdered = new();
-
-	// Directory display
 	public bool IsInASubDirectory => subdirectoryStack.Count > 0;
-	public string CurrentDirectoryPath { get; private set; } = "/";
-	public ReadOnlyCollection<KeyValuePair<string, TestCatalogueItem>> CurrentDirectoryOptions { get; }
 
 	public void ForceUpdateCurrentDirectoryState() {
 
