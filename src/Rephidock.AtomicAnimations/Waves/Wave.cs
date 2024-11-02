@@ -57,7 +57,7 @@ public record Wave {
 	/// </para>
 	/// <para>
 	/// If two or more ends are equal it is a vertical gap. 
-	/// The value at the gap is the end value of the last wave contributing to the gap.
+	/// The value at the gap is the end value of the last segement contributing to the gap.
 	/// </para>
 	/// </summary>
 	public IReadOnlyList<float> CurveHorizontalEnds { get; }
@@ -102,7 +102,7 @@ public record Wave {
 	/// <para>
 	/// Out of bounds "time" is a valid input and will return
 	/// <see cref="StartValue"/> or <see cref="EndValue"/>,
-	/// depending on the bound.
+	/// depending on the bound breeched.
 	/// </para>
 	/// </summary>
 	/// <remarks>
