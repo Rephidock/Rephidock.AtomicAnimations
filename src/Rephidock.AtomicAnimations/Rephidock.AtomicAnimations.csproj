@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations</Title>
     <Authors>Rephidock</Authors>
-    <Version>0.6.0-alpha.0.dev</Version>
+    <Version>0.5.1-alpha.0.dev</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Classes for simple animations that accept delegates</Description>
     <Copyright>Copyright (c) 2024 Rephidock</Copyright>
