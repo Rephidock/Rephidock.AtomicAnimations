@@ -14,6 +14,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
       - Updated dependancies
+      - Added CoroutineYield.Sleep static creation method
       - Documentation tweaks
     </PackageReleaseNotes>
   </PropertyGroup>

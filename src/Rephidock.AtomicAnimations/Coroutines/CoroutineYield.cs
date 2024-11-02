@@ -91,7 +91,7 @@ public record CoroutineYield {
 
 	#endregion
 
-	#region //// Static instances
+	#region //// Static instances and creators
 
 	/// <summary>
 	/// A yield that waits for all previously
@@ -122,6 +122,15 @@ public record CoroutineYield {
 	/// <see cref="SuspendForAnUpdate"/> being enabled.
 	/// </remarks>
 	public readonly static CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
+
+	/// <summary>
+	/// A yield that suspends execution for given amount of time.
+	/// </summary>
+	/// <remarks>
+	/// Creates an instance with just 
+	/// <see cref="WaitFor"/> being set.
+	/// </remarks>
+	public static CoroutineYield Sleep(TimeSpan delay) => new() { WaitFor = delay };
 
 	#endregion
 
