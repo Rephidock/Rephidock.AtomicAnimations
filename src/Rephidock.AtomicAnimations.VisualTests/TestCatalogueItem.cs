@@ -1,16 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Rephidock.GeneralUtilities.Reflection;
 
 
 namespace Rephidock.AtomicAnimations.VisualTests;
 
 
-public readonly struct TestCatalogueItem {
+public readonly record struct TestCatalogueItem {
 
-	/// <summary>The name of this item, not including parent directories.</summary>
-	public string Name { get; private init; } = "<unknown>";
+	#region //// Directory
 
-	public bool IsDirectory { get; private init; } = false;
+	public Dictionary<string, TestCatalogueItem>? DirectoryItems { get; private init; } = null;
+
+	public bool IsDirectory => DirectoryItems is not null;
+
+	
+
+	#endregion
+
+	#region //// Test
 
 	/// <summary>
 	/// The class of this test if not a directory,
@@ -22,23 +31,27 @@ public readonly struct TestCatalogueItem {
 
 	public bool TestHandlesNumericEvents { get; private init; } = false;
 
+	#endregion
+
+	public int CountTests() {
+		if (IsDirectory) return DirectoryItems!.Values.Sum(item => item.CountTests());
+		return 1;
+	}
 
 	#region //// Creation
 
 	public TestCatalogueItem() { }
 
-	public static TestCatalogueItem CreateDirectory(string name) {
+	public static TestCatalogueItem CreateDirectory() {
 		return new TestCatalogueItem() {
-			Name = name,
-			IsDirectory = true,
+			DirectoryItems = new Dictionary<string, TestCatalogueItem>(),
 			TestClass = null
 		};
 	}
 
-	public static TestCatalogueItem CreateTest(string name, Type testClass) {
+	public static TestCatalogueItem CreateTest(Type testClass) {
 		return new TestCatalogueItem() {
-			Name = name,
-			IsDirectory = false,
+			DirectoryItems = null,
 			TestClass = testClass,
 			TestHandlesDirectionalEvents = testClass.GetMethod(nameof(VisualTest.HandleDirectionEvent))!.IsOverride(),
 			TestHandlesNumericEvents = testClass.GetMethod(nameof(VisualTest.HandleNumericEvent))!.IsOverride()

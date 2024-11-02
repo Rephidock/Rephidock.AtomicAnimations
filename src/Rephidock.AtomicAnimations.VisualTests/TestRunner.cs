@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Rephidock.GeneralUtilities;
+using Rephidock.GeneralUtilities.Reflection;
 
 
 namespace Rephidock.AtomicAnimations.VisualTests;
@@ -10,32 +10,7 @@ namespace Rephidock.AtomicAnimations.VisualTests;
 
 public class TestRunner : IDisposable {
 
-	#region //// Stroage and creation
-
-	public IReadOnlyList<TestCatalogueItem> AllTests { get; set; }
-
-	public int TestCount => AllTests.Count;
-
-	public TestRunner() {
-
-		AllTests = Assembly
-			.GetExecutingAssembly()
-			.GetTypes()
-			.Where(type => type.IsSubclassOf(typeof(VisualTest)) && type.IsClass && !type.IsAbstract)
-			.Where(type => type.GetConstructor(Type.EmptyTypes) is not null)
-			.Select(type => (type.GetCustomAttribute<VisualTestMetaAttribute>(), type))
-			.Select(pair => TestCatalogueItem.CreateTest(pair.Item1?.Name ?? pair.type.Name, pair.type))
-			.OrderBy(ci => ci.Name)
-			.ToList()
-			.AsReadOnly();
-
-	}
-
-	#endregion
-
 	#region //// Runnig test
-
-	public int? RunningTestIndex { get; private set; } = null;
 
 	public VisualTest? RunningTest { get; private set; } = null;
 
@@ -43,19 +18,25 @@ public class TestRunner : IDisposable {
 
 	public TimeSpan RunningElapsedTime { get; private set; } = TimeSpan.Zero;
 
-	public void StartTest(int testIndex) {
+	public void StartTest(Type testClass) {
 
 		// Guards
 		ObjectDisposedException.ThrowIf(isDisposed, this);
-		ArgumentOutOfRangeException.ThrowIfLessThan(testIndex, 0);
-		ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(testIndex, AllTests.Count);
+
+		if (
+			!testClass.IsSubclassOf(typeof(VisualTest)) ||
+			testClass.IsAbstract ||
+			testClass.GetConstructor(Type.EmptyTypes) is null
+		) {
+			throw new ArgumentException($"Could not intantiante test {testClass.Name}");
+		}
+
 
 		// Stop existing test
 		StopTest();
 
 		// Create the test
-		RunningTest = (VisualTest)Activator.CreateInstance(AllTests[testIndex].TestClass!)!;
-		RunningTestIndex = testIndex;
+		RunningTest = (VisualTest)Activator.CreateInstance(testClass)!;
 
 		// Start the test
 		IsPaused = StartPaused;
@@ -67,7 +48,6 @@ public class TestRunner : IDisposable {
 	public void StopTest() {
 		RunningTest?.Dispose();
 		RunningTest = null;
-		RunningTestIndex = null;
 
 		IsPaused = false;
 	}
@@ -76,9 +56,9 @@ public class TestRunner : IDisposable {
 
 		if (!IsRunningATest) return;
 
-		int indexToStart = RunningTestIndex!.Value;
+		Type testClass = RunningTest!.GetType();
 		StopTest();
-		StartTest(indexToStart);
+		StartTest(testClass);
 	}
 
 	public void UpdateAndDrawTest(TimeSpan deltaTime, Drawer drawer) {

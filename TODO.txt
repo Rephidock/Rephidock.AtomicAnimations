@@ -1,7 +1,6 @@
 TO DO:
 - Better readme
 - Make a framework 3.5 fork package (after GeneralUtilities)
-- Add directories to visual tests
 
 DOING:
 

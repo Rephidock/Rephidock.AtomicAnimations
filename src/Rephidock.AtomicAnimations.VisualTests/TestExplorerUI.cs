@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using Rephidock.GeneralUtilities.Maths;
 
 
 namespace Rephidock.AtomicAnimations.VisualTests;
@@ -15,20 +13,23 @@ public class TestExplorerUI : IDisposable {
 	
 	public required TextWriter StdOut { get; init; }
 
-	#region //// Assets, Layout
+	#region //// Assets
 
 	/// <remarks>Initialized in <see cref="Run"/></remarks>
 	protected Font MainFont { get; private set; } = null!;
-
-	const uint MainFontSize = 18;
-
-	const int MainFontLineSpacing = 24; // Hardcoded to be const. Retrivied from `MainFont.GetLineSpacing(MainFontSize)`
 
 	void LoadAssets() {
 		StdOut.WriteLine("Loading assets...");
 		MainFont = new Font("Assets/JetBrainsMono-Regular.ttf");
 	}
 
+	#endregion
+
+	#region //// Layout, Strings, Formatting
+
+	const uint MainFontSize = 18;
+
+	const int MainFontLineSpacing = 24; // Hardcoded to be const. Retrivied from `MainFont.GetLineSpacing(MainFontSize)`
 
 	public static class Layout {
 
@@ -47,11 +48,26 @@ public class TestExplorerUI : IDisposable {
 		public readonly static Vector2f StatusDisplayOffset = new(5, -MainFontLineSpacing);
 	}
 
-	#endregion
+	const string DefaultTitle = WindowName + " | [f1] for controls";
 
-	#region //// Listing formats
-
-	const string ParentDirectoryName = "..";
+	readonly static IReadOnlyList<string> ControlsHelp = [
+		"= Test Select =",
+		"[f1]: Toggle this help",
+		"[↑],[↓]: Choose test",
+		"[enter]: Start test",
+		"[esc]: Exit",
+		"[space]: Toggle start paused",
+		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
+		"[alt]+[↑], [alt]+[↓]: Change initial time",
+		"",
+		"= Test =",
+		"[esc]: Back",
+		"[0]..[9],[←],[↓],[↑],[→]: Invoke events (⚡ icon)",
+		"[enter]: Restart test",
+		"[space]: Pause/Resume test OR Step",
+		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
+		"[alt]+[↑], [alt]+[↓]: Change initial time"
+	];
 
 	string FormatEvents(bool handlesDirectional, bool handlesNumeric) {
 		if (!handlesDirectional && !handlesNumeric) return new string(' ', 5);
@@ -62,16 +78,16 @@ public class TestExplorerUI : IDisposable {
 		return $"√ {totalTests,3}";
 	}
 
-	string FormatCalatlogueItem(TestCatalogueItem item) {
+	string FormatCalatlogueItem(string name, TestCatalogueItem item) {
 
 		// Format as directory
 		if (item.IsDirectory) {
-			return $"{FormatDirectory(-1)} {item.Name}";
+			return $"{FormatDirectory(item.CountTests())} {name}";
 		}
 
 		// Format as test
 		string eventIcons = FormatEvents(item.TestHandlesDirectionalEvents, item.TestHandlesNumericEvents);
-		return $"{eventIcons} {item.Name}";
+		return $"{eventIcons} {name}";
 
 	}
 
@@ -99,6 +115,9 @@ public class TestExplorerUI : IDisposable {
 		// Load
 		LoadAssets();
 		LoadTests();
+
+		// Enter root directory
+		TestCatalogue.ForceUpdateCurrentDirectoryState();
 
 		// Create window
 		Window = new(WindowSize, WindowName);
@@ -134,44 +153,24 @@ public class TestExplorerUI : IDisposable {
 
 	#endregion
 
-	const string DefaultTitle = WindowName + " | [f1] for controls";
+	#region //// State
 
 	bool isShowingControls = false;
 
-	readonly static IReadOnlyList<string> ControlsHelp = [
-		"= Test Select =",
-		"[f1]: Toggle this help",
-		"[↑],[↓]: Choose test",
-		"[enter]: Start test",
-		"[esc]: Exit",
-		"[space]: Toggle start paused",
-		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
-		"[alt]+[↑], [alt]+[↓]: Change initial time",
-		"",
-		"= Test =",
-		"[esc]: Back",
-		"[0]..[9],[←],[↓],[↑],[→]: Invoke events (⚡ icon)",
-		"[enter]: Restart test",
-		"[space]: Pause/Resume test OR Step",
-		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
-		"[alt]+[↑], [alt]+[↓]: Change initial time"
-	];
+	TestRunner TestRunner { get; set; } = new();
 
-	/// <remarks>Initialized in <see cref="Run"/></remarks>
-	TestRunner TestRunner { get; set; } = null!;
+	string? CurrentTestName { get; set; } = null;
 
-	int CurrentySelectTestIndex = 0;
+	TestCatalogue TestCatalogue { get; set; } = new();
+
+	#endregion
 
 	void LoadTests() {
+
 		StdOut.WriteLine("Finding tests...");
+		TestCatalogue.FindAllTests();
 
-		TestRunner = new TestRunner();
-
-		StdOut.WriteLine($"Found {TestRunner.TestCount} tests:");
-		foreach (var testName in TestRunner.AllTests.Select(pair => pair.Name)) {
-			StdOut.Write("- ");
-			StdOut.WriteLine(testName);
-		}
+		StdOut.WriteLine($"Found {TestCatalogue.Root.CountTests()} tests.");
 	}
 
 	void OnKeyPressed(KeyEventArgs @event) {
@@ -209,6 +208,7 @@ public class TestExplorerUI : IDisposable {
 			// Escape -- back
 			if (@event.Code == Keyboard.Key.Escape) {
 				TestRunner.StopTest();
+				CurrentTestName = null;
 				StdOut.WriteLine("Test stopped");
 				Window.SetTitle(WindowName);
 				return;
@@ -271,10 +271,12 @@ public class TestExplorerUI : IDisposable {
 		// If on test select
 		} else {
 
-			// Escape -- close or hide help
+			// Escape -- hide help or close or back a directory
 			if (@event.Code == Keyboard.Key.Escape) {
 				if (isShowingControls) {
 					isShowingControls = false;
+				} else if (TestCatalogue.IsInASubDirectory) {
+					TestCatalogue.CursorBack();
 				} else {
 					OnCloseRequest();
 				}
@@ -288,28 +290,37 @@ public class TestExplorerUI : IDisposable {
 			}
 
 			// ignore other input if controls are shown or no tests are present
-			if (isShowingControls || TestRunner.TestCount == 0) return;
+			if (isShowingControls || !TestCatalogue.HasTests) return;
 
 			// Movement on test select
 			if (@event.Code == Keyboard.Key.Up) {
-				CurrentySelectTestIndex = (CurrentySelectTestIndex - 1).PosMod(TestRunner.TestCount);
+				TestCatalogue.CursorMovePrevious();
 				return;
 			}
 
 			if (@event.Code == Keyboard.Key.Down) {
-				CurrentySelectTestIndex = (CurrentySelectTestIndex + 1).PosMod(TestRunner.TestCount);
+				TestCatalogue.CursorMoveNext();
 				return;
 			}
 
-			// Enter -- Start test
+			// Enter -- Start test or move into a subdirectory or back a subdirectory
 			if (@event.Code == Keyboard.Key.Enter) {
 
-				string testName = TestRunner.AllTests[CurrentySelectTestIndex].Name;
+				KeyValuePair<string, TestCatalogueItem>? selection = TestCatalogue.CursorSelect();
 
-				StdOut.WriteLine($"Starting test \"{testName}\" (index {CurrentySelectTestIndex})...");
-				Window.SetTitle($"{WindowName} - {testName}");
+				// Back option selected
+				if (selection is null) return;
 
-				TestRunner.StartTest(CurrentySelectTestIndex);
+				// Directory selected
+				if (selection.Value.Value.IsDirectory) return;
+
+				// Test selected
+				CurrentTestName = selection.Value.Key;
+
+				StdOut.WriteLine($"Starting test \"{CurrentTestName}\" (at {TestCatalogue.CurrentDirectoryPath})...");
+				Window.SetTitle($"{WindowName} - {CurrentTestName}");
+
+				TestRunner.StartTest(selection.Value.Value.TestClass!);
 			}
 
 			// Space -- toggle start paused
@@ -329,8 +340,7 @@ public class TestExplorerUI : IDisposable {
 
 		// Draw title
 		if (TestRunner.IsRunningATest) {
-			string testName = TestRunner.AllTests[CurrentySelectTestIndex].Name;
-			WindowDrawer.DrawText($"Running \"{testName}\"", Layout.TitleDisplay);
+			WindowDrawer.DrawText($"Running \"{CurrentTestName}\"", Layout.TitleDisplay);
 		} else {
 			WindowDrawer.DrawText(DefaultTitle, Layout.TitleDisplay);
 		}
@@ -388,7 +398,7 @@ public class TestExplorerUI : IDisposable {
 			}
 
 		// or no tests message
-		} else if (TestRunner.TestCount == 0) {
+		} else if (!TestCatalogue.HasTests) {
 			WindowDrawer.DrawText("No tests found.", Layout.TestSelectStartOffset);
 
 		// or test select
@@ -402,16 +412,18 @@ public class TestExplorerUI : IDisposable {
 
 			int numberOfTestLines = (int)Math.Floor((menuEndY - menuStartY) / Layout.TestSelectOptionSpacing) + 1;
 
+			int cursorIndex = TestCatalogue.CursorIndex;
+			int optionsCount = TestCatalogue.CurrentDirectoryOptions.Count;
 
 			if (numberOfTestLines <= 1) {
 				// Single test fits or no tests fit
-				menuFirstDrawnOptionIndex = CurrentySelectTestIndex;
-				menuLastDrawnOptionIndex = CurrentySelectTestIndex;
+				menuFirstDrawnOptionIndex = cursorIndex;
+				menuLastDrawnOptionIndex = cursorIndex;
 
-			} else if (numberOfTestLines >= TestRunner.AllTests.Count) {
+			} else if (numberOfTestLines >= optionsCount) {
 				// All tests fit
 				menuFirstDrawnOptionIndex = 0;
-				menuLastDrawnOptionIndex = TestRunner.AllTests.Count - 1;
+				menuLastDrawnOptionIndex = optionsCount - 1;
 
 			} else {
 
@@ -421,18 +433,18 @@ public class TestExplorerUI : IDisposable {
 				int cursorPositionWithinVisible = numberOfTestLines / 2;
 
 				// First are shown
-				if (CurrentySelectTestIndex < cursorPositionWithinVisible) {
+				if (cursorIndex < cursorPositionWithinVisible) {
 					menuFirstDrawnOptionIndex = 0;
 					menuLastDrawnOptionIndex = numberOfTestLines - 1;
 
 				// Last are shown
-				} else if (CurrentySelectTestIndex - cursorPositionWithinVisible + numberOfTestLines >= TestRunner.AllTests.Count) {
-					menuLastDrawnOptionIndex = TestRunner.AllTests.Count - 1;
+				} else if (cursorIndex - cursorPositionWithinVisible + numberOfTestLines >= optionsCount) {
+					menuLastDrawnOptionIndex = optionsCount - 1;
 					menuFirstDrawnOptionIndex = menuLastDrawnOptionIndex - numberOfTestLines + 1;
 
 				// Middle is shown
 				} else {
-					menuFirstDrawnOptionIndex = CurrentySelectTestIndex - cursorPositionWithinVisible;
+					menuFirstDrawnOptionIndex = cursorIndex - cursorPositionWithinVisible;
 					menuLastDrawnOptionIndex = menuFirstDrawnOptionIndex + numberOfTestLines - 1;
 				}
 
@@ -444,10 +456,14 @@ public class TestExplorerUI : IDisposable {
 			for (int i = menuFirstDrawnOptionIndex; i <= menuLastDrawnOptionIndex; i++) {
 
 				// Create and draw display row
-				WindowDrawer.DrawText(FormatCalatlogueItem(TestRunner.AllTests[i]), currentOffset);
+				var rowItem = TestCatalogue.CurrentDirectoryOptions[i];
+				WindowDrawer.DrawText(
+					FormatCalatlogueItem(rowItem.Key, rowItem.Value), 
+					currentOffset
+				);
 				
 				// Draw cursor
-				if (i == CurrentySelectTestIndex) {
+				if (i == TestCatalogue.CursorIndex) {
 					WindowDrawer.DrawText(">", new Vector2f(Layout.TestCursorX, currentOffset.Y));
 				}
 
