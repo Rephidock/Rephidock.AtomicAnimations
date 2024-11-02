@@ -54,28 +54,29 @@ public class TestExplorerUI : IDisposable {
 		"= Test Select =",
 		"[f1]: Toggle this help",
 		"[↑],[↓]: Choose test",
-		"[enter]: Start test",
-		"[esc]: Exit",
+		"[enter]: Start test -or- enter subdirectory (√ icon)",
+		"[esc]: Exit -or- return from a subdirectory",
 		"[space]: Toggle start paused",
 		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
 		"[alt]+[↑], [alt]+[↓]: Change initial time",
 		"",
 		"= Test =",
 		"[esc]: Back",
-		"[0]..[9],[←],[↓],[↑],[→]: Invoke events (⚡ icon)",
+		"[←],[↓],[↑],[→]: Invoke directional events (↘ icon)",
+		"[0]..[9]: Invoke numeric events (⁹ icon)",
 		"[enter]: Restart test",
-		"[space]: Pause/Resume test OR Step",
+		"[space]: Pause/Resume test -or- step in time",
 		"[shift]+[↑], [shift]+[↓]: Change speed mult.",
 		"[alt]+[↑], [alt]+[↓]: Change initial time"
 	];
 
 	string FormatEvents(bool handlesDirectional, bool handlesNumeric) {
-		if (!handlesDirectional && !handlesNumeric) return new string(' ', 5);
-		return $"⚡: {(handlesDirectional ? '↘' : ' ')}{(handlesNumeric ? '⁹' : ' ')}";
+		if (!handlesDirectional && !handlesNumeric) return new string(' ', 3);
+		return $" {(handlesDirectional ? '↘' : ' ')}{(handlesNumeric ? '⁹' : ' ')}";
 	}
 
 	string FormatDirectory(int totalTests) {
-		return $"√ {totalTests,3}";
+		return $"√{totalTests,2}";
 	}
 
 	string FormatCalatlogueItem(string name, TestCatalogueItem item) {
