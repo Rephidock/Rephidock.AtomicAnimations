@@ -246,7 +246,7 @@ public class TestExplorerUI : IDisposable {
 				return;
 			}
 
-			// Direactional events
+			// Directional events
 			if (@event.Code == Keyboard.Key.Up) {
 				TestRunner.RunningTest?.HandleDirectionEvent(ArrowDirection.Up);
 				return;
