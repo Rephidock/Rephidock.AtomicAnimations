@@ -38,10 +38,10 @@ To control the easing of values use the static methods in the `Easing` class. Al
 Use a queue or a runner to execute multiple animations.
 Animations can be added to both during their runtime (fire-and-forget).
 
-| Runner            | Summary                                                                 |
-| ----------------- | ----------------------------------------------------------------------- |
-| `AnimationRunner` | Runs animations in parallel. Stats animations the moment they are added |
-| `AnimationQueue`  | Runs animations in series. Supports `Lazy<Animation>`                   |
+| Runner            | Summary                                                                  |
+| ----------------- | ------------------------------------------------------------------------ |
+| `AnimationRunner` | Runs animations in parallel. Starts animations the moment they are added |
+| `AnimationQueue`  | Runs animations in series. Supports `Lazy<Animation>`                    |
 
 
 For creating animations from scratch you can use the following classes in the `.Base` namespace:
