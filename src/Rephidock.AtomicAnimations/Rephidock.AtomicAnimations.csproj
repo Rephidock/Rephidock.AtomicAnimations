@@ -5,7 +5,7 @@
     <Authors>Rephidock</Authors>
     <Version>0.6.0-alpha.0.dev</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-    <Description>Classes for simple animations that accept delegates</Description>
+    <Description>Basic callback-based user-controlled animations and coroutines.</Description>
     <Copyright>Copyright (c) 2024 Rephidock</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>animation;easing;tween</PackageTags>
@@ -14,9 +14,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
       - Updated dependancies
-      - Renamed `.Base.TimeSpanedAnimation` -> `.Base.TimedAnimation`
+      - Renamed `.Base.TimeSpanedAnimation` -&gt; `.Base.TimedAnimation`
       - Added CoroutineYield.Sleep static creation method
-      - Documentation tweaks
+      - Documentation fixes
+      - Better introduction
     </PackageReleaseNotes>
   </PropertyGroup>
 
