@@ -14,7 +14,7 @@ The package provides:
 - Waves for animations that can be interpreted as moving waves (curves).
 - Coroutines – animations based on `IEnumerable<T>`, allowing for state and logic.
 
-The package does *not* create additional clocks or threads to be transparent about control flow. Use the `Update(TimeSpan deltaTime)` to provide time flow to animations, runners and queues.
+This package does *not* create additional clocks or threads to be transparent about control flow. Use the `Update(TimeSpan deltaTime)` to provide time flow to animations, runners and queues.
 
 Additionally queues and coroutines account for excess time since each atom finishes for better accuracy when chaining animations together.
 
@@ -28,8 +28,8 @@ The package provides the following animations out of the box:
 | -------------------------------- | ----------------------------------------------------------- |
 | `Shift1D`, 2D, 3D, 4D            | Changes 1 to 4 values by adding differences between updates |
 | `Move1D`, 2D, 3D, 4D             | Changes 1 to 4 values by setting values directly            |
-| `.Waves.WaveEase`                | Calls an update callback with a moving Wave (curve)         |
-| `.Coroutines.CoroutineAnimation` | Structures others animations, delays, state and logic       |
+| `.Waves.WaveEase`                | Calls an update delegate with a moving Wave (curve)         |
+| `.Coroutines.CoroutineAnimation` | Structures others animations, timing, state and logic       |
 
 To control the easing of values use the static methods in the `Easing` class. All easing functions are normalized.
 `EasingCurve` delegate is included.
@@ -57,14 +57,14 @@ For creating animations from scratch you can use the following classes in the `.
 
 The `.Waves` namespaces allows for animations that can be interpreted as a moving wave.
 
-Use the `WaveBuilder` to scale and join multiple `EasingCurve`s together, forming a more complex `Wave`. The waves do not have to start and end at the same value.
+Use the `WaveBuilder` to scale and join multiple `EasingCurve`s together, forming a more complex `Wave`. The waves do not have to start and end at the same value and extend infinitely out of bounds as flat lines.
 
-The `WaveEase.CreateRunthrough` will create an animation atom that moves a given wave through a span of known width and calls an update callback to apply the `ShiftedWave` each update.
+The `WaveEase.CreateRunthrough` will create an animation atom that moves a given wave through a span of known width calling a delegate with a `ShiftedWave` each update.
 
 
 ### `.Coroutines` namespace
 
-The `CoroutineAnimation` allows for building more complex animations which can also hold state and logic. It is based on `IEnumerable<CoroutineYield>`, which can hold state and logic if made using a custom iterator/generator.
+The `CoroutineAnimation` allows for building more complex animations. It is based on `IEnumerable<CoroutineYield>`, which can hold state and logic if made using a custom iterator/generator.
 
 A single `CoroutineYield` holds either
 - an animation that is to play the moment it is returned or 
@@ -74,7 +74,7 @@ The following delays are possible:
 - (static) `CoroutineYield.WaitPrevious`: Waiting for the previous animation to finish
 - (static) `CoroutineYield.Join`: Waiting for all previous animations to finish
 - (static) `CoroutineYield.Sleep`: Waiting for a delay of specified time
-- `CoroutineYield.WaitUntil`: Waiting until a timestamp (since the animation begun)
+- `CoroutineYield.WaitUntil`: Waiting until a timestamp (since the animation has begun)
 - `CoroutineYield.WaitUntilPredicate`: Waiting until a condition is satisfied
 - (static) `CoroutineYield.Suspend`: Suspending an update without influencing the flow of time
 
