@@ -13,13 +13,14 @@ public class TestAnimationQueueShifts : VisualTest {
 	readonly protected AnimationQueue queue = new();
 
 	protected Vector2f position = new(100, 200);
-	int animationsEnqueued = 0;
-	int animationsFinished = 0;
+	readonly static protected Vector2f size = new(100, 100);
 
-	readonly static Vector2f size = new(100, 100);
 	const float stepDistance = 100;
 	readonly protected static TimeSpan stepDuration = TimeSpan.FromSeconds(0.5);
 	readonly protected static EasingCurve stepEasing = Easing.QuadOut;
+
+	protected int animationsEnqueued = 0;
+	protected int animationsFinished = 0;
 
 	public override void Start(TimeSpan startTime) {
 		queue.OnAnimationEnd += (_) => animationsFinished++;
