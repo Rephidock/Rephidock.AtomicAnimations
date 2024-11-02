@@ -8,10 +8,10 @@ namespace Rephidock.AtomicAnimations.Base;
 /// Base interface for all animations
 /// that have a set duration.
 /// </summary>
-public abstract class TimeSpanedAnimation : Animation {
+public abstract class TimedAnimation : Animation {
 
-	/// <inheritdoc cref="TimeSpanedAnimation"/>
-	protected TimeSpanedAnimation(TimeSpan duration) {
+	/// <inheritdoc cref="TimedAnimation"/>
+	protected TimedAnimation(TimeSpan duration) {
 		Duration = duration;
 	}
 

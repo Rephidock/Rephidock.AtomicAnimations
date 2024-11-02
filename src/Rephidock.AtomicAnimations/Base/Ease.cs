@@ -8,7 +8,7 @@ namespace Rephidock.AtomicAnimations.Base;
 /// Base animation for easing a value,
 /// additive or exclusive.
 /// </summary>
-public abstract class Ease : TimeSpanedAnimation {
+public abstract class Ease : TimedAnimation {
 
 	readonly EasingCurve easingCurve;
 

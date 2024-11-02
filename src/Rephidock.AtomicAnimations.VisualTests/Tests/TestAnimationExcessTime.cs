@@ -41,7 +41,7 @@ public class TestAnimationExcessTime : VisualTest {
 [VisualTestName(Name = "Excess time/TimeSpannedAnimation")]
 public class TestTimeSpannedAnimationExcess : VisualTest {
 
-	readonly TimeSpanedAnimation anim = new EmptyTimeSpannedAnimation(TimeSpan.FromSeconds(5));
+	readonly TimedAnimation anim = new EmptyTimeSpannedAnimation(TimeSpan.FromSeconds(5));
 
 	public override void Start(TimeSpan startTime) {
 		anim.StartAndUpdate(startTime);
@@ -71,7 +71,7 @@ public class EmptyAnimation : Animation {
 	public void ForceEnd(TimeSpan excessTime) => End(excessTime);
 }
 
-public class EmptyTimeSpannedAnimation : TimeSpanedAnimation {
+public class EmptyTimeSpannedAnimation : TimedAnimation {
 	public EmptyTimeSpannedAnimation(TimeSpan duration) : base(duration) { }
 	protected override void UpdateTimeSpannedImpl(TimeSpan deltaTime) { }
 }
