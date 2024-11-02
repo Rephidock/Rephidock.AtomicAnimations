@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations</Title>
     <Authors>Rephidock</Authors>
-    <Version>0.6.0-alpha.0.dev</Version>
+    <Version>0.6.0</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Basic callback-based user-controlled animations and coroutines.</Description>
     <Copyright>Copyright (c) 2024 Rephidock</Copyright>
