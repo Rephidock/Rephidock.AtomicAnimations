@@ -6,4 +6,3 @@ DOING:
 
 TO TEST:
 - Lazy animation throwing exceptions
-- Coroutines
