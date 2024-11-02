@@ -28,7 +28,7 @@ public class TestCatalogue {
 			.Where(type => type.GetConstructor(Type.EmptyTypes) is not null)
 			.Select(
 				type => KeyValuePair.Create(
-					type.GetCustomAttribute<VisualTestMetaAttribute>()?.Name ?? type.Name,
+					type.GetCustomAttribute<VisualTestNameAttribute>()?.Name ?? type.Name,
 					type
 				)
 			);

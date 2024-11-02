@@ -5,7 +5,7 @@ using SFML.System;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "Explorer: Events")]
+[VisualTestName(Name = "Test Explorer/Events")]
 public class TestExplorerEvents : VisualTest {
 
 	ArrowDirection? lastArrowDirection = null;

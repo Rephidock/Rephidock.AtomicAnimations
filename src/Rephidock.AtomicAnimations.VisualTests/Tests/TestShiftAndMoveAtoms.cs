@@ -30,7 +30,7 @@ public abstract class TestEaseBase : VisualTest {
 
 #region //// 4D
 
-[VisualTestMeta(Name = "Shift 4D (x,y,rot,xscale)")]
+[VisualTestName(Name = "Shift And Move/Shift 4D (x,y,rot,xscale)")]
 public class TestShift4D : TestEaseBase {
 
 	public const float startX = 100, startY = 100, startRot = 0, startXScale = 1;
@@ -81,7 +81,7 @@ public class TestShift4D : TestEaseBase {
 }
 
 
-[VisualTestMeta(Name = "Move 4D (x,y,rot,xscale)")]
+[VisualTestName(Name = "Shift And Move/Move 4D (x,y,rot,xscale)")]
 public class TestMove4D : TestShift4D {
 
 	public TestMove4D() : base() {
@@ -113,7 +113,7 @@ public class TestMove4D : TestShift4D {
 
 #region //// 3D
 
-[VisualTestMeta(Name = "Shift 3D (x,y,rot)")]
+[VisualTestName(Name = "Shift And Move/Shift 3D (x,y,rot)")]
 public class TestShift3D : TestEaseBase {
 
 	public const float startX = 100, startY = 100, startRot = 0;
@@ -161,7 +161,7 @@ public class TestShift3D : TestEaseBase {
 }
 
 
-[VisualTestMeta(Name = "Move 3D (x,y,rot)")]
+[VisualTestName(Name = "Shift And Move/Move 3D (x,y,rot)")]
 public class TestMove3D : TestShift3D {
 
 	public TestMove3D() : base() {
@@ -191,7 +191,7 @@ public class TestMove3D : TestShift3D {
 
 #region //// 2D
 
-[VisualTestMeta(Name = "Shift 2D (x,y)")]
+[VisualTestName(Name = "Shift And Move/Shift 2D (x,y)")]
 public class TestShift2D : TestEaseBase {
 
 	public const float startX = 100, startY = 100;
@@ -235,7 +235,7 @@ public class TestShift2D : TestEaseBase {
 
 }
 
-[VisualTestMeta(Name = "Move 2D (x,y)")]
+[VisualTestName(Name = "Shift And Move/Move 2D (x,y)")]
 public class TestMove2D : TestShift2D {
 
 	public TestMove2D() : base() {
@@ -264,7 +264,7 @@ public class TestMove2D : TestShift2D {
 
 #region //// 1D
 
-[VisualTestMeta(Name = "Shift 1D (x)")]
+[VisualTestName(Name = "Shift And Move/Shift 1D (x)")]
 public class TestShift1D : TestEaseBase {
 
 	public const float startX = 100, yPos = 100;
@@ -303,7 +303,7 @@ public class TestShift1D : TestEaseBase {
 }
 
 
-[VisualTestMeta(Name = "Move 1D (x)")]
+[VisualTestName(Name = "Shift And Move/Move 1D (x)")]
 public class TestMove1D : TestShift1D {
 
 	public TestMove1D() : base() {

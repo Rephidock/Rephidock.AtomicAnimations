@@ -6,7 +6,7 @@ using Rephidock.AtomicAnimations.Waves;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "Wave as easing (shift)")]
+[VisualTestName(Name = "Waves/Wave as easing (shift)")]
 public class TestWaveAsEasingShift : TestShift2D {
 
 	protected Wave easingWave;
@@ -38,7 +38,7 @@ public class TestWaveAsEasingShift : TestShift2D {
 }
 
 
-[VisualTestMeta(Name = "Wave as easing (move)")]
+[VisualTestName(Name = "Waves/Wave as easing (move)")]
 public class TestWaveAsEasingMove : TestWaveAsEasingShift {
 
 	public TestWaveAsEasingMove() : base() {

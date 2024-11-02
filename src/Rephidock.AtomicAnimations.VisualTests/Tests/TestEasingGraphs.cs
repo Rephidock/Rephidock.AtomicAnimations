@@ -10,7 +10,7 @@ using Rephidock.AtomicAnimations;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "Easing graphs")]
+[VisualTestName(Name = "Easing graphs")]
 public class TestEasingGraphs : VisualTest {
 
 	readonly (string name, EasingCurve curve)[] easingCurves;

@@ -10,7 +10,7 @@ using Rephidock.AtomicAnimations.Waves;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "Wave Graphs")]
+[VisualTestName(Name = "Waves/Wave Graphs")]
 public class TestWaves : VisualTest {
 
 	readonly Wave[] waves;

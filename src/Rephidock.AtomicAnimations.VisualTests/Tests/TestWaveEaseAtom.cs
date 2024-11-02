@@ -11,7 +11,7 @@ using System.Threading;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "Wave Ease Runthrough")]
+[VisualTestName(Name = "Waves/Wave Ease Runthrough")]
 public class TestWaveEaseAtom : VisualTest {
 
 	// Pillars
@@ -98,7 +98,7 @@ public class TestWaveEaseAtom : VisualTest {
 }
 
 
-[VisualTestMeta(Name = "Wave Ease Runthrough Reversed")]
+[VisualTestName(Name = "Waves/Wave Ease Runthrough Reversed")]
 public class TestWaveEaseAtomReversed : TestWaveEaseAtom {
 
 	public TestWaveEaseAtomReversed() {

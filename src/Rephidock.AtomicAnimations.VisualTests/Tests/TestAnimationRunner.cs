@@ -6,7 +6,7 @@ using SFML.System;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "AnimationRunner: shifts")]
+[VisualTestName(Name = "Runners/AnimationRunner/Shifts")]
 public class TestAnimationRunnerShifts : VisualTest {
 
 	readonly protected AnimationRunner runner = new();
@@ -91,7 +91,7 @@ public class TestAnimationRunnerShifts : VisualTest {
 }
 
 
-[VisualTestMeta(Name = "AnimationRunner: moves")]
+[VisualTestName(Name = "Runners/AnimationRunner/Moves")]
 public class TestAnimationRunnerMoves : TestAnimationRunnerShifts {
 
 	protected override void AddAnimationToRunner(float shiftX, float shiftY) {

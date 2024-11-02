@@ -5,7 +5,7 @@ namespace Rephidock.AtomicAnimations.VisualTests;
 
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class VisualTestMetaAttribute : Attribute {
+public class VisualTestNameAttribute : Attribute {
 
 	/// <summary>
 	/// Name of the test.

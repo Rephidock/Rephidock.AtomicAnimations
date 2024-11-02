@@ -7,7 +7,7 @@ using SFML.System;
 namespace Rephidock.AtomicAnimations.VisualTests.Tests;
 
 
-[VisualTestMeta(Name = "AnimationQueue: shifts")]
+[VisualTestName(Name = "Runners/AnimationQueue/Shifts")]
 public class TestAnimationQueueShifts : VisualTest {
 
 	readonly protected AnimationQueue queue = new();
@@ -92,7 +92,7 @@ public class TestAnimationQueueShifts : VisualTest {
 }
 
 
-[VisualTestMeta(Name = "AnimationQueue: moves")]
+[VisualTestName(Name = "Runners/AnimationQueue/Moves")]
 public class TestAnimationQueueMoves : TestAnimationQueueShifts {
 
 	protected override void EnqueueNewAnimation(float shiftX, float shiftY) {
@@ -114,7 +114,7 @@ public class TestAnimationQueueMoves : TestAnimationQueueShifts {
 
 }
 
-[VisualTestMeta(Name = "AnimationQueue: moves (lazy factory)")]
+[VisualTestName(Name = "Runners/AnimationQueue/Moves (lazy factory)")]
 public class TestAnimationQueueMoveLazy : TestAnimationQueueShifts {
 
 	protected override void EnqueueNewAnimation(float shiftX, float shiftY) {
