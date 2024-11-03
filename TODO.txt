@@ -1,5 +1,4 @@
 TO DO:
-- Make a framework 3.5 fork package (after GeneralUtilities)
 - Examples in readme
 
 DOING:

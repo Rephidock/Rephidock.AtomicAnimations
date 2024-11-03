@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+
+## Local Dependancies
+# White list local package for .net framework 3.5 version
+!src/Rephidock.AtomicAnimations.NetFramework35/dependancies/*

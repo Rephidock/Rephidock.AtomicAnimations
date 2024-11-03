@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>Rephidock.AtomicAnimations.NetFramework35</Title>
+    <Authors>Rephidock</Authors>
+    <Version>0.6.0+netframework35</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <Description>Rephidock.AtomicAnimations but downgraded to .NET fraemwork 3.5</Description>
+    <Copyright>Copyright (c) 2024 Rephidock</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>animation;easing;tween</PackageTags>
+    <PackageProjectUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations/tree/main/src/Rephidock.AtomicAnimations.NetFramework35</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>
+      See release notes of Rephidock.AtomicAnimations
+    </PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include=".\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <TargetFrameworks>net35</TargetFrameworks>
+    <LangVersion>6</LangVersion>
+    <RootNamespace>Rephidock.AtomicAnimations</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <RestoreSources>$(RestoreSources);./dependancies</RestoreSources>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Rephidock.GeneralUtilities.NetFramework35"  Version="2.0.0" />
+  </ItemGroup>
+
+</Project>
