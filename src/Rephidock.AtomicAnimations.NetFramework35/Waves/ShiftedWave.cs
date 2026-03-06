@@ -14,7 +14,7 @@ public struct ShiftedWave {
 
 	/// <summary>
 	/// The horizontal offset of the wave.
-	/// Higher values mean furhter to the right.
+	/// Higher values mean further to the right.
 	/// </summary>
 	/// <remarks>Init only.</remarks>
 	public float Offset { get; set; }

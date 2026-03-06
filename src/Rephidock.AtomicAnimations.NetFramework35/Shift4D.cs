@@ -8,7 +8,7 @@ namespace Rephidock.AtomicAnimations {
 
 /// <summary>
 /// Shifts 4 values over time.
-/// Is not an excusilve ease.
+/// Is not an exclusive ease.
 /// </summary>
 public class Shift4D : Ease {
 

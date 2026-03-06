@@ -215,7 +215,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 		if (isDisposed) return;
 
-		// Disponse managed
+		// Dispose managed
 		if (isDisposingManaged) {
 			innerRunner.Dispose();
 			coroutineEnumerator?.Dispose();

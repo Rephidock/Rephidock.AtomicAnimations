@@ -10,7 +10,7 @@ namespace Rephidock.AtomicAnimations.VisualTests;
 
 public class TestRunner : IDisposable {
 
-	#region //// Runnig test
+	#region //// Running test
 
 	public VisualTest? RunningTest { get; private set; } = null;
 
@@ -28,7 +28,7 @@ public class TestRunner : IDisposable {
 			testClass.IsAbstract ||
 			testClass.GetConstructor(Type.EmptyTypes) is null
 		) {
-			throw new ArgumentException($"Could not intantiante test {testClass.Name}");
+			throw new ArgumentException($"Could not instantiate test {testClass.Name}");
 		}
 
 
@@ -65,18 +65,18 @@ public class TestRunner : IDisposable {
 
 		if (IsManualTimeFlow) {
 			// Manual time flow
-			TimeSpan multipledDeltaTime = ManualTimeStep.value;
+			TimeSpan multipliedDeltaTime = ManualTimeStep.value;
 			for (; ManualStepsQueued > 0; ManualStepsQueued--) {
-				RunningElapsedTime += multipledDeltaTime;
-				RunningTest?.Update(multipledDeltaTime);
+				RunningElapsedTime += multipliedDeltaTime;
+				RunningTest?.Update(multipliedDeltaTime);
 			}
 			
 		} else {
 			// Normal time flow with multiplier
 			if (!IsPaused) {
-				TimeSpan multipledDeltaTime = deltaTime * TimeMultiplier;
-				RunningElapsedTime += multipledDeltaTime;
-				RunningTest?.Update(multipledDeltaTime);
+				TimeSpan multipliedDeltaTime = deltaTime * TimeMultiplier;
+				RunningElapsedTime += multipliedDeltaTime;
+				RunningTest?.Update(multipliedDeltaTime);
 			}
 		}
 

@@ -13,7 +13,7 @@ namespace Rephidock.AtomicAnimations.Coroutines {
 /// May hold an animation or a wait instruction.
 /// </para>
 /// <para>
-/// Supposed to be immutable but old langauge features do not enforce this.
+/// Supposed to be immutable but old language features do not enforce this.
 /// Assume all properties are <c>{ get; init; }</c>.
 /// </para>
 /// <para>

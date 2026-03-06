@@ -29,7 +29,7 @@ public class TestExplorerUI : IDisposable {
 
 	const uint MainFontSize = 18;
 
-	const int MainFontLineSpacing = 24; // Hardcoded to be const. Retrivied from `MainFont.GetLineSpacing(MainFontSize)`
+	const int MainFontLineSpacing = 24; // Hardcoded to be const. Retrieved from `MainFont.GetLineSpacing(MainFontSize)`
 
 	public static class Layout {
 
@@ -79,7 +79,7 @@ public class TestExplorerUI : IDisposable {
 		return $"√{totalTests,2}";
 	}
 
-	string FormatCalatlogueItem(string name, TestCatalogueItem item) {
+	string FormatCatalogueItem(string name, TestCatalogueItem item) {
 
 		// Format as directory
 		if (item.IsDirectory) {
@@ -179,7 +179,7 @@ public class TestExplorerUI : IDisposable {
 		// If holding alt
 		if (@event.Alt) {
 
-			// Change inital time
+			// Change initial time
 			if (@event.Code == Keyboard.Key.Up) {
 				TestRunner.InitialTime += TestRunner.PresetInitialTimeStep;
 			} else if (@event.Code == Keyboard.Key.Down) {
@@ -459,7 +459,7 @@ public class TestExplorerUI : IDisposable {
 				// Create and draw display row
 				var rowItem = TestCatalogue.CurrentDirectoryOptions[i];
 				WindowDrawer.DrawText(
-					FormatCalatlogueItem(rowItem.Key, rowItem.Value), 
+					FormatCatalogueItem(rowItem.Key, rowItem.Value), 
 					currentOffset
 				);
 				

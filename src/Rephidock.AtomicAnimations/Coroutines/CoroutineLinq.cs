@@ -7,7 +7,7 @@ namespace Rephidock.AtomicAnimations.Coroutines;
 
 
 /// <summary>
-/// Proives methods to work on coroutines.
+/// Provides methods to work on coroutines.
 /// </summary>
 public static class CoroutineLinq {
 
@@ -17,7 +17,7 @@ public static class CoroutineLinq {
 	/// Also adds a wait for the animation to be finished.
 	/// </summary>
 	/// <remarks>
-	/// If waiting is not desired, use a cast coverision instead.
+	/// If waiting is not desired, use a cast conversion instead.
 	/// </remarks>
 	public static IEnumerable<CoroutineYield> ToCoroutine(this Animation animation) {
 		yield return (CoroutineYield)animation;

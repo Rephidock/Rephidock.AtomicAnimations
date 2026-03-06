@@ -23,7 +23,7 @@ public abstract class Ease : TimedAnimation {
 	}
 
 	/// <summary>
-	/// Implimentation of the ease.
+	/// Implementation of the ease.
 	/// </summary>
 	/// <param name="valueProgressNew">Next normalized value to ease to in this update</param>
 	protected abstract void EaseUpdateImpl(float valueProgressNew);

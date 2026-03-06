@@ -8,7 +8,7 @@ namespace Rephidock.AtomicAnimations {
 
 /// <summary>
 /// Moves 2 values over time.
-/// An excusilve ease.
+/// An exclusive ease.
 /// </summary>
 public class Move2D : Ease {
 

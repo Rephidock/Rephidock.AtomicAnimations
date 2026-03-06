@@ -35,9 +35,9 @@ public class WaveEase : Ease {
 
 	/// <summary>
 	/// Creates a <see cref="WaveEase"/> that shifts the <paramref name="wave"/>
-	/// from behind an abitrary span of width <paramref name="spanWidth"/>, starting at
+	/// from behind an arbitrary span of width <paramref name="spanWidth"/>, starting at
 	/// horizontal position 0, to right beyond it,
-	/// as if the wave runs through said abitrary span.
+	/// as if the wave runs through said arbitrary span.
 	/// </summary>
 	public static WaveEase CreateRunthrough(
 		Wave wave,

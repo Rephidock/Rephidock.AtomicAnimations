@@ -43,11 +43,11 @@ public class TestCatalogue {
 			for (int i = 0; i < testPathParts.Length - 1; i++) {
 				
 				// Duplicate
-				if (currentDirectory.DirectoryItems!.TryGetValue(testPathParts[i], out TestCatalogueItem existantItem)) {
+				if (currentDirectory.DirectoryItems!.TryGetValue(testPathParts[i], out TestCatalogueItem existingItem)) {
 
 					// Directory already exists -- traverse
-					if (existantItem.IsDirectory) {
-						currentDirectory = existantItem;
+					if (existingItem.IsDirectory) {
+						currentDirectory = existingItem;
 						continue;
 					}
 

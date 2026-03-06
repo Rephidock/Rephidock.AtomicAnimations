@@ -96,8 +96,8 @@ public static class Easing {
 	public static float ElasticIn(float t, float elasticityMultiplier) => 1 - ElasticOut(1 - t, elasticityMultiplier);
 
 	public static float ElasticOut(float t, float elasticityMultiplier) {
-		float eleasticityPower = baseElasticityPower / elasticityMultiplier;
-		return MathF.Pow(2, -10 * t) * MathF.Sin((t - eleasticityPower / 4) * (2 * MathF.PI) / eleasticityPower) + 1;
+		float elasticityPower = baseElasticityPower / elasticityMultiplier;
+		return MathF.Pow(2, -10 * t) * MathF.Sin((t - elasticityPower / 4) * (2 * MathF.PI) / elasticityPower) + 1;
 	}
 
 	public static float ElasticInOut(float t, float elasticityMultiplier) {
