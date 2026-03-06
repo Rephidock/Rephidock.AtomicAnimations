@@ -3,21 +3,18 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations</Title>
     <Authors>Rephidock</Authors>
-    <Version>0.6.0</Version>
+    <Version>0.6.1</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Basic callback-based user-controlled animations and coroutines.</Description>
-    <Copyright>Copyright (c) 2024 Rephidock</Copyright>
+    <Copyright>Copyright (c) 2024, 2026 Rephidock</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>animation;easing;tween</PackageTags>
     <PackageProjectUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - Updated dependancies
-      - Renamed `.Base.TimeSpanedAnimation` -&gt; `.Base.TimedAnimation`
-      - Added CoroutineYield.Sleep static creation method
-      - Documentation fixes
-      - Better introduction
+      - Fix many typos in docs
+      - Update readme
     </PackageReleaseNotes>
   </PropertyGroup>
 

@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations.NetFramework35</Title>
     <Authors>Rephidock</Authors>
-    <Version>0.6.0+netframework35</Version>
+    <Version>0.6.1+netframework35</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Rephidock.AtomicAnimations but downgraded to .NET fraemwork 3.5</Description>
-    <Copyright>Copyright (c) 2024 Rephidock</Copyright>
+    <Copyright>Copyright (c) 2024, 2026 Rephidock</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>animation;easing;tween</PackageTags>
     <PackageProjectUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</PackageProjectUrl>
@@ -25,7 +25,7 @@
   </ItemGroup>
   
   <PropertyGroup>
-    <TargetFrameworks>net35</TargetFrameworks>
+    <TargetFramework>net35</TargetFramework>
     <LangVersion>6</LangVersion>
     <RootNamespace>Rephidock.AtomicAnimations</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
