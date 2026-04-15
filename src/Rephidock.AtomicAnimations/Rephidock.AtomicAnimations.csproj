@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Title>Rephidock.AtomicAnimations</Title>
     <Authors>Rephidock</Authors>
-    <Version>0.6.1</Version>
+    <Version>0.6.2-alpha.0.dev</Version>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Description>Basic callback-based user-controlled animations and coroutines.</Description>
     <Copyright>Copyright (c) 2024, 2026 Rephidock</Copyright>
@@ -13,8 +13,7 @@
     <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - Fix many typos in docs
-      - Update readme
+      
     </PackageReleaseNotes>
   </PropertyGroup>
 
