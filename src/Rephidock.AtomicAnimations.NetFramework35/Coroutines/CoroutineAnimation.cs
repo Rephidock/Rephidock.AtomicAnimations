@@ -17,7 +17,7 @@ namespace Rephidock.AtomicAnimations.Coroutines {
 /// </summary>
 public class CoroutineAnimation : Animation, IDisposable {
 
-	#region //// Storage, Creation
+	#region /--- Storage, Creation ---/
 
 	readonly IEnumerable<CoroutineYield> coroutine;
 
@@ -33,7 +33,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 	#endregion
 
-	#region //// Execution
+	#region /--- Execution ---/
 
 	// Enumeration
 	IEnumerator<CoroutineYield> coroutineEnumerator = null;
@@ -206,7 +206,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 	#endregion
 
-	#region //// IDisposable
+	#region /--- IDisposable ---/
 
 	bool isDisposed = false;
 

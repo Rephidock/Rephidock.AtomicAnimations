@@ -24,13 +24,13 @@ public static class Easing {
 
 	#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 	
-	#region //// Linear
+	#region /--- Linear ---/
 
 	public static float Linear(float t) => t;
 
 	#endregion
 
-	#region //// Power
+	#region /--- Power ---/
 
 	// General curves
 	public static float PowerIn(float t, float power) => (float)Math.Pow(t, power);
@@ -59,7 +59,7 @@ public static class Easing {
 
 	#endregion
 
-	#region //// Sine
+	#region /--- Sine ---/
 
 	public static float SineIn(float t) => 1 - (float)Math.Cos(t * (float)Math.PI / 2);
 	public static float SineOut(float t) => (float)Math.Sin(t * (float)Math.PI / 2);
@@ -67,7 +67,7 @@ public static class Easing {
 
 	#endregion
 
-	#region //// Expo
+	#region /--- Expo ---/
 
 	public static float ExpoIn(float t) => (float)Math.Pow(2, 10 * (t - 1));
 	public static float ExpoOut(float t) => 1 - ExpoIn(1 - t);
@@ -78,7 +78,7 @@ public static class Easing {
 
 	#endregion
 
-	#region //// Circ
+	#region /--- Circ ---/
 
 	public static float CircIn(float t) => -(float)Math.Sqrt(1 - t * t) + 1;
 	public static float CircOut(float t) => 1 - CircIn(1 - t);
@@ -89,7 +89,7 @@ public static class Easing {
 
 	#endregion
 
-	#region //// Elastic
+	#region /--- Elastic ---/
 
 	const float baseElasticityPower = 0.3f;
 
@@ -112,7 +112,7 @@ public static class Easing {
 
 	#endregion
 
-	#region //// Back
+	#region /--- Back ---/
 
 	const float baseBackConstant = 1.70158f;
 
@@ -137,7 +137,7 @@ public static class Easing {
 
 	#endregion
 
-	#region //// Bounce
+	#region /--- Bounce ---/
 
 	public static float BounceIn(float t) => 1 - BounceOut(1 - t);
 	

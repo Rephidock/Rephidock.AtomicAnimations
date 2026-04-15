@@ -22,7 +22,7 @@ public abstract class Animation {
 	/// </summary>
 	public TimeSpan ExcessTime { get; private set; }
 
-	#region //// Flags
+	#region /--- Flags ---/
 
 	/// <summary>
 	/// Is <see langword="true"/> if <see cref="StartAndUpdate(TimeSpan)"/>.
@@ -36,7 +36,7 @@ public abstract class Animation {
 
 	#endregion
 
-	#region //// Main API
+	#region /--- Main API ---/
 
 	/// <summary>
 	/// <para>
@@ -111,7 +111,7 @@ public abstract class Animation {
 
 	#endregion
 
-	#region //// Internal implementation
+	#region /--- Internal implementation ---/
 
 	/// <summary>
 	/// <para>Implementation that is called before the first update.</para>

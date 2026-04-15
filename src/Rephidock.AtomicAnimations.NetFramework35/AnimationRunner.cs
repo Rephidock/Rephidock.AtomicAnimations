@@ -133,7 +133,7 @@ public class AnimationRunner : IDisposable {
 	/// </remarks>
 	public event Action<Animation> OnAnimationEnd = null;
 
-	#region //// IDisposable
+	#region /--- IDisposable ---/
 
 	bool isDisposed = false;
 

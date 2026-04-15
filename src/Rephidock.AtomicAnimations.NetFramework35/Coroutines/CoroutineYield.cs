@@ -22,7 +22,7 @@ namespace Rephidock.AtomicAnimations.Coroutines {
 /// </summary>
 public class CoroutineYield : ICloneable {
 
-	#region //// Animation
+	#region /--- Animation ---/
 
 	/// <summary>
 	/// The animation to start. Does not imply any delays.
@@ -42,7 +42,7 @@ public class CoroutineYield : ICloneable {
 
 	#endregion
 
-	#region //// Waiting
+	#region /--- Waiting ---/
 
 	/// <summary>
 	/// If <see langword="true"/>, causes the routine to wait for the single
@@ -97,7 +97,7 @@ public class CoroutineYield : ICloneable {
 
 	#endregion
 
-	#region //// Static instances and creators
+	#region /--- Static instances and creators ---/
 
 	/// <summary>
 	/// A yield that waits for all previously
@@ -140,7 +140,7 @@ public class CoroutineYield : ICloneable {
 
 	#endregion
 
-	#region //// (netframework35) ICloneable
+	#region /--- (netframework35) ICloneable ---/
 
 	/// <inheritdoc/>
 	public object Clone() {

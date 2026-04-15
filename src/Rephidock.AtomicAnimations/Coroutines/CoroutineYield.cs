@@ -21,7 +21,7 @@ namespace Rephidock.AtomicAnimations.Coroutines;
 /// </summary>
 public record CoroutineYield {
 
-	#region //// Animation
+	#region /--- Animation ---/
 
 	/// <summary>
 	/// The animation to start. Does not imply any delays.
@@ -41,7 +41,7 @@ public record CoroutineYield {
 
 	#endregion
 
-	#region //// Waiting
+	#region /--- Waiting ---/
 
 	/// <summary>
 	/// If <see langword="true"/>, causes the routine to wait for the single
@@ -91,7 +91,7 @@ public record CoroutineYield {
 
 	#endregion
 
-	#region //// Static instances and creators
+	#region /--- Static instances and creators ---/
 
 	/// <summary>
 	/// A yield that waits for all previously

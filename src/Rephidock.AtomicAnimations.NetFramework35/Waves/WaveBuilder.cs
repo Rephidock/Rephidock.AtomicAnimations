@@ -13,7 +13,7 @@ namespace Rephidock.AtomicAnimations.Waves {
 /// </summary>
 public class WaveBuilder {
 
-	#region //// Storage
+	#region /--- Storage ---/
 
 	/// <inheritdoc cref="Wave.StartValue"/>
 	/// <remarks><c>0</c> by default.</remarks>
@@ -27,7 +27,7 @@ public class WaveBuilder {
 
 	#endregion
 
-	#region //// Wave equivalent getters
+	#region /--- Wave equivalent getters ---/
 
 	/// <inheritdoc cref="Wave.Curves"/>
 	/// <remarks>The given list changes as more curves are added.</remarks>
@@ -51,7 +51,7 @@ public class WaveBuilder {
 
 	#endregion
 
-	#region //// Building
+	#region /--- Building ---/
 
 	/// <summary>Fluently sets <see cref="StartValue"/></summary>
 	/// <returns>this</returns>
