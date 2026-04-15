@@ -8,5 +8,5 @@ The version of this package mimics the version of the original package.
 
 Following features were changed:
 - Removed `record` related features of `Wave`, `CoroutineYield`
-- (new) `CoroutineYield` is now `IClonable` to replace absense of `with`
-- Protectection regarding `init` properties of `ShiftedWave` and `CoroutineYield` no longer exists
+- (new) `CoroutineYield` is now `IClonable` to replace absence of `with`
+- Protection regarding `init` properties of `ShiftedWave` and `CoroutineYield` no longer exists

@@ -16,7 +16,7 @@ The package provides:
 
 This package does *not* create additional clocks or threads to be transparent about control flow. Use the `Update(TimeSpan deltaTime)` to provide time flow to animations, runners and queues.
 
-Additionally queues and coroutines account for excess time since each atom finishes for better accuracy when chaining animations together.
+Additionally, queues and coroutines account for excess time since each atom finishes for better accuracy when chaining animations together.
 
 
 
@@ -25,7 +25,7 @@ Additionally queues and coroutines account for excess time since each atom finis
 The package provides the following animations out of the box:
 
 | Animation                        | Summary                                                     |
-| -------------------------------- | ----------------------------------------------------------- |
+|----------------------------------|-------------------------------------------------------------|
 | `Shift1D`, 2D, 3D, 4D            | Changes 1 to 4 values by adding differences between updates |
 | `Move1D`, 2D, 3D, 4D             | Changes 1 to 4 values by setting values directly            |
 | `.Waves.WaveEase`                | Calls an update delegate with a moving Wave (curve)         |
@@ -39,7 +39,7 @@ Use a queue or a runner to execute multiple animations.
 Animations can be added to both during their runtime (fire-and-forget).
 
 | Runner            | Summary                                                                  |
-| ----------------- | ------------------------------------------------------------------------ |
+|-------------------|--------------------------------------------------------------------------|
 | `AnimationRunner` | Runs animations in parallel. Starts animations the moment they are added |
 | `AnimationQueue`  | Runs animations in series. Supports `Lazy<Animation>`                    |
 
@@ -47,7 +47,7 @@ Animations can be added to both during their runtime (fire-and-forget).
 For creating animations from scratch you can use the following classes in the `.Base` namespace:
 
 | Abstract Class   | Summary                                                 |
-| ---------------- | ------------------------------------------------------- |
+|------------------|---------------------------------------------------------|
 | `Animation`      | Base class for all animations                           |
 | `TimedAnimation` | `Animation` with a known Duration                       |
 | `Ease`           | `TimedAnimation` with defined easing and progress value |
