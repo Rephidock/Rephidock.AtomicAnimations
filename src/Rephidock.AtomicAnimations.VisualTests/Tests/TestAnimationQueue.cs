@@ -15,7 +15,7 @@ public class TestAnimationQueueShifts : VisualTest {
 	protected Vector2f position = new(100, 200);
 	readonly static protected Vector2f size = new(100, 100);
 
-	const float stepDistance = 100;
+	protected const float stepDistance = 100;
 	readonly protected static TimeSpan stepDuration = TimeSpan.FromSeconds(0.5);
 	readonly protected static EasingCurve stepEasing = Easing.QuadOut;
 
