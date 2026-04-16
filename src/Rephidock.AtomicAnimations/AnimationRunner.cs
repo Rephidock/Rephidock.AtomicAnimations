@@ -80,18 +80,22 @@ public class AnimationRunner : IDisposable {
 		while (currentNode is not null) {
 
 			// Update and find next
-			currentNode.Value.Update(deltaTime);
 			nextNode = currentNode.Next;
+			try {
+				currentNode.Value.Update(deltaTime);
+			} catch {
+				// prevent corrupted state
+				animations.Remove(currentNode);
+				(currentNode.Value as IDisposable)?.Dispose();
+				throw;
+			}
 
 			// Remove node with finished animation
 			if (currentNode.Value.HasEnded) {
 
 				animations.Remove(currentNode);
 				OnAnimationEnd?.Invoke(currentNode.Value);
-
-				if (currentNode.Value is IDisposable disposable) {
-					disposable.Dispose();
-				}
+				(currentNode.Value as IDisposable)?.Dispose();
 
 			}
 

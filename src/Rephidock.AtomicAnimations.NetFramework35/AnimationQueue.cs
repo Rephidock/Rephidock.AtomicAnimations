@@ -80,7 +80,7 @@ public class AnimationQueue : IDisposable {
 	/// </param>
 	private void StageNextAnimation(TimeSpan prevAnimExcessTime) {
 
-		// Clear current animation
+		// Clear current
 		if (currentlyPlayingAnimation is IDisposable) {
 			((IDisposable)currentlyPlayingAnimation).Dispose();
 		}
@@ -89,7 +89,7 @@ public class AnimationQueue : IDisposable {
 		// Queue empty -- done
 		if (animations.Count <= 0) return;
 
-		// Set next animation as current one and start it
+		// Set next as current and start it
 		try {
 
 			currentlyPlayingAnimation = animations.Dequeue().Value;
@@ -101,6 +101,7 @@ public class AnimationQueue : IDisposable {
 			currentlyPlayingAnimation.StartAndUpdate(prevAnimExcessTime);
 
 		} catch {
+			// prevent corrupted state
 			Clear();
 			throw;
 		}
@@ -116,16 +117,21 @@ public class AnimationQueue : IDisposable {
 	/// </remarks>
 	public void Update(TimeSpan deltaTime) {
 
-		// Dispose guard
+		// Guards
 		if (isDisposed) throw new ObjectDisposedException(this.GetType().FullName);
-
-		// Do nothing if no animation is playing
+		
 		if (currentlyPlayingAnimation == null) return;
 
-		// Update the current animation
-		currentlyPlayingAnimation.Update(deltaTime);
+		// Update current
+		try {
+			currentlyPlayingAnimation.Update(deltaTime);
+		} catch {
+			// prevent corrupted state
+			StageNextAnimation(TimeSpan.Zero);
+			throw;
+		}
 		
-		// If finished: stage next animation
+		// If finished: stage next
 		while (currentlyPlayingAnimation != null && currentlyPlayingAnimation.HasEnded) {
 
 			OnAnimationEnd?.Invoke(currentlyPlayingAnimation);
