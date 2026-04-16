@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Rephidock.AtomicAnimations.Base;
+using Rephidock.AtomicAnimations.Coroutines;
 
 
 namespace Rephidock.AtomicAnimations;
@@ -60,6 +61,19 @@ public class AnimationRunner : IDisposable {
 	public void Run(Lazy<Animation> animation) {
 		ArgumentNullException.ThrowIfNull(animation);
 		Run(animation.Value);
+	}
+	
+	/// <inheritdoc cref="Run(Animation, TimeSpan)"/>
+	/// <remarks>Automatically creates the <see cref="CoroutineAnimation"/> with the given routine.</remarks>
+	public void Run(IEnumerable<CoroutineYield> coroutine, TimeSpan initialTime) {
+		ArgumentNullException.ThrowIfNull(coroutine);
+		Run(coroutine.ToAnimation(), initialTime);
+	}
+	
+	/// <inheritdoc cref="Run(IEnumerable{CoroutineYield}, TimeSpan)"/>
+	public void Run(IEnumerable<CoroutineYield> coroutine) {
+		ArgumentNullException.ThrowIfNull(coroutine);
+		Run(coroutine.ToAnimation());
 	}
 
 	/// <summary>
