@@ -45,7 +45,7 @@ public record CoroutineYield {
 
 	/// <summary>
 	/// If <see langword="true"/>, causes the routine to wait for the single
-	/// previously yielded animations to finish.
+	/// previously yielded animation to finish.
 	/// </summary>
 	public bool WaitLastYieldedAnimation { get; init; } = false;
 
