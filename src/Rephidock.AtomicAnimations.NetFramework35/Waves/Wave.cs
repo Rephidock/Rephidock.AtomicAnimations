@@ -99,7 +99,7 @@ public class Wave {
 
 	/// <summary>
 	/// <para>
-	/// Returns the wave's value at a give "time" (<paramref name="horizontalPosition"/>).
+	/// Returns the wave's value at a given "time" (<paramref name="horizontalPosition"/>).
 	/// </para>
 	/// <para>
 	/// Out of bounds "time" is a valid input and will return
