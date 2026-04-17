@@ -25,8 +25,9 @@ public class CoroutineYield : ICloneable {
 	#region /--- Animation ---/
 
 	/// <summary>
-	/// The animation to start. Does not imply any delays.
-	/// Must be set to <see langword="null"/> for waiting to apply.
+	/// The animation to start/play.
+	/// Overrules any delays,
+	/// must be set to <see langword="null"/> for delays to apply.
 	/// (is a discriminated union with delays)
 	/// </summary>
 	public Animation Animation { get; set; } = null;
