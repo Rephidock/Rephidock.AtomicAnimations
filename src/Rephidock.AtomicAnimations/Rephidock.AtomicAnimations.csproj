@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/Rephidock/Rephidock.AtomicAnimations</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      - Prevent corrupted state inside runners
+      - Prevented corrupted state inside runners
       - Added a coroutine shortcut in AnimationRunner.Run
     </PackageReleaseNotes>
   </PropertyGroup>
