@@ -101,7 +101,7 @@ public record CoroutineYield {
 	/// Is a static instance with just
 	/// <see cref="WaitAllYieldedAnimations"/> being enabled.
 	/// </remarks>
-	public readonly static CoroutineYield Join = new() { WaitAllYieldedAnimations = true };
+	public static readonly CoroutineYield Join = new() { WaitAllYieldedAnimations = true };
 
 	/// <summary>
 	/// A yield that waits for a single previous
@@ -111,17 +111,16 @@ public record CoroutineYield {
 	/// Is a static instance with just
 	/// <see cref="WaitLastYieldedAnimation"/> being enabled.
 	/// </remarks>
-	public readonly static CoroutineYield WaitPrevious = new() { WaitLastYieldedAnimation = true };
+	public static readonly CoroutineYield WaitPrevious = new() { WaitLastYieldedAnimation = true };
 
 	/// <summary>
 	/// A yield that suspends execution until the next update call
 	/// <u>without</u> influencing the start times of the following animations.
 	/// </summary>
 	/// <remarks>
-	/// Is a static instance with just
-	/// <see cref="SuspendForAnUpdate"/> being enabled.
+	/// Is a static instance with just <see cref="SuspendForAnUpdate"/> being set.
 	/// </remarks>
-	public readonly static CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
+	public static readonly CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
 
 	/// <summary>A yield that suspends execution for given amount of time.</summary>
 	/// <remarks>Creates an instance with just <see cref="WaitFor"/> being set.</remarks>
