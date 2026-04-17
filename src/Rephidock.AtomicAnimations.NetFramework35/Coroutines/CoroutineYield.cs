@@ -20,7 +20,7 @@ namespace Rephidock.AtomicAnimations.Coroutines {
 /// See also: <see cref="CoroutineAnimation"/>.
 /// </para>
 /// </summary>
-public class CoroutineYield : ICloneable {
+public class CoroutineYield {
 
 	#region /--- Animation ---/
 
@@ -139,23 +139,6 @@ public class CoroutineYield : ICloneable {
 	/// <see cref="WaitFor"/> being set.
 	/// </remarks>
 	public static CoroutineYield Sleep(TimeSpan delay) => new CoroutineYield() { WaitFor = delay };
-
-	#endregion
-
-	#region /--- (netframework35) ICloneable ---/
-
-	/// <inheritdoc/>
-	public object Clone() {
-		return new CoroutineYield() {
-			Animation = Animation,
-			WaitLastYieldedAnimation = WaitLastYieldedAnimation,
-			WaitAllYieldedAnimations = WaitAllYieldedAnimations,
-			WaitFor = WaitFor,
-			WaitUntil = WaitUntil,
-			WaitUntilPredicate = WaitUntilPredicate,
-			SuspendForAnUpdate = SuspendForAnUpdate
-		};
-	}
 
 	#endregion
 

@@ -9,5 +9,4 @@ Prefer using the original package when possible.
 
 Following features were changed:
 - Removed `record` related features of `Wave`, `CoroutineYield`
-- (new) `CoroutineYield` is now `IClonable` to replace absence of `with`
 - Protection regarding `init` properties of `ShiftedWave` and `CoroutineYield` no longer exists
