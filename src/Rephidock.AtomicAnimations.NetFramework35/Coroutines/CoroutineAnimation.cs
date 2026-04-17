@@ -109,9 +109,7 @@ public class CoroutineAnimation : Animation, IDisposable {
 
 				// Suspend until next update
 				if (currentDelayYield.SuspendForAnUpdate) {
-					CoroutineYield currentDelayYieldClone = currentDelayYield.Clone() as CoroutineYield;
-					currentDelayYieldClone.SuspendForAnUpdate = false;
-					currentDelayYield = currentDelayYieldClone;
+					currentDelayYield = null;
 					return;
 				}
 

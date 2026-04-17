@@ -92,7 +92,8 @@ public class CoroutineYield : ICloneable {
 	/// <u>without</u> influencing the start times of the following animations.
 	/// </summary>
 	/// <remarks>
-	/// Is the only waiting option that does not affect start times of animations.
+	/// Overrules any other delays set to <see langword="true"/>.
+	/// (Must be set to <see langword="false"/> for other delays on this instance to apply).
 	/// </remarks>
 	public bool SuspendForAnUpdate { get; set; } = false;
 
