@@ -26,23 +26,48 @@ Use `Update(TimeSpan deltaTime)` to provide time flow to animations, runners and
 | `.Waves.WaveEase`                 | Calls an update delegate with a moving Wave (curve)         |
 | `.Coroutines.CoroutineAnimation`  | Structures others animations, timing, state and logic       |
 
-For simplicity, prefer using Shift and Move 'atoms' with delegates.
-Inheriting from the base classes is not required, but is useful sometimes.
-
-To control the easing of values use the static methods in the `Easing` class.
-All easing functions are normalized. `EasingCurve` delegate is included.
-
-
-
-The animations can be run manually or added to an `AnimationRunner` or an `AnimationQueue`:
-
 | Runner            | Summary                                                                  |
 |-------------------|--------------------------------------------------------------------------|
 | `AnimationRunner` | Runs animations in parallel. Starts animations the moment they are added |
 | `AnimationQueue`  | Runs animations in series. Supports `Lazy<Animation>`                    |
 
-Additionally, queues and coroutines account for excess time since each atom finishes
+For simplicity, prefer using Shift and Move atoms with delegates.
+Inheriting from the base classes is not required, but is useful sometimes.
+
+To control the easing of values use the static methods in the `Easing` class. All easing functions are normalized.
+
+The animations can be run manually or added to an `AnimationRunner` or an `AnimationQueue`.
+`AnimationQueue`s and `CoroutineAnimation`s also account for excess time since each atom finishes
 for better accuracy when chaining animations together.
+
+Usage example:
+```csharp
+public float X { get; set; }
+public float Y { get; set; }
+
+readonly AnimationRunner animationRunner = new AnimationRunner();
+
+// ...
+
+// In a method that is run every frame
+// (commonly Update(float deltaTime) or similar)
+animationRunner.Update(TimeSpan.FromSeconds(deltaTime));
+
+// ...
+
+animationRunner.Run( 
+    new Shift2D(
+        100, 200,
+        TimeSpan.FromSeconds(0.5),
+        Easing.Linear,
+        (x, y) => {
+            this.X += x;
+            this.Y += y;
+        }
+    ) 
+);
+```
+
 
 
 ### `.Waves` namespace
@@ -87,3 +112,37 @@ while delays are static instances or created through static methods:
 - `CoroutineYield.Suspend`: Suspends an update without influencing the flow of time
 
 This allows mixing both serial and parallel execution.
+
+Example:
+```csharp
+public float X { get; set; }
+public float Y { get; set; }
+public float Rotation { get; set; }
+
+// ...
+
+IEnumerable<CoroutineYield> ExampleCoroutine(float targetY, bool doSpin) {
+    
+    yield return new Move1D(
+        this.Y,
+        targetY,
+        TimeSpan.FromSeconds(2),
+        Easing.Linear,
+        y => { this.Y = y; }
+    );
+    
+    if (doSpin) 
+    {
+        yield return CoroutineYield.Sleep(TimeSpan.FromSeconds(1));
+
+        yield return new Shift1D(
+            360,
+            TimeSpan.FromSeconds(1),
+            Easing.QuadOut,
+            r => { this.Rotation += r; }
+        );
+    }
+    
+    yield return CoroutineYield.Join;
+}
+```
