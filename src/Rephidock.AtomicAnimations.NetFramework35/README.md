@@ -8,5 +8,5 @@ Due to drastic differences (including in dependencies) this needs to be a separa
 Prefer using the original package when possible.
 
 Following features were changed:
-- Removed `record` related features of `Wave`, `CoroutineYield`
-- Protection regarding `init` properties of `ShiftedWave` and `CoroutineYield` no longer exists
+- `Wave` and `CoroutineYield` are no longer records
+- Former `init` properties of `ShiftedWave` and `CoroutineYield` can only be set through a constructor or creation methods.

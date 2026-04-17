@@ -13,8 +13,7 @@ namespace Rephidock.AtomicAnimations.Coroutines {
 /// May hold an animation or a wait instruction.
 /// </para>
 /// <para>
-/// Supposed to be immutable but old language features do not enforce this.
-/// Assume all properties are <c>{ get; init; }</c>.
+/// Immutable.
 /// </para>
 /// <para>
 /// See also: <see cref="CoroutineAnimation"/>.
@@ -30,7 +29,7 @@ public class CoroutineYield {
 	/// must be set to <see langword="null"/> for delays to apply.
 	/// (is a discriminated union with delays)
 	/// </summary>
-	public Animation Animation { get; set; } = null;
+	public Animation Animation { get; private set; } = null;
 
 	/// <summary>
 	/// Wraps a given animation in a <see cref="CoroutineYield"/>.
@@ -49,25 +48,25 @@ public class CoroutineYield {
 	/// If <see langword="true"/>, causes the routine to wait for the single
 	/// previously yielded animation to finish.
 	/// </summary>
-	public bool WaitLastYieldedAnimation { get; set; } = false;
+	public bool WaitLastYieldedAnimation { get; private set; } = false;
 
 	/// <summary>
 	/// If <see langword="true"/>, causes the routine to wait for all
 	/// previously yielded animations to finish.
 	/// Overrules <see cref="WaitLastYieldedAnimation"/>
 	/// </summary>
-	public bool WaitAllYieldedAnimations { get; set; } = false;
+	public bool WaitAllYieldedAnimations { get; private set; } = false;
 
 	/// <summary>
 	/// The delay to wait.
 	/// If <see cref="WaitUntil"/> is set the target time is the maximum
 	/// of what either delays achieve.
 	/// </summary>
-	public TimeSpan WaitFor { get; set; } = TimeSpan.Zero;
+	public TimeSpan WaitFor { get; private set; } = TimeSpan.Zero;
 
 	/// <summary>Elapsed time to wait until.</summary>
 	/// <remarks>The next animation is started from this timespan.</remarks>
-	public TimeSpan? WaitUntil { get; set; } = null;
+	public TimeSpan? WaitUntil { get; private set; } = null;
 
 	/// <summary>
 	/// <para>
@@ -85,7 +84,7 @@ public class CoroutineYield {
 	/// The following animation is launched on the same update
 	/// the predicate returns <see langword="true"/>.
 	/// </remarks>
-	public Func<bool> WaitUntilPredicate { get; set; } = null;
+	public Func<bool> WaitUntilPredicate { get; private set; } = null;
 
 	/// <summary>
 	/// If <see langword="true"/>, suspends execution until the next update call
@@ -95,7 +94,7 @@ public class CoroutineYield {
 	/// Overrules any other delays set to <see langword="true"/>.
 	/// (Must be set to <see langword="false"/> for other delays on this instance to apply).
 	/// </remarks>
-	public bool SuspendForAnUpdate { get; set; } = false;
+	public bool SuspendForAnUpdate { get; private set; } = false;
 
 	#endregion
 	
@@ -107,7 +106,7 @@ public class CoroutineYield {
 	/// Is a static instance with just
 	/// <see cref="WaitAllYieldedAnimations"/> being enabled.
 	/// </remarks>
-	public readonly static CoroutineYield Join = new CoroutineYield() { WaitAllYieldedAnimations = true };
+	public static readonly CoroutineYield Join = new CoroutineYield() { WaitAllYieldedAnimations = true };
 
 	/// <summary>
 	/// A yield that waits for a single previous
@@ -117,17 +116,16 @@ public class CoroutineYield {
 	/// Is a static instance with just
 	/// <see cref="WaitLastYieldedAnimation"/> being enabled.
 	/// </remarks>
-	public readonly static CoroutineYield WaitPrevious = new CoroutineYield() { WaitLastYieldedAnimation = true };
+	public static readonly CoroutineYield WaitPrevious = new CoroutineYield() { WaitLastYieldedAnimation = true };
 
 	/// <summary>
 	/// A yield that suspends execution until the next update call
 	/// <u>without</u> influencing the start times of the following animations.
 	/// </summary>
 	/// <remarks>
-	/// Is a static instance with just
-	/// <see cref="SuspendForAnUpdate"/> being enabled.
+	/// Is a static instance with just <see cref="SuspendForAnUpdate"/> being set.
 	/// </remarks>
-	public readonly static CoroutineYield Suspend = new CoroutineYield() { SuspendForAnUpdate = true };
+	public static readonly CoroutineYield Suspend = new CoroutineYield() { SuspendForAnUpdate = true };
 
 	/// <summary>A yield that suspends execution for given amount of time.</summary>
 	/// <remarks>Creates an instance with just <see cref="WaitFor"/> being set.</remarks>

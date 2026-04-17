@@ -14,6 +14,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
       See release notes of Rephidock.AtomicAnimations
+      
+      Additionally (breaking change) enforced immutability of some objects.
     </PackageReleaseNotes>
   </PropertyGroup>
 
