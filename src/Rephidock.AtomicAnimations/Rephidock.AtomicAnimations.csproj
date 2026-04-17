@@ -15,6 +15,7 @@
     <PackageReleaseNotes>
       - Prevented corrupted state inside runners
       - Added a coroutine shortcut in AnimationRunner.Run
+      - Added a ShiftedWave(Wave, float) constructor
     </PackageReleaseNotes>
   </PropertyGroup>
 

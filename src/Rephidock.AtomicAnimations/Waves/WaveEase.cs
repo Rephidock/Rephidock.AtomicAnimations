@@ -68,16 +68,13 @@ public class WaveEase : Ease {
 
 	/// <inheritdoc/>
 	protected override void EaseUpdateImpl(float valueProgressNew) {
-
-		// Create a shifted wave
+		
 		var shiftedWave = new ShiftedWave() {
 			Wave = baseWave,
 			Offset = MoreMath.Lerp(startOffset, endOffset, valueProgressNew),
 		};
 
-		// Update
 		updater(shiftedWave);
-
 	}
 
 }

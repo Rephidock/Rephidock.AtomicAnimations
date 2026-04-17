@@ -1,4 +1,5 @@
-﻿
+﻿using System.Diagnostics.CodeAnalysis;
+
 
 namespace Rephidock.AtomicAnimations.Waves;
 
@@ -23,6 +24,15 @@ public readonly struct ShiftedWave {
 	/// </summary>
 	public float Offset { get; init; }
 
+	/// <summary>Creates a new <see cref="ShiftedWave"/>.</summary>
+#if NET8_0_OR_GREATER 
+	[SetsRequiredMembers]
+#endif
+	public ShiftedWave(Wave wave, float offset) {
+		Wave = wave;
+		Offset = offset;
+	}
+	
 	/// <inheritdoc cref="Wave.GetValueAt(float)"/>
 	public float GetValueAt(float horizontalPosition) {
 		return Wave.GetValueAt(horizontalPosition - Offset);
