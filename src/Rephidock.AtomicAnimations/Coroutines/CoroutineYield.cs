@@ -93,8 +93,6 @@ public record CoroutineYield {
 
 	#endregion
 
-	#region /--- Static instances and creators ---/
-
 	/// <summary>
 	/// A yield that waits for all previously
 	/// yielded animations in the coroutine to finish.
@@ -125,15 +123,19 @@ public record CoroutineYield {
 	/// </remarks>
 	public readonly static CoroutineYield Suspend = new() { SuspendForAnUpdate = true };
 
-	/// <summary>
-	/// A yield that suspends execution for given amount of time.
-	/// </summary>
-	/// <remarks>
-	/// Creates an instance with just 
-	/// <see cref="WaitFor"/> being set.
-	/// </remarks>
+	/// <summary>A yield that suspends execution for given amount of time.</summary>
+	/// <remarks>Creates an instance with just <see cref="WaitFor"/> being set.</remarks>
 	public static CoroutineYield Sleep(TimeSpan delay) => new() { WaitFor = delay };
-
-	#endregion
-
+	
+	/// <summary>A yield that suspends execution until the given timestamp.</summary>
+	/// <remarks>Creates an instance with just <see cref="WaitUntil"/> set.</remarks>
+	public static CoroutineYield SleepUntil(TimeSpan delay) => new() { WaitUntil = delay };
+	
+	/// <summary>
+	/// A yield that suspends execution until the given <paramref name="predicate"/> returns <see langword="true"/>.
+	/// The given <paramref name="predicate"/> is called every update.
+	/// </summary>
+	/// <remarks>Creates an instance with just <see cref="WaitUntilPredicate"/> set.</remarks>
+	public static CoroutineYield SleepUntilTrue(Func<bool> predicate) => new() { WaitUntilPredicate = predicate };
+	
 }

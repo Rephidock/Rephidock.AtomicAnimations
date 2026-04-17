@@ -17,6 +17,8 @@
       - Prevented corrupted state inside runners
       - Added a coroutine shortcut in AnimationRunner.Run
       - Added a ShiftedWave(Wave, float) constructor
+      - Added CoroutineYield.SleepUntil(TimeSpan)
+      - Added CoroutineYield.SleepUntilTrue(Func&lt;bool&gt;)
     </PackageReleaseNotes>
   </PropertyGroup>
 

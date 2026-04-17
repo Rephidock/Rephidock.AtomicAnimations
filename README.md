@@ -73,16 +73,17 @@ Waves can be sampled with the `GetValueAt` method.
 The `CoroutineAnimation` allows for building more complex animations. It is based on `IEnumerable<CoroutineYield>`, 
 which can hold state and logic if made using a custom iterator/generator.
 
-A single `CoroutineYield` holds either
+A `CoroutineYield` is immutable and holds either
 - an animation that is to play the moment it is returned or 
 - a delay instruction
 
-The following delays are possible:
-- (static) `CoroutineYield.WaitPrevious`: Waiting for the previous animation to finish
-- (static) `CoroutineYield.Join`: Waiting for all previous animations to finish
-- (static) `CoroutineYield.Sleep(TimeSpan)`: Waiting for a delay of specified time
-- `CoroutineYield.WaitUntil`: Waiting until a timestamp (since the animation has begun)
-- `CoroutineYield.WaitUntilPredicate`: Waiting until a condition is satisfied
-- (static) `CoroutineYield.Suspend`: Suspending an update without influencing the flow of time
+The `Animation`s can be implicitly cast to `CoroutineYield`s,
+while delays are static instances or created through static methods:
+- `CoroutineYield.WaitPrevious`: Waits for the previous animation to finish
+- `CoroutineYield.Join`: Waits for all previous animations to finish
+- `CoroutineYield.Sleep(TimeSpan)`: Waits for a delay of specified time
+- `CoroutineYield.SleepUntil(TimeSpan)`: Waits until a timestamp (since the animation has begun)
+- `CoroutineYield.SleepUntilTrue(Func<bool>)`: Waits until a condition is satisfied
+- `CoroutineYield.Suspend`: Suspends an update without influencing the flow of time
 
 This allows mixing both serial and parallel execution.
